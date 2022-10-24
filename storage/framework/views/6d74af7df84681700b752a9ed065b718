@@ -1,0 +1,25 @@
+<?php $__env->startSection('title', 'Create a new profession'); ?>
+<?php $__env->startSection('description', 'Profession'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <?php echo Form::open(['method' => 'Post', 'route' => ['admin.professions.store']]); ?>
+
+                <?php echo $__env->make('admin.professions.includes.form', ['button' => 'Create'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

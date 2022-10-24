@@ -1,0 +1,59 @@
+<?php $__env->startSection('meta_tags'); ?>
+    <title>SAAA | SA Accounting Academy | CPD Provider</title>
+    <meta name="description" content="View our upcoming and past events">
+    <meta name="Author" content="SA Accounting Academy"/>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('title'); ?>
+    Seminars / Webinars
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+    View our latest and upcoming events
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('events'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <link href="/assets/frontend/css/layout-datatables.css" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section class="alternate" style="background-image: url('/assets/frontend/images/demo/wall2.jpg');">
+        <div class="container">
+            <?php echo $__env->make('events.includes.search_form', ['select' => 'upcoming'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?php if(count($events)): ?>
+                        <?php foreach($events as $event): ?>
+                            <?php echo $__env->make('events.includes.event_single_block', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php endforeach; ?>
+
+                        <?php echo $events->render(); ?>
+
+                    <?php else: ?>
+                        <div class="event-container-box clearfix">
+                            <h4>No Events was found</h4>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script>
+        function search_spin(this1)
+        {
+            this1.closest("form").submit();
+            this1.disabled=true;
+            this1.innerHTML=`<i class="fa fa-spinner fa-spin"></i> Searching..`;
+        }
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

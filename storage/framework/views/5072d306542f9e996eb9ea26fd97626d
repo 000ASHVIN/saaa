@@ -1,0 +1,169 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo Form::label('name', 'Plan name'); ?>
+
+            <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('is_practice', 'Practice License'); ?>
+
+            <?php echo Form::select('is_practice', [
+                false => 'Not A Practice License',
+                true => 'Practice License'
+            ],null, ['class' => 'form-control','id' => 'is_practice']); ?>
+
+        </div>
+
+        <div class="form-group <?php if($errors->has('enable_bf')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('enable_bf', 'Black Friday Discounts'); ?>
+
+            <?php echo Form::select('enable_bf', [
+                '' => 'Please Select',
+                true => 'Enable Black Friday',
+                false => 'Disable Black Friday',
+            ] ,null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('enable_bf')): ?> <p class="help-block"><?php echo e($errors->first('enable_bf')); ?></p> <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('last_minute', 'Last Minute Package'); ?>
+
+            <?php echo Form::select('last_minute', [
+                '' => 'Please Select..',
+                true => 'Yes',
+                false => 'No',
+            ],null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('interval', 'Plan Interval'); ?>
+
+            <?php echo Form::select('interval', [
+                'month' => 'Monthly',
+                'year' => 'Yearly',
+            ],null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('package_type', 'Package Type'); ?>
+
+            <?php echo Form::select('package_type', [
+                '' => 'none',
+                'individual' => 'individual',
+                'business' => 'business',
+                'trainee' => 'trainee'
+            ],null, ['class' => 'form-control']); ?>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo Form::label('inactive', 'Status'); ?>
+
+            <?php echo Form::select('inactive', [
+                true => 'Not Active',
+                false => 'Active'
+            ],null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('is_custom', 'Can select their own feautres?'); ?>
+
+            <?php echo Form::select('is_custom', [
+                false => 'No',
+                true => 'Yes'
+            ],null, ['class' => 'form-control', 'id'=>'chk_custom_plan']); ?>
+
+        </div>
+
+        <div class="form-group" id="max_no_of_features" style="display: none;">
+            <?php echo Form::label('max_no_of_features', 'No Of Features'); ?>
+
+            <?php echo Form::input('number', 'max_no_of_features', null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('price', 'Plan price'); ?>
+
+            <?php echo Form::input('number', 'price', null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('bf_price', 'Black Friday Price'); ?>
+
+            <?php echo Form::input('number', 'bf_price', null, ['class' => 'form-control','step'=>"any"]); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('interval_count', 'Interval count'); ?>
+
+            <?php echo Form::input('number', 'interval_count', null, ['class' => 'form-control']); ?>
+
+        </div>
+
+        <div class="form-group" id="pricing_group">
+            <?php echo Form::label('pricing_group', 'Please select your pricing group'); ?>
+
+            <?php echo Form::select('pricing_group[]', $pricing_group,  (isset($plan))?@$plan->pricingGroup->pluck('id')->toArray():'', ['class' => 'form-control select2' ,'multiple' => 'true']); ?>
+
+        </div>
+    </div>
+
+
+    <div class="col-md-12">
+        <div class="form-group">
+            <?php echo Form::label('description', 'Plan description'); ?>
+
+            <?php echo Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3]); ?>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="form-group">
+    <?php echo Form::label('trial_period_days', 'Plan trail period days'); ?>
+
+    <?php echo Form::input('number', 'trial_period_days', null, ['class' => 'form-control']); ?>
+
+</div>
+
+<div class="form-group">
+    <?php echo Form::label('PlanFeaturesList', 'Please select all features for this plan'); ?>
+
+    <?php echo Form::select('PlanFeaturesList[]', $features, null, ['class' => 'form-control select2', 'multiple' => 'true']); ?>
+
+</div>
+
+<div class="form-group">
+    <?php echo Form::label('ProfessionList', 'Please select all professions for this plan'); ?>
+
+    <?php echo Form::select('ProfessionList[]', $professions, null, ['class' => 'form-control select2', 'multiple' => 'true']); ?>
+
+</div>
+
+<div class="form-group">
+    <?php echo Form::submit($SubmitButton, ['class' => 'btn btn-info']); ?>
+
+</div>

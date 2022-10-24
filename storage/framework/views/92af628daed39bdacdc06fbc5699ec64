@@ -1,0 +1,53 @@
+<?php $__env->startSection('title', 'My Products'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">My Products</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <div class="heading-title heading-dotted text-center">
+                    <h4>My <span>Products</span></h4>
+                </div>
+
+                <?php if($hasPendingOrder): ?>
+                    <div class="alert alert-bordered-dotted margin-bottom-30">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">x</span><span
+                                    class="sr-only">Close</span></button>
+                        <h4><strong>Pending orders</strong></h4>
+
+                        <p>Your products will be made available and shipped (where applicable) as soon as we received
+                            payment or proof of payment.</p>
+                    </div>
+                <?php endif; ?>
+                <?php if(count($orders) > 0): ?>
+                    <?php echo $__env->make('dashboard.includes.orders',['orders' => $orders], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php else: ?>
+                    <div class="alert alert-info margin-bottom-30">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">X</span><span
+                                    class="sr-only">Close</span></button>
+                        <strong>Heads up!</strong> You have not purchased any products from our store. To see what we
+                        have available,
+                        <a href="<?php echo route('store.index'); ?>">click here</a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

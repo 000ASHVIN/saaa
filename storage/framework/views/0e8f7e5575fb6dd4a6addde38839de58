@@ -1,0 +1,11 @@
+<div id="overview" class="tab-pane fade in active">
+    <div class="row">
+        <div class="col-md-12">
+            <?php echo Form::model($reward, ['method' => 'Post', 'route' => ['admin.rewards.update', $reward->id]]); ?>
+
+                <?php echo $__env->make('admin.reward.partials.form', ['button' => 'Update Rewards'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+</div>

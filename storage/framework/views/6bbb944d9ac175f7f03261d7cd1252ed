@@ -1,0 +1,44 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="col-sm-12 col-md-8">
+            <h4>Details</h4>
+        </div>
+    </div>
+    <div class="panel-body">
+        <?php if(!$edit): ?>
+            <?php echo Former::open()->route('admin.listings.store'); ?>
+
+        <?php else: ?>
+            <?php echo Former::open()->route('admin.listings.update',$listing->id); ?>
+
+            <?php echo Former::populate($listing); ?>
+
+        <?php endif; ?>
+        <?php echo Former::text('title','Title'); ?>
+
+        <?php echo Former::select('category_id','Category')->options($categories); ?>
+
+        <?php echo Former::textarea('description','Description')->class('ckeditor'); ?>
+
+        <?php echo Former::text('image_url','Image URL'); ?>
+
+        <?php echo Former::text('from_price', 'Price from'); ?>
+
+        <?php echo Former::select('discount_type', 'Discount type')->options(['percentage' => 'Percentage', 'amount' => 'Amount']); ?>
+
+        <?php echo Former::select('is_active', 'Status')->options(['1' => 'Active', '0' => 'Inactive']); ?>
+
+        <?php echo Former::text('discount','Discount')->value(0); ?>
+
+        <?php echo $__env->make('admin.store.listings.forms.products',['products' => $products], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php if(!$edit): ?>
+            <?php echo Former::submit('Create')->addClass('btn-primary'); ?>
+
+        <?php else: ?>
+            <?php echo Former::submit('Update')->addClass('btn-primary'); ?>
+
+        <?php endif; ?>
+        <?php echo Former::close(); ?>
+
+    </div>
+</div>

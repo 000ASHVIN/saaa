@@ -1,0 +1,72 @@
+<div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('title', 'Title'); ?>
+
+    <?php echo Form::input('text', 'title', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('is_active', 'Active'); ?>
+
+    <?php echo Form::select('is_active', [
+        true => 'Active',
+        false => 'Not Active'
+    ], null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('body_list')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('body_list', 'Please select your plan'); ?>
+
+    <?php echo Form::select('body_list[]', $bodies, null, ['class' => 'select2 form-control', 'multiple' => true]); ?>
+
+    <?php if($errors->has('body_list')): ?> <p class="help-block"><?php echo e($errors->first('body_list')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('features')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('features', 'Feature Content'); ?>
+
+    <?php echo Form::textarea('features', null, ['class' => 'form-control ckeditor']); ?>
+
+    <?php if($errors->has('features')): ?> <p class="help-block"><?php echo e($errors->first('features')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('description')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('description', 'CPD Content'); ?>
+
+    <?php echo Form::textarea('description', null, ['class' => 'form-control ckeditor']); ?>
+
+    <?php if($errors->has('description')): ?> <p class="help-block"><?php echo e($errors->first('description')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('resource_center')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('resource_center', 'Resource Center Content'); ?>
+
+    <?php echo Form::textarea('resource_center', null, ['class' => 'form-control ckeditor']); ?>
+
+    <?php if($errors->has('resource_center')): ?> <p class="help-block"><?php echo e($errors->first('resource_center')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('view_resource_center')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('view_resource_center', 'Resource Center Access'); ?>
+
+    <?php echo Form::select('view_resource_center', [
+        true => 'Yes',
+        false => 'No'
+    ], null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('view_resource_center')): ?> <p class="help-block"><?php echo e($errors->first('view_resource_center')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('sponsor_list')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('sponsor_list', 'Please select sponsors'); ?>
+
+    <?php echo Form::select('sponsor_list[]', $sponsors, null, ['class' => 'select2 form-control', 'multiple' => true]); ?>
+
+    <?php if($errors->has('sponsor_list')): ?> <p class="help-block"><?php echo e($errors->first('sponsor_list')); ?></p> <?php endif; ?>
+</div>
+
+   
+<?php echo Form::submit($button, ['class' => 'btn btn-primary']); ?>

@@ -1,0 +1,77 @@
+<?php $__env->startSection('title', $plan->name.' '.'Members'); ?>
+<?php $__env->startSection('description', 'Total'.' '.$plan->subscriptions()->active()->count()); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <div class="pull-left">
+                <?php if(isset($active) && isset($suspended)): ?>
+                    <strong>Suspended:</strong> <div class="label label-danger"><?php echo e(count($suspended)); ?></div>
+                    <strong>Active:</strong> <div class="label label-success"><?php echo e(count($active)); ?></div>
+                <?php endif; ?>
+            </div>
+            <div class="pull-right">
+                <?php echo Form::open(['method' => 'Post', 'route' => ['admin.stats.members.export', $plan->id]]); ?>
+
+                <div class="form-inline">
+                    <div class="form-group">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-download"></i> Export</button>
+                    </div>
+                </div>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <table class="table table-striped" id="sample-table-2">
+                <thead>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th class="hidden-xs">Email</th>
+                <th>Cell</th>
+                <th>Status</th>
+                <th>Arrears</th>
+                <th>Subscription</th>
+                <th>View Profile</th>
+                </thead>
+                <tbody>
+                <?php foreach($subscriptions as $subscription): ?>
+                    <tr>
+                        <td><?php echo e($subscription->user->first_name); ?></td>
+                        <td><?php echo e($subscription->user->last_name); ?></td>
+                        <td><?php echo e($subscription->user->email); ?></td>
+                        <td><?php echo e($subscription->user->cell); ?></td>
+                        <td><?php echo e(ucwords($subscription->user->status)); ?></td>
+                        <td>
+                                <span class=" <?php echo e(($subscription->user->ageAnalysis()? "label-sm label label-warning" : "label-sm label label-success")); ?>">
+                                <?php if($subscription->user->ageAnalysis()): ?>
+                                        <?php echo e(($subscription->user->ageAnalysis() <= 1? : $subscription->user->ageAnalysis().' '.'days in arrears')); ?>
+
+                                    <?php else: ?>
+                                        Account in good standing
+                                    <?php endif; ?>
+                            </span>
+                        </td>
+                        <td><?php echo e($subscription->plan->name); ?></td>
+                        <td><a href="<?php echo e(route('admin.members.show', $subscription->user->id)); ?>" class="btn btn-default">View Profile</a></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <?php echo $subscriptions->render(); ?>
+
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

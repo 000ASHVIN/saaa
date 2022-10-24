@@ -1,0 +1,48 @@
+<div class="modal fade" id="walletTopup" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4 class="modal-title">Topup your wallet.</h4>
+            </div>
+
+            <div class="modal-body">
+                <?php echo Form::open(['method' => 'post', 'route' => ['dashboard.wallet.topup', $user->id, $user->primaryCard->id]]); ?>
+
+
+                    <h5>Your Primary Card</h5>
+                    <?php if($user->primaryCard()): ?>
+                        <ul class="list-group" style="margin-bottom: 0px;">
+                            <li class="list-group-item text-primary">
+                                <?php if($user->primaryCard->visa): ?>
+                                    <img src="http://imageshack.com/a/img923/1633/MrzQgy.jpg" alt="Visa">
+                                <?php else: ?>
+                                    <img src="http://imageshack.com/a/img922/7215/rlMbNo.jpg" alt="Visa">
+                                <?php endif; ?>
+                                <span><?php echo e($user->primaryCard->number); ?> <span class="pull-right">Expires: (<?php echo e($user->primaryCard->exp_month); ?>/<?php echo e($user->primaryCard->exp_year); ?>)</span></span>
+                            </li>
+                        </ul>
+                    <?php endif; ?>
+                <hr>
+
+                <div class="form-group <?php if($errors->has('amount')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('amount', 'Enter your amount'); ?>
+
+                    <?php echo Form::input('text', 'amount', null, ['class' => 'form-control', 'placeholder' => 'R500.00']); ?>
+
+                    <?php if($errors->has('amount')): ?> <p class="help-block"><?php echo e($errors->first('amount')); ?></p> <?php endif; ?>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="spin(this)">Confirm</button>
+            </div>
+
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+</div>

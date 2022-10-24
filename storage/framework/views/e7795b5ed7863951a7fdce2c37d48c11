@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-12">
+        <?php if(count($videos)): ?>
+            <?php foreach($videos->chunk(3) as $chunk): ?>
+                <?php foreach($chunk as $video): ?>
+                        <div class=" new-events-view event-container-box clearfix">
+                            <div class="event-container-inner">
+                                <div style="width:70%"><h4><?php echo e(str_limit($video->title)); ?></h4></div>
+                                <div class="row">
+                                    <div class="col-md-5 col-lg-6">
+                                        <h5>
+                                            <i class="fa fa-plus"></i> <?php echo e(($video->hours ? : 0)); ?> Hours |
+                                            R<?php echo e(number_format($video->amount, 2, ".", "")); ?>
+
+                                        </h5>
+                                        <?php if(count($video->presenters)): ?>
+                                            <?php 
+                                                $presenter = [];
+                                            ?>
+                                            <?php foreach($video->presenters as $presenters): ?>
+                                                <?php
+                                                $presenter[] = $presenters->name; ?>
+                                            <?php endforeach; ?>
+                                            <?php echo e(implode(', ', $presenter)); ?>
+
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="video_id" value="<?php echo e($video->id); ?>">
+                                    <div class="col-md-7 col-lg-6 browse-webinar-button-container">
+
+                                        <a href="<?php echo e(route('webinars_on_demand.show', $video->slug)); ?>" class="btn btn-default my-webinars-btn-container">Read More</a>
+
+                                        <?php if($video->view_link): ?>
+                                            <?php if($video->view_resource): ?>
+                                            <a href="<?php echo e(route('dashboard.video.links-and-resources', $video->slug)); ?>" class="btn btn-default my-webinars-btn-container">Resources</a>
+                                        <?php endif; ?>
+                                            
+                                            <a href="<?php echo $video->view_link; ?>" data-plugin-options="{&quot;type&quot;:&quot;iframe&quot;}" class="btn btn-primary my-webinars-btn-container lightbox wod_video_play"> <i class="fa fa-play"></i>Play</a> 
+                                        <?php endif; ?>
+                                    </div>        
+                                </div>
+                            </div>  
+                        </div>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="alert alert-info">
+                <p><strong>Note..</strong></p>
+                <p>Your search returned <?php echo e(count($videos)); ?> results, please check your search and try again.</p>
+                <p><i>Suggestion: Try a diferent category or title</i></p>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+
+<div class="row text-center">
+    <?php echo $videos->render(); ?>
+
+</div>

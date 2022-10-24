@@ -1,0 +1,44 @@
+<?php $__env->startSection('title', 'Permissions'); ?>
+<?php $__env->startSection('description', 'Show All Permissions'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table">
+                    <thead>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    </thead>
+                    <tbody>
+                    <?php if(count($permissions)): ?>
+                        <?php foreach($permissions as $permission): ?>
+                            <tr>
+                                <td><?php echo e($permission->name); ?></td>
+                                <td><?php echo e($permission->slug); ?></td>
+                                <td><?php echo e($permission->description); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <td colspan="2">
+                            No Permissions created yet
+                        </td>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+                <a class="btn btn-primary" href="<?php echo e(route('admin.permissions_new')); ?>">Create New</a>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

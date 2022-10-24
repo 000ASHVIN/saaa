@@ -1,0 +1,139 @@
+<?php $__env->startSection('title', 'Frequently asked questions (FAQ)'); ?>
+<?php $__env->startSection('description', 'All Questions and Answers listed here'); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <link rel="stylesheet" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container">
+            <?php echo Form::open(['method' => 'get', 'route' => 'faq.all']); ?>
+
+                <?php echo Form::input('hidden', 'search', '1'); ?>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group <?php if($errors->has('question')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('question', 'Search FAQs'); ?>
+
+                            <?php echo Form::input('text', 'question', request('question')?request('question'):null, ['class' => 'form-control']); ?>
+
+                            <?php if($errors->has('question')): ?> <p class="help-block"><?php echo e($errors->first('question')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group <?php if($errors->has('categories')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('categories', 'Category'); ?>
+
+                            <?php echo Form::select('categories', $categories->pluck('title', 'id'), request('categories')?request('categories'):null, ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder'=>'Select Category']); ?>
+
+                            <?php if($errors->has('categories')): ?> <p class="help-block"><?php echo e($errors->first('categories')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group <?php if($errors->has('from_date')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('from_date', 'From Date'); ?>
+
+                            <?php echo Form::input('text', 'from_date', request('from_date')?request('from_date'):null, ['class' => 'form-control is-datepicker', 'autocomplete' => 'off']); ?>
+
+                            <?php if($errors->has('from_date')): ?> <p class="help-block"><?php echo e($errors->first('from_date')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group <?php if($errors->has('to_date')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('to_date', 'To Date'); ?>
+
+                            <?php echo Form::input('text', 'to_date', request('to_date')?request('to_date'):null, ['class' => 'form-control is-datepicker', 'autocomplete' => 'off']); ?>
+
+                            <?php if($errors->has('to_date')): ?> <p class="help-block"><?php echo e($errors->first('to_date')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary" onclick="spin(this)"  style="top: 22px;"><i class="fa fa-search" ></i> Search</button>
+                        <?php if(request('search')): ?>
+                            <a href="<?php echo e(route('faq.all')); ?>" class="btn btn-default"  style="top: 22px;"><i class="fa fa-times" ></i> Clear</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php echo Form::close(); ?>
+
+
+            </div>
+            <table class="table">
+                <thead>
+                    <th width="50%">Question</th>
+                    <!-- <th>Show</th> -->
+                    <th class="text-center">Tag</th>
+                    <th class="text-center">Category</th>
+                    <th>Date Created</th>
+                    <th>Edit</th>
+                    <th>Remove</th>
+                </thead>
+                    <tbody>
+                        <?php foreach($faqQuestion as $question): ?>
+                        
+                            <tr>
+                                <td><?php echo e(str_limit($question->question, 160)); ?></td>
+
+                                <?php if(count($question->faq_tags)): ?>
+                                    <td class="text-center"><?php echo e(implode(', ',$question->faq_tags->pluck('title')   ->toArray())); ?></td>
+                                <?php else: ?> 
+                                    <td class="text-center">-</td>
+                                <?php endif; ?>
+                                
+                                <?php if(count($question->categories)): ?>
+                                    <td class="text-center"><?php echo e(implode(', ',$question->categories->pluck('title')->toArray())); ?></td>
+                                <?php else: ?>
+                                    <td class="text-center">-</td>
+                                <?php endif; ?>
+
+                                <?php if(count($question->date)): ?>
+                                    <td>
+                                        <?php echo e(date('d F Y',strtotime($question->created_at))); ?>
+
+                                    </td>
+                                <?php else: ?>
+                                    <td class="text-center">-</td>
+                                <?php endif; ?>
+
+                                <!-- <td><a href="<?php echo e(route('faq.questions_edit', $question->id)); ?>" target="_blank">Show</a></td> -->
+                                <td><a href="<?php echo e(route('faq.questions_edit', $question->id)); ?>" >Edit</a></td>
+                                <td><a class="confirm-delete" href="<?php echo e(route('faq.questions_remove', $question->id)); ?>">Remove</a></td>
+                            </tr>
+                            <?php echo $__env->make('admin.faq.includes.show_answer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php endforeach; ?>
+                    </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <?php if(count($faqQuestion)): ?>
+                <!-- <?php echo $faqQuestion->render(); ?> -->
+                <?php echo $faqQuestion->appends(Input::except('page'))->render(); ?>
+
+            <?php endif; ?>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+
+            // Initialize datepicker
+            $('.is-datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            // Initialize select2
+            $('.select2').select2();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

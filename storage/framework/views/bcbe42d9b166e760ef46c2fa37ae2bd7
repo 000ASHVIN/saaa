@@ -1,0 +1,67 @@
+<?php $__env->startSection('title', 'Agent Groups'); ?>
+<?php $__env->startSection('description', 'Agent Groups'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="<?php echo e(route('admin.agent_groups.create')); ?>" class="pull-right btn btn-primary"><i class="fa fa-pencil"></i> Create New</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Group ID</th>
+                            <th>Group Name</th>
+                            <th>Categories</th>
+                            <th width="10%">Total Members</th>
+                            <th width="2%"></th>
+                            <th width="2%"></th>
+                        </thead>
+                        <tbody>
+                            <?php if(count($agentGroups)): ?>
+                                <?php foreach($agentGroups as $agentGroup): ?>
+                                    <tr>
+                                        <td><?php echo e($agentGroup->id); ?></td>
+                                        <td><?php echo e($agentGroup->name); ?></td>
+                                        <td><?php echo e(count($agentGroup->categories)?implode(', ',$agentGroup->categories->pluck('title')->toArray()):'-'); ?></td>
+                                        <td><?php echo e($agentGroup->agents->count()); ?></td>
+                                        <td><a href="<?php echo e(route('admin.agent_groups.edit', $agentGroup->id)); ?>" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a></td>
+                                        <td>
+                                            <?php echo Form::open(['method' => 'DELETE', 'route' => ['admin.agent_groups.destroy', $agentGroup->id]]); ?>
+
+                                                <button class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+                                            <?php echo Form::close(); ?>
+
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                    <tr>
+                                        <td colspan="5">
+                                            No groups available.
+                                        </td>
+                                    </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <?php echo $agentGroups->render(); ?>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

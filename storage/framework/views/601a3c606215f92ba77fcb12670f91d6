@@ -1,0 +1,59 @@
+<?php $__env->startSection('title', 'Imports'); ?>
+<?php $__env->startSection('description', $provider->title); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <?php if(count($provider->imports)): ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Records</th>
+                            <th>Status</th>
+                            <th>Report</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($provider->imports as $import): ?>
+                            <tr>
+                                <td>
+                                    <a href="<?php echo e(route('admin.import.provider.import',[$provider->id,$import->id])); ?>">
+                                        <?php echo e($import->title); ?>
+
+                                    </a>
+                                </td>
+                                <td><?php echo e(count($import->data)); ?></td>
+                                <td>
+                                    <?php if($import->completed_successfully): ?>
+                                        <div class="label label-success">Successfully Imported</div>
+                                    <?php else: ?>
+                                        <div class="label label-danger">Error</div>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a href="#"><span class="label label-info">View Report</span></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+                <hr>
+            <?php else: ?>
+                <p>There are no imports</p>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

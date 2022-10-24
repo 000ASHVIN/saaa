@@ -1,0 +1,55 @@
+<?php $__env->startSection('title', 'Sales Reps'); ?>
+<?php $__env->startSection('description', 'View all sales reps'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="alert alert-info">
+                    <p>This sales agents will be emailed when the <strong>"HELP"</strong> form is submitted on our website</p>
+                    <p>To create a new sales rep, simply click on <a href="<?php echo e(route('admin.reps.create')); ?>">"Add Sales Rep"</a></p>
+                    <hr>
+                    <p>To add a new "Actual User Account" to the sales rep, simply assign the Role <strong>sales</strong> to the member in the edit profile section.</p>
+                </div>
+                <table class="table">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Last Emailed</th>
+                    <th class="text-center">Tools</th>
+                    <tbody>
+                    <?php foreach($reps->sortBy('emailedLast') as $rep): ?>
+                        <tr>
+                            <td><?php echo e(ucwords($rep->name)); ?></td>
+                            <td><?php echo e(ucwords($rep->email)); ?></td>
+                            <td><i class="fa fa-envelope-o"></i> <?php echo e($rep->emailedLast); ?></td>
+                            <td class="text-center">
+                                <?php echo $__env->make('admin.reps.includes.edit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                <?php echo Form::open(['method' => 'POST', 'route' => ['admin.reps.destroy', $rep->id]]); ?>
+
+                                    <div class="form-inline">
+                                        <button type="button" class="form-control btn btn-sm btn-primary" data-target="#rep_<?php echo e($rep->id); ?>" data-toggle="modal"><i class="fa fa-pencil"></i> Edit Rep</button>
+                                        <button class="form-control btn btn-sm btn-danger"><i class="fa fa-close"></i> Delete</button>
+                                    </div>
+                                <?php echo Form::close(); ?>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <a href="<?php echo e(route('admin.reps.create')); ?>" class="btn btn-primary">Add Sales Rep</a>
+
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

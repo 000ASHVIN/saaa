@@ -1,0 +1,58 @@
+<?php $__env->startSection('title', 'Invoices'); ?>
+<?php $__env->startSection('description', 'Oustanding invoices'. ' '.count($users)); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-right"><a href="<?php echo e(route('admin.reports.payments.outstanding-invoices-export')); ?>" class="btn btn-default">Export</a></div>
+            <br>
+                <?php foreach($users as $user): ?>
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="btn btn-success btn-xs pull-right" style="color: white;" href="#<?php echo e($user->id); ?>" data-toggle="collapse">Show Invoices</a>
+                                    <a class="btn btn-danger btn-xs pull-right" style="color: white; margin-right: 5px">Open Invoices: <?php echo e($user->invoice_count); ?></a>
+                                    <a class="btn btn-info btn-xs pull-left" style="color: white; margin-right: 5px">Payment Method: - <?php echo e($user->payment_method); ?></a>
+                                    <a data-toggle="collapse" href="#<?php echo e($user->id); ?>"><?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?> </a>
+                                </h4>
+                            </div>
+                            <div id="<?php echo e($user->id); ?>" class="collapse">
+                                    <div class="panel-body">
+                                        <table class="table">
+                                            <thead>
+                                                <th>Date</th>
+                                                <th>Invoice</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach($user->overdueInvoices() as $invoice): ?>
+                                                <tr>
+                                                    <td><?php echo e($invoice->created_at->ToformattedDateString()); ?></td>
+                                                    <td><a target="_blank" href="<?php echo e(route('invoices.show', $invoice->id)); ?>">#<?php echo e($invoice->reference); ?></a></td>
+                                                    <td><?php echo e(money_format('%.2n', $invoice->total - $invoice->transactions->where('type', 'credit')->sum('amount'))); ?></td>
+                                                    <td><?php echo e($invoice->status); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+    <script src="/assets/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

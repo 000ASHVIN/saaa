@@ -1,0 +1,104 @@
+<?php $__env->startSection('title', $member->first_name . ' ' . $member->last_name); ?>
+<?php $__env->startSection('description', 'User Profile'); ?>
+
+<?php $__env->startSection('css'); ?>
+    <link href="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <style>
+        .daterangepicker{
+            z-index:99999!important;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <?php echo $__env->make('admin.members.includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9 nopadding">
+                <?php echo Form::open(['method' => 'post', 'route' => ['member.sendSms', $member->id]]); ?>
+
+
+                <div class="form-group <?php if($errors->has('number')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('number', 'Cellphone Number'); ?>
+
+                    <?php echo Form::input('text', 'number', ($member->cell)? (new \App\NumberValidator())->format($member->cell) : "", ['class' => 'form-control']); ?>
+
+                    <?php if($errors->has('number')): ?> <p class="help-block"><?php echo e($errors->first('number')); ?></p> <?php endif; ?>
+                </div>
+
+                <div v-if="message.length == 160"><div class="alert alert-info">You have exceeded the maximum allowed amount of characters</div></div>
+
+                <div class="form-group <?php if($errors->has('message')): ?> has-error <?php endif; ?>">
+                    <div class="small pull-right">{{ message.length }}/160 Max</div>
+                    <?php echo Form::label('message', 'Your Message'); ?>
+
+                    <?php echo Form::textarea('message', null, ['class' => 'form-control', 'v-model' => 'message', 'maxlength' => '160']); ?>
+
+                    <?php if($errors->has('message')): ?> <p class="help-block"><?php echo e($errors->first('message')); ?></p> <?php endif; ?>
+                </div>
+
+                <div v-if="! message || message.length <= 20"><button class="form-control btn btn-info disabled"><i class="fa fa-send"></i> Send SMS</button></div>
+                <button v-else class="btn form-control btn-success" onclick="send(this)"><i class="fa fa-send"></i> Send SMS</button>
+
+                <?php echo Form::close(); ?>
+
+
+                <hr>
+                <p><strong>Previous SMS's that was sent to this client.</strong></p>
+                <hr>
+
+                <div style="max-height: 350px; overflow-x: auto">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Number</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        </thead>
+                        <tbody>
+                        <?php if(count($member->smses)): ?>
+                            <?php foreach($member->smses as $sms): ?>
+                                <tr>
+                                    <td><?php echo e(date_format($sms->created_at, 'd F Y')); ?></td>
+                                    <td><a href="#" style="color: #5b5b60" data-toggle="tooltip" title="" data-placement="top" data-original-title="<?php echo e($sms->from_name); ?>"><?php echo e($sms->from_name); ?></a></td>
+                                    <td><?php echo e($sms->number); ?></td>
+                                    <td><a href="#" style="color: #5b5b60" data-toggle="tooltip" title="" data-placement="top" data-original-title="<?php echo e($sms->message); ?>"><?php echo e(str_limit($sms->message, 70)); ?></a></td>
+                                    <?php if($sms->status == 'OK'): ?>
+                                        <td>
+                                            <a href="#" style="color: #5b5b60" data-toggle="tooltip" title="" data-placement="top" data-original-title="Sent Successfully">
+                                                <div class="label label-success"><i class="fa fa-check"></i></div></td>
+                                        </a>
+                                    <?php else: ?>
+                                        <td>
+                                            <a href="#" style="color: #5b5b60" data-toggle="tooltip" title="" data-placement="top" data-original-title="Error Sending">
+                                                <div class="label label-error"><i class="fa fa-close"></i></div>
+                                            </a>
+                                        </td>
+
+                                    <?php endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="4">No SMS was sent.</td>
+                            </tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script src="/assets/admin/assets/js/profile.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/admin/assets/js/bootstrap-confirm-delete.js"></script>
+    <?php echo $__env->make('admin.members.includes.spin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,105 @@
+<?php $__env->startSection('title', $member->first_name . ' ' . $member->last_name); ?>
+<?php $__env->startSection('description', 'User Profile'); ?>
+
+<?php $__env->startSection('css'); ?>
+    <link href="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <style>
+        .daterangepicker{
+            z-index:99999!important;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <?php echo $__env->make('admin.members.includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9 nopadding">
+                <table class="table table-bordered">
+                    <thead>
+                    <th class="center">Date</th>
+                    <th>Type</th>
+                    <th>Invoice</th>
+                    <th>Reference</th>
+                    <th class="text-right">Dr</th>
+                    <th class="text-right">Cr</th>
+                    </thead>
+                    <tbody>
+                    <?php if(count($member->transactions)): ?>
+                        <?php foreach($member->transactions->sortBy('date') as $transaction): ?>
+                        <?php if($transaction->invoice): ?>
+                            <tr class="
+                <?php echo e(($transaction->tags == 'Payment') ? 'success' : ''); ?>
+
+                            <?php echo e(($transaction->tags == 'Discount') ? 'info' : ''); ?>
+
+                            <?php echo e(($transaction->tags == 'Cancellation') ? 'danger' : ''); ?>
+
+                                    ">
+                                <td><?php echo e($transaction->date->toFormattedDateString()); ?></td>
+                                <td><?php echo e($transaction->display_type); ?></td>
+                                <td>
+                                    <a target="_blank" href="<?php echo e(route('invoices.show',$transaction->invoice->id)); ?>">#<?php echo e($transaction->invoice->reference); ?></a>
+                                </td>
+                                <td><?php echo e($transaction->description); ?></td>
+                                <td class="text-right"><?php echo e(($transaction->type == 'debit') ? $transaction->amountAsCurrency() : '-'); ?></td>
+                                <td class="text-right"><?php echo e(($transaction->type == 'credit') ? $transaction->amountAsCurrency() : '-'); ?></td>
+                            </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right">
+                            <b>Totals: </b>
+                        </td>
+                        <td class="text-right">
+                            <b><?php echo e(money_format('%.2n', $member->transactions->where('type', 'debit')->sum('amount'))); ?></b>
+                        </td>
+                        <td class="text-right">
+                            <b><?php echo e(money_format('%.2n', $member->transactions->where('type', 'credit')->sum('amount'))); ?></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="text-right">
+                            <b>Closing Balance:</b>
+                        </td>
+                        <td class="text-right">
+                            <b><?php echo e(money_format('%.2n', $member->transactions->where('type', 'debit')->sum('amount') - $member->transactions->where('type', 'credit')->sum('amount'))); ?></b>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <div style="padding: 10px; border: 1px solid #e3e3e3">
+                                <?php /*<?php echo e(dd($member->transactions->where('type', 'debit')->sum('amount') - $member->transactions->where('type', 'credit')->sum('amount'))); ?>*/ ?>
+                                Closing Balance: <?php echo e(money_format('%.2n', $member->transactions->where('type', 'debit')->sum('amount') - $member->transactions->where('type', 'credit')->sum('amount'))); ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script src="/assets/admin/assets/js/profile.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Profile.init();
+        });
+    </script>
+    <script src="/assets/admin/assets/js/bootstrap-confirm-delete.js"></script>
+    <?php echo $__env->make('admin.members.includes.spin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,37 @@
+<div id="extra" class="tab-pane fade">
+    <?php if(count($event->extras)): ?>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Price</th>
+            <th>CPD Hours</th>
+            <th>Status</th>
+            <th class="text-center">Update</th>
+            <th class="text-center">Discard</th>
+        </thead>
+        <tbody>
+            <?php foreach($event->extras as $extra): ?>
+                <tr>
+                    <td><?php echo e($extra->name); ?></td>
+                    <td><?php echo e(money_format('%2n', $extra->price)); ?></td>
+                    <td><?php echo e($extra->cpd_hours); ?></td>
+                    <td><?php echo e(($extra->is_active? "Active" : "Not Active")); ?></td>
+                    <td class="text-center"><a data-target="#extra_<?php echo e($extra->id); ?>_update" data-toggle="modal"><span class="label label-info"><i class="fa fa-pencil"></i></span></a></td>
+                    <td class="text-center"><a href="<?php echo e(route('admin.event.extra.destroy', [$event->slug, $extra->id])); ?>"><span class="label label-info"><i class="fa fa-close"></i></span></a></td>
+                </tr>
+                <?php echo $__env->make('admin.event.includes.extra.edit', ['extra' => $extra], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php else: ?>
+        <div class="alert alert-info">
+            <p>There is no extra's for this event.</p>
+        </div>
+    <?php endif; ?>
+
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-info" data-toggle="modal" data-target="#extra_create">Create your Extra</button>
+            <?php echo $__env->make('admin.event.includes.extra.create', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </div>
+</div>

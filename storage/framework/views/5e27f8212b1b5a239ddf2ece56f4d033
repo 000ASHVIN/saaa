@@ -1,0 +1,48 @@
+<div id="webinars" class="tab-pane fade">
+
+
+    <?php if(count($event->webinars())): ?>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <th>Pricing</th>
+                <th>Link</th>
+                <th class="text-center">Status</th>
+                <th>Password</th>
+                <th>Update</th>
+                <th>Discard</th>
+            </thead>
+            <tbody>
+            <?php foreach($event->webinars() as $webinar): ?>
+                <tr>
+                    <td><?php echo e(ucfirst($webinar->pricing->name)); ?></td>
+                    <td>
+                        <div class="form-inline">
+                            <input id="copy_<?php echo e($webinar->id); ?>_webinar" style="width: 70%" class="form-control" value="<?php echo e($webinar->url); ?>">
+                            <button class="btn btn-success" id="copy-button" data-clipboard-target="#copy_<?php echo e($webinar->id); ?>_webinar">Copy</button>
+                            <a href="<?php echo e($webinar->url); ?>" target="_blank" class="btn btn-info">Join</a>
+                        </div>
+                    </td>
+                    <?php if($webinar->is_active == true): ?>
+                        <td style="width: 5%;" class="text-center"><i class="fa fa-check"></i></td>
+                    <?php else: ?>
+                        <td style="width: 5%;" class="text-center"><i class="fa fa-times"></i></td>
+                    <?php endif; ?>
+                    <td><?php echo e($webinar->passcode); ?></td>
+                    <td style="width: 5%" class="text-center"><a data-target=#webinar_<?php echo e($webinar->id); ?>_edit data-toggle="modal"><span class="label label-info"><i class="fa fa-pencil"></i></span></a></td>
+                    <td style="width: 5%" class="text-center"><a href="<?php echo e(route('admin.event.webinar.destroy', $webinar->id)); ?>" data-confirm-content="Are you sure you want to delete selected webinar"><span class="label label-info"><i class="fa fa-close"></i></span></a></td>
+                </tr>
+                <?php echo $__env->make('admin.event.includes.webinar.edit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="alert alert-info">
+            <p style="font-style: italic;">No Webinars for this event listed.</p>
+        </div>
+    <?php endif; ?>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-info" data-toggle="modal" data-target="#webinar_create">Create your webinar</button>
+            <?php echo $__env->make('admin.event.includes.webinar.create', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </div>
+</div>

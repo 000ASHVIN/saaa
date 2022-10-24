@@ -1,0 +1,43 @@
+<div id="discount_<?php echo e($order->id); ?>" class="modal fade" role="dialog">
+    <div class="modal-dialog text-left">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h4 class="heaing">Discount Invoice Order #<?php echo e($order->reference); ?></h4>
+            </div>
+            <?php echo Form::open(['method' => 'POST', 'route' => ['post_discount_order', $order->id]]); ?>
+
+
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <td>Date</td>
+                        <td>Total</td>
+                        <td>Discount</td>
+                        <td>Balance</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo e(date_format($order->created_at, 'd F Y')); ?></td>
+                        <td>R<?php echo e(number_format($order->total, 2)); ?></td>
+                        <td>R<?php echo e(number_format($order->discount, 2)); ?></td>
+                        <td>R<?php echo e(number_format($order->balance, 2)); ?></td>
+                    </tr>
+                </table>
+
+                <div class="form-group <?php if($errors->has('amount')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('amount', 'Discount Amount'); ?>
+
+                    <?php echo Form::input('text', 'amount', null, ['v-model' => 'discount_amount', 'class' => 'form-control', 'placeholder' => 'Enter your amount example: 200']); ?>
+
+                    <?php if($errors->has('amount')): ?> <p class="help-block"><?php echo e($errors->first('amount')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="spin(this)">Discount</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+</div>

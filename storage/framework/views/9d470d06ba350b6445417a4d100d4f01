@@ -1,0 +1,170 @@
+<?php $__env->startSection('title', 'My Support Tickets'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">My Support Tickets</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<style>
+    .btn-category {
+        margin-right: 5px;
+        margin-bottom: 7px;
+        border-width: 1px;
+        height: 30px;
+        line-height: 1;
+    }
+    .btn-category.active, .btn-category.active:hover, .btn-category.active:focus {
+        background-color:#173175;
+        color: #ffffff;
+    }
+</style>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo Form::open(['method' => 'get', 'id' => 'search_support_tickets']); ?>
+
+                        <div class="search-form">
+                            <?php echo Form::hidden('search', '1'); ?>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="title"><strong>Search</strong></label>
+                                        <?php echo Form::input('text', 'title', request()->title, ['class' => 'form-control event-title-filter', 'placeholder' => 'Search Ticket']); ?>
+
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="status"><strong>Ticket Status</strong></label>
+                                        <?php echo Form::select('status', $statuses, request()->status, ['class' => 'form-control', 'placeholder' => 'Ticket Status']); ?>
+
+                                        <?php if($errors->has('status')): ?> <p class="help-block"><?php echo e($errors->first('status')); ?></p> <?php endif; ?>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6" style="margin-top: 25px">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" onclick="search_spin(this)"><i class="fa fa-search"></i>Seach Ticket</button>
+                                        <?php if(request()->search): ?>
+                                            <a href="<?php echo e(route('dashboard.support_tickets')); ?>" class="btn btn-warning"><i class="fa fa-close"></i> Clear Search</a>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php if($categories->count()): ?>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" data-toggle="buttons">
+                                            <label for="status"><strong>Ticket Category</strong></label>
+                                            <?php foreach($categories as $key=>$cat): ?>
+                                                <?php
+                                                    $active = '';
+                                                    $checked = '';
+                                                    if(request()->category==$cat->id) {
+                                                        $active = 'active';
+                                                        $checked = 'checked';
+                                                    }
+                                                ?>
+                                                <button class="btn btn-default btn-category <?php echo e($active); ?>">
+                                                    <input type="radio" name="category" value="<?php echo e($cat->id); ?>" autocomplete="off" <?php echo e($checked); ?>><?php echo e($cat->title); ?>
+
+                                                </button>
+                                            <?php endforeach; ?> 
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php echo Form::close(); ?>
+
+                    </div>
+                </div>
+
+                <div class="form-group text-right">
+                    <a href="<?php echo e(route('support_ticket.create')); ?>" class="btn btn-sm btn-primary"><i class="fa fa-envelope-o"></i> Ask a Technical Question</a>
+                    <a href="javascript:void(0);" data-toggle="modal" data-target="#support_ticket" class="btn btn-sm btn-primary"><i class="fa fa-question-circle"></i> Need Help?</a>
+                </div>
+
+                <?php if(count($tickets)): ?>
+
+                    <div class="border-box">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Date submitted</th>
+                                <th width="40%">Title / subject</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <?php foreach($tickets as $ticket): ?>
+                                    <tr style="display: table-row;">
+                                        <td>
+                                            <?php echo e(date( 'd F Y',strtotime($ticket->created_at))); ?>
+
+                                        </td>
+                                        <td>
+                                            <?php echo e(str_limit(ucfirst($ticket->title), '250')); ?>
+
+                                        </td>
+                                        <td>
+                                            <?php echo e($ticket->statusText); ?>
+
+                                        </td>
+                                        <td>
+                                            <div class="label label-round label-success"><i class="fa fa-envelope-o"></i> <?php echo e($ticket->replies); ?></div>
+                                        </td>
+                                        <td>
+                                            <a href="<?php echo e(route('support_ticket.show', $ticket->id)); ?>"><div class="label label-round label-primary">View Ticket <i class="fa fa-arrow-right"></i>&nbsp;</div></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-left">
+                        <?php echo $tickets->render(); ?>
+
+                    </div>
+
+                <?php else: ?>
+                    <div class="alert alert-bordered-dotted margin-bottom-30 text-center">
+                        <h4><strong><i class="fa fa-support"></i> My Support Tickets</strong></h4>
+                        <p>You have no support tickets available</p>
+                        <p>Need help? create a new support ticket by clicking on New Ticket</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script>
+        $(document).ready(function(){
+            $('input[name="category"]').on('change',function(){
+                $('#search_support_tickets').submit();
+            })
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

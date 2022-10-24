@@ -1,0 +1,113 @@
+<?php $__env->startSection('title', 'My Courses'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">My Courses</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style>
+        .grades .header {
+            margin-top: 20px;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="border-box text-center" style="padding: 20px; margin-bottom: 20px; background-color: rgba(0,0,0,0.05)">
+                            <h4><?php echo e($course->title); ?></h4>
+                            <small>Course Links & Files</small>
+                            <hr>
+                            <a href="<?php echo e(route('courses.show', $course->reference)); ?>" class="btn btn-primary btn-sm">Go to My Campus</a>
+                        </div>
+
+                        <?php if($course->link): ?>
+                            <a href="<?php echo e($course->link); ?>" target="_blank" class="btn btn-primary">Click Here to Access the iLearn course platform</a>
+                            <hr>
+                        <?php endif; ?>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Name</th>
+                                <th>Link</th>
+                            </thead>
+                            <tbody>
+                                <?php if(count($course->links)): ?>
+                                    <?php foreach($course->links as $link): ?>
+                                        <tr>
+                                            <td><?php echo e($link->name); ?></td>
+                                            <td><a target="_blank" href="<?php echo e($link->url); ?>"><?php echo e($link->url); ?></a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="2">There are no links available for this course</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+
+                        <div class="grades">
+                            <div class="header">
+                                <h4 class="title">Assessment Grades:</h4>
+                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Grades</th>
+                                    <th>Percentage</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <?php if($courseGrades && count($courseGrades['gradeitems'])): ?>
+                                        <?php foreach($courseGrades['gradeitems'] as $gradeitem): ?>
+
+                                            <?php if($gradeitem['itemmodule'] == 'quiz'): ?>
+                                                <tr>
+                                                    <td><?php echo e($gradeitem['itemname']); ?></td>
+                                                    <?php if($gradeitem['gradedatesubmitted']): ?>
+                                                        <td><?php echo e((int)$gradeitem['gradeformatted']); ?> / <?php echo e($gradeitem['grademax']); ?></td>
+                                                        <td><?php echo e($gradeitem['percentageformatted']); ?></td>
+                                                        <td><a href="<?php echo e(env('MOODLE_BASE_URL').'/grade/report/user/index.php?id='.$courseGrades['courseid']); ?>" target="_blank" class="btn btn-primary btn-xs">View</a></td>
+                                                    <?php else: ?>
+                                                        <td colspan="2" style="text-align: center;"><span class="btn btn-info btn-xs" style="cursor: unset;">not attempted yet</span></td>
+                                                        <td><a href="<?php echo e(env('MOODLE_BASE_URL').'/mod/quiz/view.php?id='.$gradeitem['cmid']); ?>" target="_blank" class="btn btn-primary btn-xs">Start</a></td>
+                                                    <?php endif; ?>
+                                                    
+                                                </tr>
+                                            <?php endif; ?>
+                                            
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="4">There are no grades available for this course</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

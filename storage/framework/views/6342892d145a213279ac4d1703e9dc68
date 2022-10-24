@@ -1,0 +1,9 @@
+<div id="overview" class="tab-pane fade in active">
+   <div class="row">
+       <?php echo Form::model($event, ['method' => 'post', 'route' => ['admin.event.update', $event->slug]]); ?>
+
+            <?php echo $__env->make('admin.event.includes.event-information', ['submit' => 'Update Event'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+       <?php echo Form::close(); ?>
+
+   </div>
+</div>

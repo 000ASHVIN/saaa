@@ -1,0 +1,28 @@
+<div id="assignOwnership" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <?php echo Form::open(['method' => 'post', 'route' => ['admin.reps.assign', $member->id]]); ?>
+
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h4 class="heaing">Assign Account Ownership</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group <?php if($errors->has('agent')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('agent', 'Choose your agent'); ?>
+
+                    <?php echo Form::select('agent', $reps, null, ['class' => 'form-control']); ?>
+
+                    <?php if($errors->has('agent')): ?> <p class="help-block"><?php echo e($errors->first('agent')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Assign</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        <?php echo Form::close(); ?>
+
+    </div>
+</div>

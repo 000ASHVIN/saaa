@@ -1,0 +1,199 @@
+<div id="header" class="sticky header-md light clearfix hidden-print" style="text-transform: uppercase !important;">
+    <header id="topNav">
+        <div class="container">
+
+            <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+
+
+            <ul class="pull-right nav nav-pills nav-second-main">
+                <?php if(App\Store\Cart::getTotalQuantity() > 0): ?>
+                    <li class="quick-cart">
+                        <a href="#">
+                            <span class="badge badge-aqua btn-xs badge-corner"><?php echo e(App\Store\Cart::getTotalQuantity()); ?></span>
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                        <div class="quick-cart-box">
+                            <h4>Shoping Cart</h4>
+                            <div class="quick-cart-wrapper" style="overflow: hidden;">
+
+                                <?php $cartItems = App\Store\Cart::getAllCartProductListings(); ?>
+                                <?php foreach($cartItems as $cartItem): ?>
+                                    <a href="<?php echo e($cartItem->listingUrl); ?>"><!-- cart item -->
+                                        <div class="row">
+                                            <div class="col-sm-9"><h6><span><?php echo e($cartItem->qty); ?>
+
+                                                        x</span> <?php echo e($cartItem->title); ?></h6></div>
+                                            <div class="col-sm-3">
+                                                <small><?php echo e(currency($cartItem->discountedPrice)); ?></small>
+                                            </div>
+                                        </div>
+                                    </a><!-- /cart item -->
+                                <?php endforeach; ?>
+                            </div>
+
+                            <!-- quick cart footer -->
+                            <div class="quick-cart-footer clearfix">
+                                <a href="<?php echo e(route('store.cart')); ?>" class="btn btn-primary btn-xs pull-right">VIEW
+                                    CART</a>
+                                <span class="pull-left"><strong>TOTAL: <?php echo e(currency(App\Store\Cart::getTotalDiscountedPrice())); ?></strong></span>
+                            </div>
+                        </div>
+                    </li>
+                <?php endif; ?>
+            </ul>
+
+            <a class="logo pull-left hidden-xs hidden-sm hidden-md" href="<?php echo e('/'); ?>">
+                <img src="<?php echo e(Theme::asset('img/logo.png')); ?>" alt="Logo" style="height: 70%; margin-top: 8px;">
+            </a>
+
+            <a class="logo pull-left visible-xs visible-sm visible-md" href="<?php echo e('/'); ?>">
+                <img src="<?php echo e(Theme::asset('img/logo.png')); ?>" alt="Logo">
+            </a>
+
+            <div class="navbar-collapse pull-right nav-main-collapse collapse submenu-dark">
+                <nav class="nav-main">
+                    <ul id="topMain" class="nav nav-pills nav-main">
+                        <?php /* <li><a href="<?php echo '/'; ?>">Home</a></li> */ ?>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#">
+                                COURSES
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="" href="/courses">Occupational certificates</a></li>
+                                <li><a class="" href="/courses">Professional certificates</a></li>
+                                <li><a class="" href="/courses">Short courses</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="">CPD</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="" href="/subscription_plans">Subscription Plans</a></li>
+                                <li><a class="" href="/profession/tax-technician">Tax Technician</a></li>
+                                <?php /* <li><a class="" href="/profession/general-tax-practitioner">Tax Practitioner</a></li> */ ?>
+                                <li><a class="" href="/profession/tax-and-accounting">Tax Accountant</a></li>
+                                <li><a class="" href="/profession/custom-practitioner">Build Your Own</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#">
+                                Events
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="" href="<?php echo e(route('calendar')); ?>">Events Calendar</a></li>
+                                <li><a class="" href="<?php echo e('/events'); ?>">Upcoming events</a></li>
+                                <li><a class="" href="<?php echo e('/events/past'); ?>">Past events &amp; recordings</a></li>
+                                <?php /* <li><a class="" href="<?php echo e(route('webinars_on_demand.home')); ?>">Webinars On-Demand</a></li> */ ?>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a  href="<?php echo e(route('webinars_on_demand.home')); ?>">
+                                ON-DEMAND 
+                            </a>
+                        </li>
+
+                        <li>
+                            <a  href="<?php echo e(route('resource_centre.home')); ?>">
+                                Resource Centre 
+                            </a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#">
+                                About
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="" href="<?php echo route('about'); ?>">We are a NPO</a></li>
+                                <li><a class="" href="<?php echo '/ourteam'; ?>">Our Team</a></li>
+                                <li><a class="" href="#">Accreditation</a></li>
+                                 <li><a class="" href="https://courses.taxfaculty.ac.za/fund-a-learner/">Fund a Learner</a></li> 
+                                <!-- <li><a class="" href="<?php echo '/presenters'; ?>">Our Presenters</a></li> -->
+                                <li><a class="" href="<?php echo '/faq'; ?>">FAQs</a></li>
+                                <?php /*<li><a href="<?php echo e(route('rewards.index')); ?>">Rewards</a></li>*/ ?>
+                                <?php /*<li><a class="" href="<?php echo '/partners'; ?>">Our Partners</a></li>*/ ?>
+                                <li><a href="<?php echo e('/contact'); ?>">Contact Us</a></li>
+                                <?php /* <li><a href="<?php echo e('/terms_and_conditions'); ?>">Terms and Conditions</a></li>
+                                <li><a href="<?php echo e('/privacy_policy'); ?>">Privacy Policy</a></li> */ ?>
+
+                            </ul>
+                        </li>
+
+<?php /*                        <li><a href="<?php echo route('resource_centre.home'); ?>">Resource Centre</a></li>*/ ?>
+                        <?php /*<li style="background-color: black; background-image: url('https://imageshack.com/a/img923/8140/VeRFYZ.jpg')"><a style="color: red; font-weight: bold" href="<?php echo e(route('bf')); ?>">Black Friday</a></li>*/ ?>
+                        <?php /* <li class="dropdown">
+                            <a class="dropdown-toggle" href="/store">
+                                Shop
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="" href="<?php echo e(route('store.index')); ?>">Shop</a></li>
+                            </ul>
+                        </li> */ ?>
+
+                        <?php /*<li class="dropdown">*/ ?>
+                            <?php /*<a href="#" class="dropdown-toggle">Courses</a>*/ ?>
+                            <?php /*<ul class="dropdown-menu">*/ ?>
+                                <?php /*<li><a href="<?php echo e(route('courses.certificate_courses')); ?>">Internal Courses</a></li>*/ ?>
+                                <?php /*<li><a href="<?php echo e(route('courses.external_courses')); ?>">External Courses</a></li>*/ ?>
+                            <?php /*</ul>*/ ?>
+                        <?php /*</li>*/ ?>
+
+                        <?php /*<li><a href="/store">Shop</a></li>*/ ?>
+
+
+                        <?php if(auth()->user()): ?>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#">
+                                    <i class="fa fa-user-secret"></i> My Account
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="<?php echo e(isActive('dashboard.general.index', true)); ?>" href="<?php echo e(route('dashboard.general.index')); ?>">My Dashboard</a></li>
+                                    <li><a class="<?php echo e(isActive('dashboard.events', true)); ?>" href="<?php echo e(route('dashboard.events')); ?>">My Events</a></li>
+                                    <li><a class="<?php echo e(isActive('dashboard.webinars_on_demand.index', true)); ?>" href="<?php echo e(route('dashboard.webinars_on_demand.index')); ?>">My Webinars on Demand</a></li>
+                                    <li><a class="<?php echo e(isActive('dashboard.courses.index', true)); ?>" href="<?php echo e(route('dashboard.courses.index')); ?>">My Courses</a></li>
+
+                                    <?php if(auth()->check() && auth()->user()->ViewResourceCenter()): ?>
+                                        <li><a class="" href="<?php echo e(route('resource_centre.home')); ?>">Resource Centre</a></li>
+                                    <?php endif; ?>
+
+                                    <li><a class="" href="<?php echo e(route('dashboard.cpd')); ?>">My CPD Logbook</a></li>
+                                    
+                                    <li>
+                                        <a class=" dropdown-btn"> <span style="padding-right: 4px;">My Account</span>
+                                            <i class="fa fa-caret-down"></i>
+                                        </a>
+                                        <ul  class="nav nav-tabs nav-stacked nav-alternate" style="list-style-type:none; border-bottom: none;margin-left: 34px !important;display:none">
+                                            <li class="<?php echo e(isActive(['dashboard.billing.index'])); ?>"><a href="<?php echo route('dashboard.billing.index'); ?>"> My Billing</a></li>
+                                            <?php /* <li class="<?php echo e(isActive(['dashboard.wallet.index'])); ?>"><a href="<?php echo route('dashboard.wallet.index'); ?>">  My U-Wallet</a></li> */ ?>
+                                            <li class="<?php echo e(isActive(['dashboard.invoices','dashboard.invoices.overdue'])); ?>"><a href="<?php echo route('dashboard.invoices'); ?>"> My Invoices</a></li>
+                                            <li class="<?php echo e(isActive(['dashboard.invoice_orders','dashboard.invoice_orders'])); ?>"><a href="<?php echo route('dashboard.invoice_orders'); ?>"> My Purchase Orders</a></li>
+                                            <?php /* <li class="<?php echo e(isActive('dashboard.statement')); ?>"><a href="<?php echo e(route('dashboard.statement')); ?>"> Account Statement</a></li> */ ?>
+                                            <li class="<?php echo e(isActive('dashboard.edit', true)); ?>"><a href="<?php echo route('dashboard.edit'); ?>"> Edit Profile</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <?php /* <li><a class="" href="<?php echo e(route('dashboard.billing.index')); ?>">My Billing</a></li>
+                                    <li><a class="" href="<?php echo e(route('dashboard.invoices')); ?>">My Invoices</a></li>
+                                    <li><a class="" href="<?php echo e(route('dashboard.invoice_orders')); ?>">My Purchase Orders</a></li>
+                                    <li><a class="" href="<?php echo e(route('dashboard.edit')); ?>">Edit Profile</a></li> */ ?>
+
+                                    <li><a class="" href="<?php echo e('/auth/logout'); ?>">Log Out</a></li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
+
+
+                    </ul>
+                </nav>
+
+            </div>
+
+        </div>
+    </header>
+
+</div>

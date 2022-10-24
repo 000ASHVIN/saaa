@@ -1,0 +1,32 @@
+<div class="files">
+    <div class="row">
+        <div class="col-sm-12">
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="col-sm-12">*/ ?>
+                    <?php /*<h4>Files</h4>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+            <?php if(count($files) > 0): ?>
+                <?php foreach($files as $file): ?>
+                    <div class="file">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="<?php echo e($file->path); ?>" target="_blank"
+                                   class="btn btn-default btn-block">
+                                    <i class="fa fa-download"></i>&nbsp;<?php echo e($file->name); ?>
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p> No files available at the moment.</p>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

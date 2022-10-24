@@ -1,0 +1,43 @@
+<?php $__env->startSection('meta_tags'); ?>
+    <meta name="description" content="<?php echo e($course->description); ?>">
+    <meta name="Author" content="<?php echo e($course->name); ?>"/>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('course.show', $course); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('title', $course->title); ?>
+<?php $__env->startSection('intro', str_limit($course->short_description, '80')); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style type="text/css">
+        .no-margin-bottom {
+            margin-bottom: 0;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section style="background-image: url('/assets/frontend/images/demo/wall2.jpg'); padding-top: 40px;">
+        <enroll :user="<?php echo e(auth()->user()->load('cards')); ?>" :course="<?php echo e($course); ?>" :donations="<?php echo e(env('DONATIONS_AMOUNT')); ?>" inline-template>
+            <div class="container">
+                <div id="app">
+                    <div class="col-md-10 col-md-offset-1">
+                        <?php echo $__env->make('courses.partials.payment_option', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('courses.partials.coupon_code', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('courses.partials.billing_options', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('courses.partials.credit_card', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php echo $__env->make('courses.partials.eft', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+            </div>
+        </enroll>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/assets/frontend/plugins/form.masked/jquery.maskedinput.js"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

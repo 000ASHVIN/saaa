@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--[if IE 8]>			<html class="ie ie8"> <![endif]-->
+<!--[if IE 9]>			<html class="ie ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html> <!--<![endif]-->
+<head class="hidden-print">
+    <link href="/assets/frontend/images/ttf/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta charset="utf-8" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <?php 
+    $seoData = getSEO();
+
+    ?>
+    <?php if($seoData): ?>
+    <?php echo $__env->yieldContent('meta_data',\View::make('includes.seo',compact('seoData'))); ?>
+    <?php else: ?>
+    <?php echo $__env->yieldContent('meta_tags'); ?>
+    <?php endif; ?>
+
+    <!-- mobile settings -->
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+
+    <!-- WEB FONTS : use %7C instead of | (pipe) -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700" rel="stylesheet" type="text/css" media="all" />
+
+    <!-- CORE CSS -->
+    <link href="/assets/frontend/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- REVOLUTION SLIDER -->
+    <link href="/assets/frontend/plugins/slider.revolution/css/extralayers.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/frontend/plugins/slider.revolution/css/settings.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- THEME CSS -->
+    <link href="/assets/frontend/css/essentials.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/frontend/css/layout.css?q=1" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/assets/frontend/css/lada-themeless.min.css">
+
+    <!-- PAGE LEVEL SCRIPTS -->
+    <link href="/assets/frontend/css/header-1.css" rel="stylesheet" type="text/css" />
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="<?php echo e(Theme::asset('css/app.css', null, true)); ?>"/>
+
+    <!-- Mobile number -->
+    <link href="/assets/frontend/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+    <?php echo $__env->yieldContent('styles'); ?>
+    <style>
+        .g-recaptcha iframe {
+            min-height: 0px !important;
+        }
+        .telno{
+            margin-bottom: 5px !important;
+        }
+        .telno span.iti__country-name {
+            color: black !important;
+        }
+        .planname {
+            white-space: normal;
+        }
+        li.showbar ul {
+            display: block !important;
+        }
+
+        #code_for_otp {
+            padding-left: 13px;
+            letter-spacing: 42px;
+            border: 0;
+            background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+            background-position: bottom;
+            background-size: 50px 1px;
+            background-repeat: repeat-x;
+            background-position-x: 35px;
+            width: 220px;
+            min-width: 220px;
+        }
+
+        #divInner {
+            left: 0;
+            position: sticky;
+        }
+
+        #divOuter {
+            width: 190px;
+            overflow: hidden;
+        }
+
+        #cell_verification_popup .modal-dialog {
+            width: 35% !important;
+        }
+
+        #cell_verification_form_popup .modal-dialog {
+            width: 30% !important;
+        }
+
+        .cell_page_input .iti {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+        .change-modal .iti {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+
+        #alert_cell_popup_field {
+            /* max-width: 80%; */
+            padding-left: 80px !important;
+        }
+
+        #change_cell_number #change-cell {
+            padding-left: 80px !important;
+        }
+    </style>
+    <?php echo $__env->make('includes.globals', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <script type="text/javascript">
+        (function(){window.sib={equeue:[],client_key:"1v2tzwn1pt3m0k1tltywt"};var e={get:function(e,n){return window.sib[n]||function(){ var t = {}; t[n] = arguments; window.sib.equeue.push(t);}}};window.sendinblue=new Proxy(window.sib,e);var n=document.createElement("script");n.type="text/javascript",n.id="sendinblue-js",n.async=!0,n.src="https://sibautomation.com/sa.js?key="+window.sib.client_key;var i=document.getElementsByTagName("script")[0];i.parentNode.insertBefore(n,i),window.sendinblue.page()})();
+    </script>
+    <?php echo settings('google-tag-manager'); ?>
+
+    <?php echo settings('facebook-pixel'); ?>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+    </script>
+    <meta name="google-site-verification" content="<?php echo e(settings('google-site-verification')); ?>" />
+</head>
+
+<body class="smoothscroll enable-animation">
+        <?php echo settings('google-tag-manager-no-script'); ?>
+
+        <?php echo settings('google-analytics'); ?>
+
+        <?php echo settings('facebook-pixel-no-script'); ?>
+
+<?php /*<a href="#"><img style=" z-index: 9999; position: absolute; top: 0; right: 0; width: 10%; border: 0;" src="/assets/frontend/images/beta.png" alt="Beta" data-canonical-src="#"></a>*/ ?>

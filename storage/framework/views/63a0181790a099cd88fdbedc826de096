@@ -1,0 +1,41 @@
+<div class="event-container-box clearfix">
+    <div class="ribbon"><div class="ribbon-inner <?php echo e(($event->type == 'webinar' ? "" : "custom-ribbon")); ?>"><?php echo e(ucfirst($event->type)); ?></div></div>
+    <div class="event-container-inner">
+        <h4><?php echo $event->name; ?></h4>
+        <h5>
+            <i class="fa fa-plus"></i> <?php echo e($event->cpd_hours); ?> Hours |
+            <i class="fa fa-clock-o"></i> <?php echo e($event->start_time); ?> |
+            <i class="fa fa-calendar-o"></i> <?php echo e($event->next_date->toFormattedDateString()); ?> -
+            <i class="fa fa-calendar-o"></i> <?php echo e(date_format($event->end_date, 'd F Y')); ?>
+
+        </h5>
+
+        <div class="venue-container">
+            <?php foreach($event->scopeActiveVenues  as $venue): ?>
+                <?php if($venue->city && $venue->city != ''): ?>
+                    <li class="styledLi"><?php echo e($venue->city); ?></li>
+                <?php elseif($venue->type == 'online'): ?>
+                    <li class="styledLi">Online</li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+
+        <p><?php echo e(str_limit(preg_replace('/[^a-zA-Z0-9 .]/', '', $event->short_description), 200)); ?></p>
+
+        <?php if($event->is_redirect): ?>
+            <a href="<?php echo e($event->redirect_url); ?>" class="btn btn-primary"><i class="fa fa-eye"></i> Read More</a>
+            <?php if(\Carbon\Carbon::parse($event->end_date)->format('Y-m-d')>=\Carbon\Carbon::now()->format('Y-m-d')): ?>
+            <a href="<?php echo e($event->redirect_url); ?>" class="btn btn-default">Register Now</a>
+            <?php else: ?>
+            <a href="<?php echo e($event->redirect_url); ?>" class="btn btn-default">Buy Recording</a>
+            <?php endif; ?>
+        <?php else: ?>
+            <a href="<?php echo e(route('events.show', $event->slug)); ?>" class="btn btn-primary"><i class="fa fa-eye"></i> Read More</a>
+            <?php if(\Carbon\Carbon::parse($event->end_date)->format('Y-m-d')>=\Carbon\Carbon::now()->format('Y-m-d')): ?>
+            <a href="<?php echo e(route('events.register', $event->slug)); ?>" class="btn btn-default">Register Now</a>
+            <?php else: ?>
+            <a href="<?php echo e(route('events.register', $event->slug)); ?>" class="btn btn-default">Buy Recording</a>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+</div>

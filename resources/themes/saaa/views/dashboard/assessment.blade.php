@@ -1,0 +1,256 @@
+@extends('app')
+
+@section('styles')
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+
+        .busy-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            opacity: 0.5;
+            z-index: 99999999;
+        }
+
+        .busy-spinner {
+            position: fixed;
+            top: 40%;
+            left: 49%;
+            opacity: 1;
+            z-index: 999999999;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <section xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="container">
+            @include('dashboard.includes.sidebar')
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <assessment :assessment="{{ htmlentities($assessment->toJson(JSON_HEX_QUOT),ENT_QUOTES) }}"
+                            :attempts="{{ $attempts }}"
+                            :max-attempts="{{ $maxAttempts }}"
+                            inline-template>
+                    <div class="col-md-12" v-cloak>
+                        <div class="col-md-8">
+                            <div class="box-style-2 white-bg text-left">
+                                <div class="col-md-12">
+                                    <h3 style="margin-bottom: 10px;">@{{ assessment.title }}</h3>
+                                    <hr/>
+                                </div>
+
+                                <div class="space-bottom"></div>
+
+                                <div v-if="navState == navStates.overview" class="tab-pane clearfix">
+                                    <div class="col-md-12">
+                                        <div v-if="assessment.instructions && assessment.instructions != ''">
+                                            <h4>Instructions: </h4>
+                                            <p>@{{{ assessment.instructions }}}</p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-sm-6 text-center">
+                                            <h3><span>@{{ assessment.cpd_hours }}</span><br>
+                                                <small>Hour(s) CPD</small>
+                                            </h3>
+                                        </div>
+                                        <div class="col-sm-6 text-center">
+                                            <h3><span>@{{ assessment.pass_percentage }}%</span><br>
+                                                <small>Pass percentage</small>
+                                            </h3>
+                                        </div>
+                                        <div class="col-sm-6 text-center">
+                                            <h3>
+                                                <span v-if="assessment.time_limit_minutes > 0">@{{ assessment.time_limit_minutes }}</span><span
+                                                        v-else="assessment.time_limit_minutes > 0">None</span><br>
+                                                <small>Time limit</small>
+                                            </h3>
+                                        </div>
+                                        <div class="col-sm-6 text-center">
+                                            <h3>
+                                                <span v-if="assessment.maximum_attempts > 0">@{{ remainingAttempts }}</span>
+                                                <span v-else>&infin;</span><br>
+                                                <small>Attempt(s) left</small>
+                                            </h3>
+                                        </div>
+                                        <div class="text-center">
+                                            <p>Please click on start then you can claim CPD hours</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div v-if="navState == navStates.question" class="tab-content quiz-tabs">
+                                    <div class="tab-pane active fadeIn">
+                                        <div class="col-md-12">
+                                            <h4>Question @{{ activeQuestion.sort_order }}:
+                                                <small class="text-success"
+                                                       v-if="hasBeenMarked && results[activeQuestion.guid] === true">
+                                                    Correct
+                                                </small>
+                                                <small class="text-danger"
+                                                       v-if="hasBeenMarked && results[activeQuestion.guid] === false">
+                                                    Incorrect
+                                                </small>
+                                                <small class="text-danger"
+                                                       v-if="hasBeenMarked && !results.hasOwnProperty(activeQuestion.guid)">
+                                                    Unanswered
+                                                </small>
+                                            </h4>
+                                            @{{{ activeQuestion.description }}}
+                                            <div class="space-bottom"></div>
+                                            <br>
+                                        </div>
+                                        <p v-for="option in activeQuestion.options">
+                                            <label class="checkbox-inline">
+                                                <input v-bind:disabled="hasBeenMarked"
+                                                       v-model="answers[activeQuestion.guid].option" type="radio"
+                                                       value="@{{ option.id }}">
+                                                @{{ option.symbol.toLowerCase() }})
+                                                @{{{ option.description }}}
+                                            </label>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div v-if="navState == navStates.results" class="tab-pane clearfix" id="results">
+                                    <div class="col-md-12">
+                                        <p>Your results:</p>
+                                        <p v-if="passed"><strong>Congratulations,</strong> you have passed the
+                                            assessment!</p>
+                                        <p v-else><strong>Not quite there,</strong> maybe go through the material some
+                                            more.</p>
+                                        <br/>
+
+                                        <div class="col-md-8 text-left">
+                                            <p>
+                                                Your score: @{{ responseData.correctCount }}/@{{ questionsLength() }}
+                                                (@{{ responseData.percentage }}%)
+                                            </p>
+                                            <p>Passing percentage: @{{ assessment.pass_percentage }}%</p>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <i v-if="passed" class="fa fa-trophy"
+                                               style="font-size: 190px; opacity: 0.1;"></i>
+                                            <i v-else class="fa fa-close"
+                                               style="font-size: 190px; opacity: 0.1;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 clearfix quiz-buttons">
+                                        <div v-if="navState == navStates.overview" class="text-center">
+                                            <input v-if="progressPercentage == 0 && !hasBeenMarked" v-on:click="start()"
+                                                   type="button"
+                                                   class="btn btn-default"
+                                                   value="Start">
+                                            <input v-if="progressPercentage > 0 && !hasBeenMarked" v-on:click="start()"
+                                                   type="button"
+                                                   class="btn btn-default"
+                                                   value="Continue">
+                                            <input v-if="hasBeenMarked && !passed && canRetry" v-on:click="retry()"
+                                                   type="button"
+                                                   class="btn btn-default"
+                                                   value="Try again">
+                                        </div>
+
+                                        <div v-if="navState == navStates.question" class="text-center">
+                                            <input v-if="!canPrevious" v-on:click="switchToOverview()" type="button"
+                                                   class="btn btn-default"
+                                                   value="Overview">
+                                            <input v-if="canPrevious" v-on:click="previous()" type="button"
+                                                   class="btn btn-default"
+                                                   value="Previous">
+                                            <input v-if="canNext" v-on:click="next()" type="button"
+                                                   class="btn btn-default"
+                                                   value="Next">
+                                            <input v-if="!hasBeenMarked && !canNext" v-on:click="submit()"
+                                                   type="button"
+                                                   class="btn btn-primary"
+                                                   value="Submit for marking">
+                                            <input v-if="hasBeenMarked && !canNext" v-on:click="switchToResults()"
+                                                   type="button"
+                                                   class="btn btn-primary"
+                                                   value="View results">
+                                        </div>
+
+                                        <div v-if="navState == navStates.results" class="text-center">
+                                            <a v-if="hasBeenMarked && passed && certificateUrl"
+                                               href="@{{ certificateUrl }}"
+                                               class="btn btn-primary">
+                                                View certificate
+                                            </a>
+                                            <input v-if="hasBeenMarked && !passed && canRetry" v-on:click="retry()"
+                                                   type="button"
+                                                   class="btn btn-default"
+                                                   value="Try again">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <h4>Your Progress</h4>
+
+                            <div class="progress">
+                                <div class="progress-bar text-center" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     v-bind:style="{ width: progressPercentage +'%' }">
+                                    @{{ progressPercentage }}%
+                                </div>
+                            </div>
+                            <br/>
+                            {{--Add More Tabs if needed--}}
+                            <div style="overflow-y: auto; height: 368px;">
+                                <ul class="nav nav-pills nav-stacked" id="question" style="width: 100%">
+                                    <li v-bind:class="{active: navState == navStates.overview}">
+                                        <a v-on:click.prevent="switchToOverview()" href="#">
+                                            <i class="fa fa-list fa-fw"></i>
+                                            &nbsp;Overview
+                                        </a>
+                                    </li>
+                                    <li v-for="question in assessment.questions"
+                                        v-bind:class="{active: navState == navStates.question && activeQuestion && question.guid == activeQuestion.guid}">
+                                        <a v-on:click.prevent="switchToQuestion(question.guid)" href="#">
+                                            <i v-bind:class="{
+                                            'fa-square-o': !hasBeenMarked && !answers[question.guid].option,
+                                            'fa-square': !hasBeenMarked && answers[question.guid].option,
+                                            'fa-check': hasBeenMarked && results[question.guid] == true,
+                                            'fa-times': hasBeenMarked && results[question.guid] == false || hasBeenMarked && !results[question.guid],
+                                            }" class="fa fa-fw"></i>
+                                            &nbsp;Question @{{ question.sort_order }}
+                                        </a>
+                                    </li>
+                                    <li v-if="hasBeenMarked" v-bind:class="{active: navState == navStates.results}">
+                                        <a v-on:click.prevent="switchToResults()" href="#">
+                                            <i class="fa fa-trophy fa-fw"></i>
+                                            &nbsp;Results
+                                        </a>
+                                    </li>
+                                    <li v-else v-bind:class="{active: navState == navStates.results}">
+                                        <a v-on:click.prevent="submit()" href="#">
+                                            <i class="fa fa-trophy fa-fw"></i>
+                                            &nbsp;Results
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="markingState == markingStates.busy" class="busy-overlay" v-cloak>
+                        <p class="text-center busy-spinner">
+                            <i class="fa fa-cog fa-spin fa-5x"></i>
+                        </p>
+                    </div>
+                </assessment>
+            </div>
+        </div>
+    </section>
+@endsection

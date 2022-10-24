@@ -1,0 +1,100 @@
+<div id="sponsor" class="tab-pane fade in active">
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('name', 'Name'); ?>
+
+            <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('title', 'Title'); ?>
+
+            <?php echo Form::input('text', 'title', null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+        </div>
+    </div> 
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('email_id')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('email_id', 'Email Id'); ?>
+
+            <?php echo Form::input('text', 'email_id', null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('email_id')): ?> <p class="help-block"><?php echo e($errors->first('email_id')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('is_active', 'Status'); ?>
+
+            <?php echo Form::select('is_active', [
+                0 => 'No',
+                1 => 'Yes'
+            ],null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('is_premium_partner')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('is_premium_partner', 'Premiunm Partner'); ?>
+
+            <?php echo Form::select('is_premium_partner', [
+                0 => 'No',
+                1 => 'Yes'
+            ],null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('is_premium_partner')): ?> <p class="help-block"><?php echo e($errors->first('is_premium_partner')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+    <div class="form-group <?php if($errors->has('content')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('content', 'Content'); ?>
+
+        <?php echo Form::textarea('content', null, ['class' => 'ckeditorEmail form-control ']); ?>
+
+        <?php if($errors->has('content')): ?> <p class="help-block"><?php echo e($errors->first('content')); ?></p> <?php endif; ?>
+    </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group <?php if($errors->has('short_description')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('short_description', 'Short Description'); ?>
+
+            <?php echo Form::textarea('short_description', null, ['class' => 'form-control ckeditorEmail']); ?>
+
+            <?php if($errors->has('short_description')): ?> <p class="help-block"><?php echo e($errors->first('short_description')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group <?php if($errors->has('logo')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('logo', 'logo'); ?>
+
+            <?php echo Form::file('logo', null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('logo')): ?> <p class="help-block"><?php echo e($errors->first('logo')); ?></p> <?php endif; ?>
+        </div>  
+    </div> 
+</div> 
+
+<button class="btn btn-primary"><i class="fa fa-check"></i> <?php echo $button; ?></button>
+</div>
+

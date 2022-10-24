@@ -1,0 +1,67 @@
+<?php $__env->startSection('title', 'Membership Plan'); ?>
+<?php $__env->startSection('description', 'Create Membership Plan'); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo Form::open(['method' => 'post']); ?>
+
+                        <?php echo $__env->make('admin.plans.form', ['SubmitButton' => 'Create Plan'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo Form::close(); ?>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+
+            $('#max_staff').hide();
+            $('#pricing_group').hide();
+            $(document).on('change','#is_practice',function(){
+                 $value = $(this).val();
+                 if($value == 1){
+                    $('#max_staff').show();
+                    $('#pricing_group').show();
+                 }
+                 else{
+                    $('#max_staff').hide();
+                    $('#pricing_group').hide();
+                 }
+            });
+
+            // Show number of features on custom  plan checkbox
+            $("#chk_custom_plan").on('change', function(){
+                check_custom_plan();
+            });
+
+            function check_custom_plan() {
+                if($("#chk_custom_plan").val()=='1') {
+                    $("#max_no_of_features").show();
+                }
+                else {
+                    $("#max_no_of_features").hide();
+                    $("#max_no_of_features input").val('0');
+                }
+            }
+
+        });
+    </script> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $('select').select2();
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

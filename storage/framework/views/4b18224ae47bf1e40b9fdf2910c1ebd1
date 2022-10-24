@@ -1,0 +1,106 @@
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('name', 'Name'); ?>
+
+    <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('is_active', 'Status'); ?>
+
+    <?php echo Form::select('is_active', [
+        true => 'Active',
+        false => 'Not Active'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('type')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('type', 'Type'); ?>
+
+    <?php echo Form::select('type', [
+        'face-to-face' => 'Face to Face',
+        'online' => 'Online',
+        'conference' => 'Conference',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('type')): ?> <p class="help-block"><?php echo e($errors->first('type')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('max_attendees')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('max_attendees', 'Max Attendees'); ?>
+
+    <?php echo Form::input('text', 'max_attendees', null, ['class' => 'form-control', 'placeholder' => 'Leave blank for unlimited']); ?>
+
+    <?php if($errors->has('max_attendees')): ?> <p class="help-block"><?php echo e($errors->first('max_attendees')); ?></p> <?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('start_time')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('start_time', 'Start Time'); ?>
+
+    <?php echo Form::input('text', 'start_time', (isset($venue)? date('H:i:s',strtotime($venue->start_time)):null), ['class' => 'form-control timepicker']); ?>
+
+    <?php if($errors->has('start_time')): ?> <p class="help-block"><?php echo e($errors->first('start_time')); ?></p> <?php endif; ?>
+</div>
+
+
+<div class="form-group <?php if($errors->has('end_time')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('end_time', 'End Time'); ?>
+
+        <?php echo Form::input('text', 'end_time',  (isset($venue)? date('H:i:s',strtotime($venue->end_time)):null), ['class' => 'form-control timepicker']); ?>
+
+        <?php if($errors->has('end_time')): ?> <p class="help-block"><?php echo e($errors->first('end_time')); ?></p> <?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('address_line_one')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('address_line_one', 'Address line one'); ?>
+
+    <?php echo Form::input('text', 'address_line_one', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('address_line_one')): ?> <p class="help-block"><?php echo e($errors->first('address_line_one')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('address_line_two')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('address_line_two', 'Address line two'); ?>
+
+    <?php echo Form::input('text', 'address_line_two', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('address_line_two')): ?> <p class="help-block"><?php echo e($errors->first('address_line_two')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('city')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('city', 'City'); ?>
+
+    <?php echo Form::input('text', 'city', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('city')): ?> <p class="help-block"><?php echo e($errors->first('city')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('province')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('province', 'Province'); ?>
+
+    <?php echo Form::input('text', 'province', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('province')): ?> <p class="help-block"><?php echo e($errors->first('province')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('country')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('country', 'Country'); ?>
+
+    <?php echo Form::input('text', 'country', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('country')): ?> <p class="help-block"><?php echo e($errors->first('country')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('area_code')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('area_code', 'Area code'); ?>
+
+    <?php echo Form::input('text', 'area_code', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('area_code')): ?> <p class="help-block"><?php echo e($errors->first('area_code')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<?php echo Form::submit($submit, ['class' => 'btn btn-info']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

@@ -1,0 +1,80 @@
+<?php $__env->startSection('title', 'My Courses'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">My Courses</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="border-box">
+                            <table class="table table-hover">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Reference</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th class="text-right"></th>
+                                </thead>
+                                <tbody>
+                                <?php if(count($courses)): ?>
+                                    <?php foreach($courses as $course): ?>
+                                        <tr style="display: table-row;">
+                                            <td>
+                                                <?php echo e(str_limit($course->title, 30)); ?>
+
+                                            </td>
+                                            <td>
+                                                <?php echo e($course->reference); ?>
+
+                                            </td>
+                                            <td>
+                                                <?php echo e(date_format($course->start_date, 'd F Y')); ?>
+
+                                            </td>
+                                            <td>
+                                                <?php echo e(date_format($course->end_date, 'd F Y')); ?>
+
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="<?php echo e(route('dashboard.courses.show', $course->reference)); ?>" class="btn btn-primary btn-xs">Show</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="5">You have no courses available.</td>
+                                    </tr>
+                                <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="text-left">
+                            <?php echo $courses->render(); ?>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

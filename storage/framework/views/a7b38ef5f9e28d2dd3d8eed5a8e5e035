@@ -1,0 +1,21 @@
+<div id="discount_create" class="modal fade modal-aside horizontal right" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Discount</h4>
+            </div>
+
+            <div class="modal-body">
+                <?php echo Form::open(['method' => 'post', 'route' => ['admin.course.discount.store', $course->id]]); ?>
+
+                    <?php echo $__env->make('admin.courses.includes.discount.form', ['submit' => 'Create Discount'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+
+    </div>
+</div>

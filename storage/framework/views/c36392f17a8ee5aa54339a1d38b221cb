@@ -1,0 +1,128 @@
+<?php $__env->startSection('title', 'Edit Addresses'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li hreff="#">Edit</li>
+                        <li class="active">Addresses</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <?php echo $__env->make('dashboard.edit.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <div class="margin-top-20"></div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php if(count($user->addresses)): ?>
+                            <?php foreach($user->addresses->chunk(3) as $chunk): ?>
+                                <div class="row">
+                                    <?php foreach($chunk as $address): ?>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-default margin-bottom-20">
+                                                <div class="panel-heading panel-heading-transparent">
+                                                    <h2 class="panel-title"><i class="fa fa-map-marker"></i> <?php echo e(ucwords($address->type)); ?> Address</h2>
+                                                </div>
+                                                <div class="panel-body">
+                                        <span class="block">
+                                            <?php echo e(ucwords($address->line_one)); ?> <br>
+                                            <?php echo e(ucwords($address->line_two)); ?> <br>
+                                            <?php echo e(ucwords($address->city)); ?> <br>
+                                            <?php echo e(ucwords($address->province)); ?> <br>
+                                            <?php echo e(ucwords($address->country)); ?> <br>
+                                            <?php echo e($address->area_code); ?>
+
+                                        </span>
+                                                </div>
+                                                <div class="panel-footer">
+                                                    <div class="row">
+                                                        <div class="col-md-7">
+                                                            <?php if($address->primary): ?>
+                                                                <a data-toggle="tooltip"
+                                                                   data-placement="top"
+                                                                   title="This is your Primary Address"
+                                                                        >
+                                                                    <i class="fa fa-star"></i>
+                                                                </a>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <div class="col-md-5" style="text-align: right">
+                                                            <?php if(! $address->primary): ?>
+                                                            <?php echo Form::open(['route' => ['dashboard.edit.addresses.set_primary', $address->id], 'style' => 'display: inline; margin-bottom: 0px;']); ?>
+
+                                                                <button class="margin-right-10"
+                                                                   data-toggle="tooltip"
+                                                                   data-placement="top"
+                                                                   title="Set Address as Primary"
+                                                                   type="submit"
+                                                                        >
+                                                                    <i class="fa fa-check"></i>
+                                                                </button>
+                                                                <?php echo Form::close(); ?>
+
+                                                            <?php endif; ?>
+
+                                                            <?php echo Form::open(['method' => 'delete', 'route' => ['dashboard.edit.addresses.delete', $address->id], 'style' => 'display: inline; margin-bottom: 0px;']); ?>
+
+                                                                <button data-toggle="tooltip"
+                                                                       data-placement="top"
+                                                                       title="Delete Address"
+                                                                       type="submit" 
+                                                                            >
+                                                                    <i class="fa fa-close"></i>
+                                                                </button>
+                                                            <?php echo Form::close(); ?>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info margin-bottom-30">
+                                        <strong>You</strong> currently have no addresses, Please click "add new" to start adding your addresses
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php /* <?php echo $__env->make('dashboard.edit.includes.edit_address', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> */ ?>
+                        <?php echo $__env->make('dashboard.edit.includes.new_address', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="right">
+                            <br>
+                            <a href="#" class="btn btn-primary" data-target="#new_address" data-toggle="modal">Add New</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

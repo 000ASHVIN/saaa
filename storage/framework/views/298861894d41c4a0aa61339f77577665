@@ -1,0 +1,56 @@
+<div class="assessments">
+    <div class="row">
+        <div class="col-sm-12">
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="col-sm-12">*/ ?>
+                    <?php /*<h4>Assessments</h4>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+            <?php if(count($assessments) > 0): ?>
+                <table class="table table-bordered">
+                    <tbody>
+                    <?php foreach($assessments as $assessment): ?>
+                        <tr>
+                            <td valign="top">
+                                <a href="<?php echo e(route('dashboard.assessments.show',[$assessment->id])); ?>">
+                                    <?php echo e($assessment->title); ?>
+
+                                </a>
+                            </td>
+                            <td valign="top">
+                                <?php echo e(count($assessment->questions)); ?> question(s)
+                            </td>
+                            <td valign="top">
+                                <?php echo e($assessment->cpd_hours); ?> hour(s) CPD
+                            </td>
+                            <td valign="top">
+                                <?php if(!$assessment->hasPassed()): ?>
+                                    <?php echo e($assessment->remainingAttempts()); ?> attempt(s) left
+                                <?php else: ?>
+                                    Passed
+                                <?php endif; ?>
+                            </td>
+                            <td valign="top">
+                                <?php if(!$assessment->hasPassed() && $assessment->remainingAttempts() > 0): ?>
+                                    <a href="<?php echo e(route('dashboard.assessments.show',[$assessment->id])); ?>"
+                                       class="btn btn-primary btn-xs">Start</a>
+                                <?php elseif($assessment->hasPassed()): ?>
+                                    <?php echo e($assessment->passedAttempts(auth()->user())->first()->percentage); ?>%
+                                <?php else: ?>
+                                <?php echo e(($assessment->getattemptsUser(auth()->user())->latest()->first())?$assessment->getattemptsUser(auth()->user())->latest()->first()->percentage:0); ?>%
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p> No assessments available at the moment.</p>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

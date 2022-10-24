@@ -1,0 +1,129 @@
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('name', 'Name'); ?>
+
+    <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+</div>
+
+<?php if(isset($pricing)): ?>
+    <div class="form-group <?php if($errors->has('venueList')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('venueList', 'Venue'); ?>
+
+        <select name="venueList" id="venueList" class="form-control">
+            <?php foreach($event->AllVenues as $venue): ?>
+                <option <?php echo e(($pricing->venueList == $venue->id) ? "selected" : ""); ?> value="<?php echo e($venue->id); ?> "><?php echo e(ucfirst($venue->name).' - '.ucfirst(($venue->city ? : "Webinar"))); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php if($errors->has('venueList')): ?> <p class="help-block"><?php echo e($errors->first('venueList')); ?></p> <?php endif; ?>
+    </div>
+<?php else: ?>
+    <div class="form-group <?php if($errors->has('venueList')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('venueList', 'Venue'); ?>
+
+        <select name="venueList" id="venueList" class="form-control">
+            <?php foreach($event->AllVenues as $venue): ?>
+                <option value="<?php echo e($venue->id); ?> "><?php echo e(ucfirst($venue->name).' - '.ucfirst(($venue->city ? : "Webinar"))); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php if($errors->has('venueList')): ?> <p class="help-block"><?php echo e($errors->first('venueList')); ?></p> <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+<div class="form-group <?php if($errors->has('description')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('description', 'Description'); ?>
+
+    <?php echo Form::input('text', 'description', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('description')): ?> <p class="help-block"><?php echo e($errors->first('description')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('day_count')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('day_count', 'How Many Days'); ?>
+
+    <?php echo Form::input('text', 'day_count', null, ['class' => 'form-control', 'placeholder' => '1']); ?>
+
+    <?php if($errors->has('day_count')): ?> <p class="help-block"><?php echo e($errors->first('day_count')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('price')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('price', 'Price'); ?>
+
+    <?php echo Form::input('text', 'price', null, ['class' => 'form-control', 'placeholder' => '1299']); ?>
+
+    <?php if($errors->has('price')): ?> <p class="help-block"><?php echo e($errors->first('price')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-check">
+    <input class="form-check-input has_subscription_discount" type="checkbox" name="has_subscription_discount" id="has_subscription_discount_<?php echo e($pricing ? $pricing->id : ''); ?>" <?php echo e($pricing && $pricing->subscription_discount ? 'checked' : ''); ?>>
+    <label class="form-check-label" for="has_subscription_discount_<?php echo e($pricing ? $pricing->id : ''); ?>">
+      Has Subscription Discount?
+    </label>
+</div>
+
+<div class="form-group cpd-price <?php if($errors->has('subscription_discount')): ?> has-error <?php endif; ?>" style="<?php echo e($pricing && $pricing->subscription_discount ? '' : 'display: none;'); ?>">
+    <?php echo Form::label('subscription_discount', 'CPD Subscription Discount'); ?>
+
+    <?php echo Form::input('text', 'subscription_discount', null, ['class' => 'form-control', 'placeholder' => '0']); ?>
+
+    <?php if($errors->has('subscription_discount')): ?> <p class="help-block"><?php echo e($errors->first('subscription_discount')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('is_active', 'Status'); ?>
+
+    <?php echo Form::select('is_active', [
+        true => 'Active',
+        false => 'Not Active'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('cpd_hours')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('cpd_hours', 'CPD Hours'); ?>
+
+    <span class="pull-right" style="font-style: italic">Enter the number of hours</span>
+    <?php echo Form::input('text', 'cpd_hours', null, ['class' => 'form-control', 'placeholder' => '8']); ?>
+
+    <?php if($errors->has('cpd_hours')): ?> <p class="help-block"><?php echo e($errors->first('cpd_hours')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('cpd_verifiable')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('cpd_verifiable', 'CPD Verifiable'); ?>
+
+    <?php echo Form::select('cpd_verifiable', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('cpd_verifiable')): ?> <p class="help-block"><?php echo e($errors->first('cpd_verifiable')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('attendance_certificate')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('attendance_certificate', 'Attendance Certificate'); ?>
+
+    <?php echo Form::select('attendance_certificate', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('attendance_certificate')): ?> <p class="help-block"><?php echo e($errors->first('attendance_certificate')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('can_manually_claim_cpd')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('can_manually_claim_cpd', 'Can Claim CPD Manually'); ?>
+
+    <?php echo Form::select('can_manually_claim_cpd', [
+        null => 'Please select..',
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('can_manually_claim_cpd')): ?> <p class="help-block"><?php echo e($errors->first('can_manually_claim_cpd')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<?php echo Form::submit($submit, ['class' => 'btn btn-info']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

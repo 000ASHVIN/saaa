@@ -1,0 +1,79 @@
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    Ask an Expert
+<?php $__env->stopSection(); ?>
+
+<?php if(auth()->check() && auth()->user()->ViewResourceCenter()): ?>
+    <section class="alternate">
+        <div class="container">
+
+            <div class="col-md-12">
+                <?php echo Form::open(['method' => 'post', 'route' => 'support_ticket.store']); ?>
+
+                <div class="form-group <?php if($errors->has('subject')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('subject', 'Ticket Subject'); ?>
+
+                    <?php echo Form::input('text', 'subject', null, ['class' => 'form-control']); ?>
+
+                    <?php if($errors->has('subject')): ?> <p class="help-block"><?php echo e($errors->first('subject')); ?></p> <?php endif; ?>
+                </div>
+
+                <div class="form-group <?php if($errors->has('tag')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('tag', 'Ticket Category'); ?>
+
+                    <?php echo Form::select('tag', $categories->pluck('title', 'id'),null, ['class' => 'form-control']); ?>
+
+                    <?php if($errors->has('tag')): ?> <p class="help-block"><?php echo e($errors->first('tag')); ?></p> <?php endif; ?>
+                </div>
+
+                <div class="form-group <?php if($errors->has('description')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('description', 'Ticket Description'); ?>
+
+                    <?php echo Form::textarea('description', null, ['class' => 'form-control', 'id' => 'ticket']); ?>
+
+                    <?php if($errors->has('description')): ?> <p class="help-block"><?php echo e($errors->first('description')); ?></p> <?php endif; ?>
+                </div>
+
+                <?php echo Form::submit('Submit Ticket', ['class' => 'btn btn-primary']); ?>
+
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+    </section>
+<?php else: ?>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="border-box text-center" style="background-color: #fbfbfb; min-height:300px">
+                        <i class="fa fa-lock" style="font-size: 12vh"></i>
+                        <p>You do not have access to this page. <br> The Technical Resource Centre is part of the Designation CPD Subscription Packages.</p>
+                        <a class="btn btn-primary" href="<?php echo e(route('resource_centre.home')); ?>"><i class="fa fa-arrow-left"></i> Back</a>
+                        <a class="btn btn-default" href="/subscription_plans"><i class="fa fa-arrow-right"></i> View Packages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/assets/frontend/plugins/editor.summernote/summernote.js"></script>
+    <script>
+        $('#ticket').summernote({
+            height: 350,
+            fontNames: ['Arial'],
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['para', ['ul', 'ol', 'paragraph']],
+            ]
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

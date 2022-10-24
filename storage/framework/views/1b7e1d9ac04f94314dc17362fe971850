@@ -1,0 +1,250 @@
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Certificate</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+          rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        table.certificate {
+            border-collapse: collapse;
+            table-layout: fixed;
+            /*max-width: 745px;*/
+            max-width: 210mm;
+            height: 296mm;
+            <?php if($pdf): ?>
+background: url('<?php echo e(public_path("assets/frontend/certificates/cpd/images/bg.jpg")); ?>') no-repeat;
+            <?php else: ?>
+background: url('/assets/frontend/certificates/cpd/images/bg.jpg') no-repeat;
+            <?php endif; ?>
+background-size: 100%;
+        }
+
+        .line {
+            width: 80%;
+            border-bottom: 2px solid #e3e3e3;
+            line-height: 0.1em;
+            margin: 0 72px 0;
+            height: 0px !important;
+        }
+
+        .line-2 {
+            width: 80%;
+            text-align: center;
+            border-bottom: 2px solid #e3e3e3;
+            line-height: 0.1em;
+            margin: 5px 50px 0;
+        }
+
+        table.certificate td.row {
+            width: 100%;
+        }
+
+        td.certificate-logo {
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        td.certificate-type {
+            text-align: center;
+            width: 100%;
+            font-size: 30px;
+            text-transform: uppercase;
+            color: #323364;
+            line-height: 30px;
+            font-weight: bold;
+        }
+
+        td.presented-to-title {
+            text-align: center;
+            text-transform: uppercase;
+            color: #323364;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 25px;
+        }
+
+        td.presented-to {
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        td.certificate-for-title {
+            text-align: center;
+            text-transform: uppercase;
+            color: #323364;
+            font-weight: 600;
+        }
+
+        td.certificate-for {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        table.sub-table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        td.hours-cpd-badge {
+            width: 30%;
+        }
+
+        td.hours-cpd {
+            <?php if($pdf): ?>
+background: url('<?php echo e(public_path('assets/frontend/certificates/cpd/images/badge-top.png')); ?>') no-repeat bottom center;
+            <?php else: ?>
+background: url('/assets/frontend/certificates/cpd/images/badge-top.png') no-repeat bottom center;
+            <?php endif; ?>
+width: 183px;
+            height: 76px;
+            text-align: center;
+            vertical-align: bottom;
+            color: white;
+            font-size: 26px;
+            padding-right: 5px;
+        }
+
+        td.hours-cpd-title {
+            <?php if($pdf): ?>
+background: url('<?php echo e(public_path('assets/frontend/certificates/cpd/images/badge-bottom.png')); ?>') no-repeat top center;
+            <?php else: ?>
+background: url('/assets/frontend/certificates/cpd/images/badge-bottom.png') no-repeat top center;
+            <?php endif; ?>
+width: 183px;
+            height: 43px;
+            text-align: center;
+            vertical-align: top;
+            padding-top: 5px;
+        }
+
+        td.presenter-and-date {
+            width: 70%;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        div.presenter-title {
+            color: #323364;
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        div.date-title {
+            color: #323364;
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        td.logo {
+            text-align: center;
+            height: 82px;
+        }
+
+        .spacing {
+            margin: 20px;
+        }
+
+        .space-2 {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<table class="certificate" width="100%">
+    <tr style="height: 140px;">
+        <td class="certificate-logo">
+            <?php if($pdf): ?>
+                <img src="<?php echo e(public_path('assets/frontend/certificates/cpd/images/logo.png')); ?>"
+                     alt="SA Accounting Academy">
+            <?php else: ?>
+                <img src="/assets/frontend/certificates/cpd/images/logo.png" alt="SA Accounting Academy">
+            <?php endif; ?>
+        </td>
+    </tr>
+    <tr>
+        <td class="certificate-type row">
+            Certificate Of Attendance
+        </td>
+    </tr>
+    <tr style="height: 10px">
+        <td class="presented-to-title row">
+            Presented To
+        </td>
+    </tr>
+    <tr style="height: 10px">
+        <td class="presented-to row"><?php echo e($cpd->user->first_name . ' ' . $cpd->user->last_name); ?></td>
+    </tr>
+    <tr style="height: 20px">
+        <td>
+            <div class="line"></div>
+        </td>
+    </tr>
+    <tr style="height: 20px;">
+        <td>
+            <div class="spacing"></div>
+        </td>
+    </tr>
+    <tr style="height: 10px">
+        <td class="certificate-for-title">
+            for watching the
+        </td>
+    </tr>
+    <tr style="height: 10px">
+        <td class="certificate-for">
+            <?php echo e($cpd->certificate->source->title); ?>
+
+        </td>
+    </tr>
+    <tr style="height: 20px">
+        <td>
+            <div class="line"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="row">
+            <table class="sub-table">
+                <tr>
+                    <td class="hours-cpd-badge">
+                        <table class="sub-table" style="table-layout: fixed; border-collapse: collapse;">
+                            <tr>
+                                <td class="hours-cpd">
+                                    <?php echo e($cpd->hours); ?>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="hours-cpd-title">
+                                    Hour(s) CPD
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="presenter-and-date">
+                        <div class="space-2"></div>
+                        <div class="date">
+                         <?php echo e(date_format(\Carbon\Carbon::parse($cpd->created_at), 'd F Y')); ?>
+
+                        </div>
+                        <div class="line-2"></div>
+                        <div class="date-title">Date(s)</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+
+</html>

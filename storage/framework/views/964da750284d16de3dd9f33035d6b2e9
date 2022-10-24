@@ -1,0 +1,12 @@
+<?php
+if (!isset($edit)) $edit = false;
+if (!isset($recordings)) $recordings = [];
+?>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <?php echo $__env->make('admin.webinar_series.forms.create-edit',compact('edit'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <?php echo $__env->make('admin.webinar_series.forms.webinar',compact('edit','video','recordings'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<?php $__env->startSection('title', 'Edit Password'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li hreff="#">Edit</li>
+                        <li class="active">Password</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <?php echo $__env->make('dashboard.edit.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <div class="margin-top-20"></div>
+
+                <form action="<?php echo e(route('dashboard.edit.password')); ?>" method="post">
+                    <?php echo csrf_field(); ?>
+
+                    <div class="form-group">
+                        <label class="control-label">Current Password</label>
+                        <input name="current_password" type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">New Password</label>
+                        <input name="new_password" type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Re-type New Password</label>
+                        <input name="new_password_confirmation" type="password" class="form-control">
+                    </div>
+
+                    <div class="margin-top10">
+                        <button class="btn btn-primary"><i class="fa fa-check"></i> Change Password</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,444 @@
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    <?php echo $profession->title; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('profession', $profession->title); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style>
+        .curtian {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #173175;
+            opacity: 0.5;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .brandlogo {
+            text-align: center;
+            margin: 0 0 15px 0;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+<?php 
+$staff = collect();
+$company = collect();
+if(auth()->check()){ 
+    if(auth()->user()->company_admin()){
+       $company[] =  auth()->user()->company;
+       $staff =  auth()->user()->company->staff;
+    }
+}
+?>
+
+    <section style="background-image: url('/assets/frontend/images/demo/wall2.jpg'); padding-bottom: 10px; padding-top: 30px">
+
+        <div class="container text-center">
+            <h4><span><?php echo e(ucwords($profession->title)); ?></span> <br> <span style="font-size: 14px">Technical Resource Centre & CPD Subscription</span></h4>
+            <hr>
+
+        </div>
+
+        <?php /* <app-subscriptions-screen   :subscriptions="<?php echo e((auth()->user()?auth()->user()->subscription('cpd')->plan:auth()->user())); ?>" :staff="<?php echo e($staff); ?>"  :companys="<?php echo e($company); ?>"  :plans="<?php echo e($profession->plans); ?>" :profession="<?php echo e($profession); ?>"
+                                      :user="<?php echo e((auth()->user() ? auth()->user()->load('cards') : auth()->user())); ?>" 
+                                      :donations="<?php echo e(env('DONATIONS_AMOUNT')); ?>" :bank_codes="<?php echo e(json_encode(getBankBranches())); ?>"
+                                      :before_selected_plan="<?php echo e($selectedPlan ?? null); ?>"
+                                      inline-template> */ ?>
+            <?php if($profession->slug != 'practice-management'): ?>
+                <div id="app-register-screen" class="container app-screen">
+
+                    <?php /* Subscription Plan Selector */ ?>
+                    <div class="col-md-12" v-if="plans.length > 0 && plansAreLoaded && ! forms.subscription.plan">
+                        <?php echo $__env->make('subscriptions.partials.plans.selector', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+
+                    <?php /* Plan is Selected */ ?>
+                    <div class="col-md-8 col-md-offset-2" v-if="selectedPlan">
+
+                        <?php /* Selected Plan */ ?>
+                        <?php echo $__env->make('subscriptions.partials.plans.selected', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Donations */ ?>
+                        <?php echo $__env->make('includes.donation', ['vif' => "donations && selectedPlan && selectedPlanIsYearly", 'vmodel' => "forms.subscription.donations", 'vonchange' => 'getEftLink'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Plan features */ ?>
+                        <?php echo $__env->make('subscriptions.partials.plans.features', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Billing Options */ ?>
+                        <?php echo $__env->make('subscriptions.partials.billing_options', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Billing Options Details */ ?>
+                        <?php echo $__env->make('subscriptions.partials.billing_information', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Interested in PI */ ?>
+                        <?php echo $__env->make('subscriptions.partials.pi', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Terms and Conditions and Complete Subscription Signup */ ?>
+                        <?php echo $__env->make('subscriptions.partials.terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+            </app-subscriptions-screen>
+        <?php else: ?>
+            <div class="text-center">
+                <a href="/auth/register" class="btn btn-primary">Sign Up Now</a>
+                <br>
+                <br>
+            </div>
+        <?php endif; ?>
+    </section>
+
+
+<?php if($profession->slug != 'practice-management'): ?>
+    <div class="callout-dark heading-arrow-bottom">
+        <a class="btn btn-primary size-10 fullwidth " style="background-color: #adb1b2; border-color: transparent;">
+            <span style="font-size: 20px">Subscription Plan and Resource Centre access</span>
+        </a>
+    </div>
+
+    <section style="padding-top: 30px; padding-bottom: 30px">
+        <div class="container">
+            <?php echo $profession->features; ?>
+
+        </div>
+    </section>
+
+    <section class="alternate" style="padding-top: 30px; padding-bottom: 30px">
+        <div class="container">
+            <div class="heading-title heading-dotted">
+                <h4><span>What is included in your subscription plan</span></h4>
+            </div>
+
+            <?php echo $profession->description; ?>
+
+        </div>
+    </section>
+
+    <?php if($profession->slug != 'monthly-legislation-update'): ?>
+        <section style="padding-top: 30px; padding-bottom: 30px">
+            <div class="container">
+                <div class="heading-title heading-dotted">
+                    <h4><span>Technical resource centre  </span></h4>
+                </div>
+
+                <?php echo $profession->resource_center; ?>
+
+            </div>
+        </section>
+    <?php endif; ?>
+    
+<?php else: ?>
+
+    <div class="callout-dark heading-arrow-bottom">
+        <a  class="btn btn-primary size-10 fullwidth " style="background-color: #adb1b2; border-color: transparent;">
+            <span style="font-size: 20px">Free CPD Subscription </span>
+        </a>
+    </div>
+
+    <section style="padding-top: 30px; padding-bottom: 30px">
+        <div class="container">
+            <?php echo $profession->features; ?>
+
+        </div>
+    </section>
+    
+    <div class="callout-dark heading-arrow-bottom">
+        <a  class="btn btn-primary size-10 fullwidth " style="background-color: #adb1b2; border-color: transparent;">
+            <span style="font-size: 20px">CPD Subscription content</span>
+        </a>
+    </div>
+
+    <section>
+        <div class="container">
+            <?php echo $profession->description; ?>
+
+        </div>
+    </section>
+<?php endif; ?>
+
+<section class="alternate">
+    <div class="container">
+        <div class="row">
+            <div class="heading-title heading-dotted" style="margin-bottom: 10px">
+                <h4><span>Upcoming Events</span></h4>
+            </div>
+            <?php /* <p>Get up to 50% discount on seminars and courses and these exclusive rewards as additional benefits for subscribing with us.</p> */ ?>
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?php if(count($events)): ?>
+                        <?php foreach($events as $event): ?>
+                            <?php echo $__env->make('events.includes.event_single_block', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php endforeach; ?>
+                        <?php /* <?php echo $events->render(); ?> */ ?>
+                    <?php else: ?>
+                        <div class="event-container-box clearfix">
+                            <h4>No Events was found</h4>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="alternate">
+    <div class="container">
+        <div class="row">
+            <div class="heading-title heading-dotted" style="margin-bottom: 10px">
+                <h4><span>Additional benefits of subscribing</span></h4>
+            </div>
+            <p>Get up to 50% discount on seminars and courses and these exclusive rewards as additional benefits for subscribing with us.</p>
+            <br>
+            <br>
+            
+            <?php if($profession->sponsors): ?>
+                <?php 
+                    $count = 1; 
+                ?>
+                <?php foreach($profession->sponsors as $sponsor): ?>
+                    <div class="row"  
+                        <?php if($count++ % 2 == 0): ?>
+                            style="background-color: #e3e3e357; padding-top: 15px; padding-bottom: 15px; margin-top: 15px; margin-bottom: 15px"   
+                        <?php endif; ?>
+                        >
+                        <div class="col-md-2">
+                            <img src="<?php echo e(asset('storage/'. $sponsor->logo)); ?>" width="100%" style="margin-bottom: 0px" class="thumbnail" alt="SAIBA">
+                        </div>
+                        <div class="col-md-10" style="text-align: left">
+                            <h4><?php echo e($sponsor->title); ?></h4>
+                            <p><small><?php echo e($sponsor->short_description); ?></small></p>
+                            <p><strong>Reward:</strong> Up to 15% discount. Find out more.</p>
+                            <a href="<?php echo e(route('rewards.show', $sponsor->slug)); ?>" class="btn btn-primary pull-right"><i class="fa fa-arrow-right"></i> Find out more</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<?php /*<section>*/ ?>
+    <?php /*<div class="container">*/ ?>
+        <?php /*<?php if($profession->slug != 'practice-management'): ?>*/ ?>
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="col-md-12">*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>Technical Resource & CPD Programme: ESSENTIAL</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+
+                    <?php /*<p>The ESSENTIAL programme for professionals includes the following technical resource: Monthly Technical & Legislation Updates.</p>*/ ?>
+                    <?php /*<p>The ESSENTIAL programme for <?php echo $profession->title; ?> includes the following: Monthly Compliance and Legislation Updates. </p>*/ ?>
+
+                    <?php /*<p>*/ ?>
+                        <?php /*This is the essential package if you want to:*/ ?>
+                    <?php /*</p>*/ ?>
+
+                    <?php /*<div class="row">*/ ?>
+                        <?php /*<div class="col-md-6">*/ ?>
+                            <?php /*<ul>*/ ?>
+                                <?php /*<li><strong>Engage</strong> your <strong>clients</strong> with <strong>confidence</strong>,</li>*/ ?>
+                                <?php /*<li>Get assistance to identify new services to offer your clients,</li>*/ ?>
+                                <?php /*<li>Save +-28 hours of research time on Google/Websites to find the latest technical information and changes to address your clients' problems,</li>*/ ?>
+                                <?php /*<li>Get CPD points at the lowest possible price, and need an update on the latest changes in South Africa (profession and in law).</li>*/ ?>
+                            <?php /*</ul>*/ ?>
+                            <?php /*<p>This is a monthly 2-hour webinar presented by Lettie Janse van Vuuren CA(SA), SAICA and IRBA compliance expert. The webinar covers all the latest changes and updates at SARS, CIPC, accounting, auditing, tax, Labour and other laws applicable to business.</p>*/ ?>
+                            <?php /*<p>Presented every month, on a Wednesday. If a recording is missed you still get to view it online when convenient on the SAAA Catch Up system.</p>*/ ?>
+                        <?php /*</div>*/ ?>
+
+                        <?php /*<div class="col-md-6">*/ ?>
+                            <?php /*<video width="100%" height="305px" controls="">*/ ?>
+                                <?php /*<source src="https://player.vimeo.com/external/245162850.sd.mp4?s=34484e8db32561d50f36e00b4249dbebb0fcef47&amp;profile_id=164" type="video/mp4">*/ ?>
+                                <?php /*<source src="https://player.vimeo.com/external/245162850.sd.mp4?s=34484e8db32561d50f36e00b4249dbebb0fcef47&amp;profile_id=164" type="video/ogg">*/ ?>
+                                <?php /*Your browser does not support HTML5 video.*/ ?>
+                            <?php /*</video>*/ ?>
+                        <?php /*</div>*/ ?>
+                    <?php /*</div>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+
+            <?php /*<?php if($profession->slug != 'monthly-legislation-update'): ?>*/ ?>
+            <?php /*<br>*/ ?>
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="col-md-12">*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>CPD Programme: ESSENTIAL PLUS</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+                    <?php /*<?php echo $profession->description; ?>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+            <?php /*<?php else: ?>*/ ?>
+                <?php /*<?php echo $profession->description; ?>*/ ?>
+            <?php /*<?php endif; ?>*/ ?>
+
+            <?php /*<?php if($profession->plans->contains('is_practice', true)): ?>*/ ?>
+            <?php /*<br>*/ ?>
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="col-md-12">*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>CPD Programme: Essential Practice</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*Get your whole firm compliant.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*Select this option and gain access to all Essential Plus content for you and your staff.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*The lead partner can be attend either via seminar or webinar. Webinars and recordings Webinars are*/ ?>
+                        <?php /*available for all staff. All participants will get CPD points (certificates). Recordings are loaded*/ ?>
+                        <?php /*on your firm's online profile*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*Use this facility to monitor your staff training and development.*/ ?>
+                    <?php /*</p>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+            <?php /*<?php endif; ?>*/ ?>
+
+            <?php /*<br>*/ ?>
+
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="col-md-12">*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>Additional benefits of subscribing</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+
+                    <?php /*<p>*/ ?>
+                        <?php /*CPD subscribers gain access to <strong><a target="_blank"*/ ?>
+                                                                  <?php /*href="http://www.firstforaccountants.co.za/">Professional*/ ?>
+                                <?php /*Indemnity Insurance</a></strong> from as little as R600 per annum. PI*/ ?>
+                        <?php /*Insurance cover is subject to approval and risk assessment by the broker and the underwriter.*/ ?>
+                        <?php /*Typically, an accountant that is compliant and in good standing will be able to obtain R5 000 000 PI*/ ?>
+                        <?php /*cover for less than R600.00 pa.*/ ?>
+                    <?php /*</p>*/ ?>
+
+                    <?php /*<p>*/ ?>
+                        <?php /*The PI cover is subject to:*/ ?>
+                    <?php /*</p>*/ ?>
+
+                    <?php /*<ul>*/ ?>
+                        <?php /*<li>Underwriter assessment of risk,</li>*/ ?>
+                        <?php /*<li>CPD compliance</li>*/ ?>
+                        <?php /*<li>Professional body membership, and</li>*/ ?>
+                        <?php /*<li>Compliance to professional member standards.</li>*/ ?>
+                    <?php /*</ul>*/ ?>
+
+                    <?php /*<a href="http://www.firstforaccountants.co.za/" target="_blank" class="btn btn-primary">Read More</a>*/ ?>
+
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+        <?php /*<?php else: ?>*/ ?>
+            <?php /*<div class="row">*/ ?>
+                <?php /*<div class="container">*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>Practice management series</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+                    <?php /*<p><strong>Introduction:</strong></p>*/ ?>
+                    <?php /*<p>The Practice Management series of webinars and events is designed to improve your ability to run both a profitable and compliant practice. </p>*/ ?>
+                    <?php /*<p>The Practice Management series offers the following: </p>*/ ?>
+                    <?php /*<ul>*/ ?>
+                        <?php /*<li>How to run and manage a profitable accounting/auditing firm.</li>*/ ?>
+                        <?php /*<li>How to manage the risks associated with running an accounting/auditing firm.</li>*/ ?>
+                        <?php /*<li>How to improve your employees financial IQ and wellbeing.</li>*/ ?>
+                    <?php /*</ul>*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>How to run and manage a firm</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+                    <?php /*<p>Using the IFAC Guide for SMPs the key aspects of practice management include the following:</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Strategy and planning</strong> - Practices need to build a strong foundation to ensure their success. A strong foundation starts with a clear strategy and a plan to execute it.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Practice models</strong> - Practices will need to consider the best structure and model to use as well as determine profit sharing and decision making within the firm.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Business development</strong> - As practices grow, they will increasingly need to consider issues like developing a growth strategy, coping with increased regulation and competition, pricing, marketing and client relationship management, what services to offer and which clients to serve, and building a firm culture. Professional services range from the more traditional offerings of audit, assurance, accounting, and tax to emerging areas of advisory and reporting such as sustainability and integrated reporting. Successful firms can be highly specialized or general; they can focus on traditional accounting services or value-added advisory services. Advisory services is one of the fastest growing service areas as organizations, especially smaller ones, increasingly look to accounting firms for advice ranging from regulatory compliance to doing business overseas and adopting sustainable business practices.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Networking and networks</strong> - In order to gain new clients and access expertise, many practices use different forms of networking, from traditional face to face through to electronic social media, as well as joining networks, associations and alliances of practices as a means of obtaining client referrals, providing clients access to other experts  and gaining access to resources and tools.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Marketing</strong> - Attracting and retaining clients is a primary challenge facing practices, and securing new clients is one of the main drivers of future profits. This makes marketing and client relations one of the keys to success. Effective marketing and client relationship management demands communicating your value and services as well as knowing your clients, existing and potential—their challenges, aspirations, needs, and preferences. Practices need to understand how best to develop and maintain client relationships, including strategies to improve and cement client relationships.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Human resource management</strong> - Staff and the firm’s leadership are arguably the most important assets of any firm and, as such, crucial to the provision of high-quality services and the ultimate success of the firm. Key issues to address include how to attract, retain, motivate, and train staff.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Information technology</strong> - It is critical for firms to adopt best practice in respect to emerging technologies, such as social media, smartphones, and cloud computing, as these technologies can help marketing and talent recruitment, reduce costs, and offer new client service opportunities. Cloud computing presents both opportunities—lower cost, wider geographical reach, and new services—and threats, such as the ability of SMEs to perform certain basic accounting functions themselves resulting in a reduction in the demand for such services from practices. Effective selection, implementation, and management of technologies, as well as training employees to use them, are fundamental to the success of any firm.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Risk Management</strong> - Risk management is important to practices especially those in more litigious jurisdictions where the number and size of legal claims have increased over the years. There are frameworks and standards for identifying, evaluating, and acting on risks within a firm. Risk management includes ethical issues and safeguards that can be used to deal with ethical threats, the role of quality control systems, and additional risk mitigation, such as insurance.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<p>*/ ?>
+                        <?php /*<strong>Succession planning</strong> - As professional accountants in practice age, their thoughts inevitably turn to the value of their assets within the firm and their exit strategies from the firm. Hence, it is important that the practice has a succession plan that allows for the orderly exit of practitioners and a strategy that can be implemented to become succession ready. Succession planning includes discussing valuation and pricing, and options for consolidations, mergers, and internal and external buyouts.*/ ?>
+                    <?php /*</p>*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>How to manage the following risks associated with your firm:</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+                    <?php /*<ul>*/ ?>
+                        <?php /*<li>Client Intake / Declined Client Procedures</li>*/ ?>
+                        <?php /*<li>Professional conduct</li>*/ ?>
+                        <?php /*<li>Professional conduct</li>*/ ?>
+                        <?php /*<li>Human resources</li>*/ ?>
+                        <?php /*<li>Business Continuity and Disaster Response</li>*/ ?>
+                        <?php /*<li>Computer / Network Risks</li>*/ ?>
+                        <?php /*<li>Insurance Protection Review</li>*/ ?>
+                        <?php /*<li>Electronic communications and Confidentiality</li>*/ ?>
+                        <?php /*<li>File Control (paper and electronic)</li>*/ ?>
+                        <?php /*<li>Subpoena, Incident and Claims Handling Procedures</li>*/ ?>
+                        <?php /*<li>Subpoena, Incident and Claims Handling Procedures</li>*/ ?>
+                        <?php /*<li>Calendar Systems</li>*/ ?>
+                        <?php /*<li>Practice Area Risks</li>*/ ?>
+                        <?php /*<li>Client Relations</li>*/ ?>
+                        <?php /*<li>Public Relations</li>*/ ?>
+                    <?php /*</ul>*/ ?>
+                    <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                        <?php /*<h4><span>How to improve your employees financial IQ and wellbeing.</span></h4>*/ ?>
+                    <?php /*</div>*/ ?>
+                    <?php /*<ul>*/ ?>
+                        <?php /*<li>Personal financial planning</li>*/ ?>
+                        <?php /*<li>Investing made simple</li>*/ ?>
+                        <?php /*<li>Investing in property</li>*/ ?>
+                        <?php /*<li>Improve your money IQ</li>*/ ?>
+                    <?php /*</ul>*/ ?>
+
+                    <?php /*<?php if(auth()->guest()): ?>*/ ?>
+                        <?php /*<div class="heading-title heading-dotted" style="margin-bottom: 20px;">*/ ?>
+                            <?php /*<h4><span>How to subscribe</span></h4>*/ ?>
+                        <?php /*</div>*/ ?>
+                        <?php /*<p><a >Click here</a> to subscribe to the complete practice management series.</p>*/ ?>
+                    <?php /*<?php endif; ?>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+        <?php /*<?php endif; ?>*/ ?>
+    <?php /*</div>*/ ?>
+<?php /*</section>*/ ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

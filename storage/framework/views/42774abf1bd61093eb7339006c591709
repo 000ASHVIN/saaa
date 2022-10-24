@@ -1,0 +1,50 @@
+<p>Please note that this will create a new date for the selected venue, In order to access this date click on the dates tab</p>
+<hr>
+
+<p style="font-weight: bold">
+    Venue: <?php echo $venue->name; ?> <br>
+    Address Line One: <?php echo $venue->address_line_one; ?> <br>
+    Address Line Two: <?php echo $venue->address_line_two; ?> <br>
+    City: <?php echo $venue->city; ?> <br>
+    Province: <?php echo $venue->province; ?> <br>
+    Country: <?php echo $venue->country; ?> <br>
+    Area Code: <?php echo $venue->area_code; ?> <br>
+</p>
+
+<hr>
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('is_active', 'Date Status'); ?>
+
+    <?php echo Form::select('is_active', [
+        true => 'Active',
+        false => 'Not Active',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<?php if(isset($date)): ?>
+<div class="form-group <?php if($errors->has('date')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('date', 'New Date'); ?>
+
+    <?php echo Form::input('text', 'date', \Carbon\Carbon::parse($date->date), ['class' => 'is-date form-control']); ?>
+
+    <?php if($errors->has('date')): ?> <p class="help-block"><?php echo e($errors->first('date')); ?></p> <?php endif; ?>
+</div>
+<?php else: ?>
+    <div class="form-group <?php if($errors->has('date')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('date', 'New Date'); ?>
+
+    <?php echo Form::input('text', 'date', null, ['class' => 'is-date form-control']); ?>
+
+    <?php if($errors->has('date')): ?> <p class="help-block"><?php echo e($errors->first('date')); ?></p> <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+<hr>
+
+<?php echo Form::submit($submit, ['class' => 'btn btn-success']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+

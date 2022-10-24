@@ -1,0 +1,22 @@
+<div id="webinar_<?php echo e($webinar->id); ?>_edit" class="modal fade modal-aside horizontal right">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Create a new Link
+                </h4>
+            </div>
+            <div class="modal-body">
+                <?php echo Form::model($webinar, ['method' => 'post', 'route' => ['admin.event.webinar.update', $webinar->id]]); ?>
+
+                    <?php echo $__env->make('admin.event.includes.webinar.form', ['submit' => 'Update'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+
+    </div>
+</div>

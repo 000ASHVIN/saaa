@@ -1,0 +1,29 @@
+<?php $__env->startSection('title', 'Store'); ?>
+<?php $__env->startSection('description', 'Category: '.$category->title); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo Form::model($category, ['method' => 'PUT', 'route' => ['admin.store_categories.update', $category->id]]); ?>
+
+                        <?php echo $__env->make('admin.store.categories.partials.form', ['button' => 'Update'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo Form::close(); ?>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

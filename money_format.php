@@ -1,0 +1,1 @@
+<?php function money_format($junk, $number) { return number_format($number, 2); }

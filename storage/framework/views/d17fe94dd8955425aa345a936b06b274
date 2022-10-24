@@ -1,0 +1,70 @@
+<?php $__env->startSection('title', 'Online sponsor'); ?>
+<?php $__env->startSection('description', 'Show Available sponsor'); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="<?php echo e(route('admin.sponsor.create')); ?>" class="btn btn-primary pull-right">Add Sponsor</a>
+                </div>
+            </div>
+            <br/>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped" id="sponsor">
+                        <thead>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th></th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="/admin/assets/js/index.js"></script>
+            <script>
+                $('#sponsor').DataTable({
+                    serverSide: true,
+                    ajax: '/admin/sponsor/list',
+                    rowId: 'id',
+                    columns: [
+                        {data: 'name'},
+                        {data: 'title'},
+                        
+                        
+                        
+                        
+                        {
+                            data: "id",
+                            "searchable": false,
+                            "sortable": false,
+                            "render": function (id, type, full, meta) {
+                                return '<a href="/admin/sponsor/show/' + id + '" class="btn btn-sm btn-secondary btn-circle" style="background-color: #21679b; border-color: #21679b; color: white"><i class="fa fa-pencil"></i></a>';
+                            }
+                        },
+                    ],
+                    'processing': true,
+                    'language': {
+                        'loadingRecords': '&nbsp;',
+                        'processing': '<div class="spinner"></div>'
+                    }
+                });
+            </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,11 @@
+<?php 
+
+$finalUrl = \Request::getRequestUri();
+$seoData = App\SeoData::where('route',$finalUrl)->orWhere('route',ltrim($finalUrl,"/"))->first();
+?>
+<?php if($seoData): ?>
+<title><?php echo e($seoData->meta_title); ?></title> 
+<meta name="description" content="<?php echo e($seoData->meta_description); ?>">
+<meta name="keyword" content="">
+<meta name="Author" content=""/>
+<?php endif; ?>

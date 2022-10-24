@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="pull-left">
+            Dietary requirements (Optional)
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="panel-body">
+
+        {{-- <app-error-alert :form="forms.eventSignup"></app-error-alert> --}}
+
+        <div>
+            <label class="col-md-4 control-label">Select any of the following:</label>
+            <div class="col-md-6">
+                <select v-model="forms.eventSignup.dietaryRequirement" class="form-control">
+                    <option v-for="dietaryRequirement in dietary | orderBy 'price'" value="@{{ dietaryRequirement }}">
+                        <span v-if="forms.eventSignup.dates.length > 1">@{{ dietaryRequirement.name }} x@{{ forms.eventSignup.dates.length }} - @{{ dietaryRequirement.price * forms.eventSignup.dates.length | currency 'R' }}</span>
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

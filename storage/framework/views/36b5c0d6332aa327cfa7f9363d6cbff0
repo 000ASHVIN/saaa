@@ -1,0 +1,13 @@
+<div class="row">
+    <legend>Please select your {{ selectedPlan.max_no_of_features?selectedPlan.max_no_of_features:'' }} topics</legend>
+
+    <div class="col-md-6">
+        <div class="form-group" v-for="feature in selectedPlan.features">
+            <label class="label-container">{{ feature.name }}
+                <input type="checkbox" name="features[]" value="{{ feature.slug }}">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+  
+</div>

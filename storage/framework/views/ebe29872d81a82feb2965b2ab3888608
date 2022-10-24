@@ -1,0 +1,62 @@
+<?php $__env->startSection('title', 'Imports'); ?>
+<?php $__env->startSection('description', 'Import Claimed / Refunded Invoices'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <?php echo Form::open(['method' => 'Post', 'files' => true, 'route' => 'claimed_invoices_import']); ?>
+
+               <div class="col-md-6">
+
+                   <div class="form-group <?php if($errors->has('type')): ?> has-error <?php endif; ?>">
+                       <?php echo Form::label('type', 'Please Select Type'); ?>
+
+                       <?php echo Form::select('type', [
+                        'claim' => 'Mark Invoices as Claimed',
+                        'refund' => 'Mark Invoices as Refunded'
+                       ],null, ['class' => 'form-control']); ?>
+
+                       <?php if($errors->has('type')): ?> <p class="help-block"><?php echo e($errors->first('type')); ?></p> <?php endif; ?>
+                   </div>
+
+                   <div class="form-group <?php if($errors->has('claimed')): ?> has-error <?php endif; ?>">
+                       <?php echo Form::label('claimed', 'Mark Invoices'); ?>
+
+                       <span class="pull-right"><small><i>If selected type is "Mark Invoices as Claimed"</i></small></span>
+                       <?php echo Form::select('claimed', [
+                            null => 'Please Select',
+                            true => 'Mark As Claimed',
+                            false => 'Mark as Not Claimed',
+                       ],null, ['class' => 'form-control']); ?>
+
+                       <?php if($errors->has('claimed')): ?> <p class="help-block"><?php echo e($errors->first('claimed')); ?></p> <?php endif; ?>
+                   </div>
+                   <hr>
+                   <div class="form-group <?php if($errors->has('file')): ?> has-error <?php endif; ?>">
+                       <?php echo Form::label('file', 'Please upload your excel email address file'); ?>
+
+                       <?php echo Form::file('file',['class' => 'form-control']); ?>
+
+                       <?php if($errors->has('file')): ?> <p class="help-block"><?php echo e($errors->first('file')); ?></p> <?php endif; ?>
+                   </div>
+                   <hr>
+                   <div class="form-group">
+                       <button class="btn btn-primary" onclick="spin(this1)">Mark Invoices</button>
+                   </div>
+               </div>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/assets/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            Index.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

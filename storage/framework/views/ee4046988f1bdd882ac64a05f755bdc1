@@ -1,0 +1,253 @@
+<?php $__env->startSection('css'); ?>
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-daterangepicker/daterangepicker.css"/>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('title', 'CPDs & Courses'); ?>
+<?php $__env->startSection('description', 'CPDs & Courses'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="row">
+
+        <?php echo Form::open(['method' => 'post']); ?>
+
+            <div class="col-md-4">
+                <div class="form-group <?php if($errors->has('from')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('from', 'Select From Date'); ?>
+
+                    <?php echo Form::input('text', 'from', null, ['class' => 'form-control is-date']); ?>
+
+                    <?php if($errors->has('from')): ?> <p class="help-block"><?php echo e($errors->first('from')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group <?php if($errors->has('to')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('to', 'Select To Date'); ?>
+
+                    <?php echo Form::input('text', 'to', null, ['class' => 'form-control is-date']); ?>
+
+                    <?php if($errors->has('to')): ?> <p class="help-block"><?php echo e($errors->first('to')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" name="download_cpds" value="export_report" class="btn btn-success">Download CPD subscribers</button>
+                <button type="submit" name="download_courses" value="view_report" class="btn btn-success">Download Courses</button>
+            </div>
+
+        <?php echo Form::close(); ?>
+
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table">
+                <tr>
+                    <td>CPD SUBS</td>
+                    <?php foreach($months as $month): ?>
+                        <td><strong><?php echo e($month['name']); ?><strong></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <!-- Debit orders -->
+                <tr>
+                    <td><strong>DEBIT ORDERS:</strong></td>
+                    <?php foreach($months as $month): ?>
+                        <td></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <?php
+                    $debit_orders = $data['cpds']['debit_orders'];
+                ?>
+                <tr>
+                    <td>PAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td>
+                            <?php echo e(isset($debit_orders[$month['key']])? ''.round($debit_orders[$month['key']]['paid']['amount'],2) : '0'); ?>
+
+                        </td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>UNPAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($debit_orders[$month['key']])? ''.round($debit_orders[$month['key']]['unpaid']['amount'],2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>CANCELLED</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($debit_orders[$month['key']])? ''.round($debit_orders[$month['key']]['cancelled']['amount'],2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>Number of Subs</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($debit_orders[$month['key']])? ''.$debit_orders[$month['key']]['paid']['orders'] : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td colspan="<?php echo e(count($months) +1); ?>">
+                </tr>
+
+                <!-- Once off -->
+                <tr>
+                    <td><strong>ONCE OFF:</strong></td>
+                    <?php foreach($months as $month): ?>
+                        <td></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <?php
+                    $once_off = $data['cpds']['once_off'];
+                ?>
+                <tr>
+                    <td>PAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.round($once_off[$month['key']]['paid']['amount'],2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>UNPAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.round($once_off[$month['key']]['unpaid']['amount'], 2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>CANCELLED</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.round($once_off[$month['key']]['cancelled']['amount'], 2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>Number of Subs</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.$once_off[$month['key']]['paid']['orders'] : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td colspan="<?php echo e(count($months) +1); ?>">
+                </tr>
+
+                <!-- CPD subscribers -->
+                <tr>
+                    <td><strong>AMOUNT OF <br/>CPD SUBSCRIBERS:</strong></td>
+                    <td colspan="<?php echo e(count($months)); ?>">
+                        <?php echo e($totalSubscribers); ?>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="<?php echo e(count($months) +1); ?>">
+                </tr>
+
+                <tr>
+                    <td colspan="<?php echo e(count($months) +1); ?>">
+                </tr>
+                <tr>
+                    <td>COURSES</td>
+                    <?php foreach($months as $month): ?>
+                        <td></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <!-- Debit orders -->
+                <tr>
+                    <td><strong>DEBIT ORDERS:</strong></td>
+                    <?php foreach($months as $month): ?>
+                        <td></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <?php
+                    $debit_orders = $data['courses']['debit_orders'];
+                ?>
+                <tr>
+                    <td>PAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($debit_orders[$month['key']])? ''.round($debit_orders[$month['key']]['paid']['amount'], 2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>UNPAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($debit_orders[$month['key']])? ''.round($debit_orders[$month['key']]['unpaid']['amount'], 2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>CANCELLED</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($debit_orders[$month['key']])? ''.round($debit_orders[$month['key']]['cancelled']['amount'], 2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td colspan="<?php echo e(count($months) +1); ?>">
+                </tr>
+
+                <!-- Once off -->
+                <tr>
+                    <td><strong>ONCE OFF:</strong></td>
+                    <?php foreach($months as $month): ?>
+                        <td></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <?php
+                    $once_off = $data['courses']['once_off'];
+                ?>
+                <tr>
+                    <td>PAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.round($once_off[$month['key']]['paid']['amount'], 2) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>UNPAID</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.round($once_off[$month['key']]['unpaid']['amount'], 1) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+                <tr>
+                    <td>CANCELLED</td>
+                    <?php foreach($months as $month): ?>
+                        <td><?php echo e(isset($once_off[$month['key']])? ''.round($once_off[$month['key']]['cancelled']['amount'], 1) : '0'); ?></td>
+                    <?php endforeach; ?>
+                </tr>
+
+            </table>
+            
+            <?php /* <form method="post">
+                <?php echo e(csrf_field()); ?>
+
+                <input type="submit" name="extract_cpd_course" value="Download" class="btn btn-primary">
+                <br/><br/>
+            </form> */ ?>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,39 @@
+<div class="form-group <?php if($errors->has('url')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('url', 'Webinar Link'); ?>
+
+    <?php echo Form::input('text', 'url', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('url')): ?> <p class="help-block"><?php echo e($errors->first('url')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('is_active', 'Status'); ?>
+
+    <?php echo Form::select('is_active', [
+        true => 'Active',
+        false => 'Not Active'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('passcode')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('passcode', 'Passcode'); ?>
+
+    <?php echo Form::input('text', 'passcode', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('passcode')): ?> <p class="help-block"><?php echo e($errors->first('passcode')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('code')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('code', 'Webinar Room Code'); ?>
+
+    <?php echo Form::input('text', 'code', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('code')): ?> <p class="help-block"><?php echo e($errors->first('code')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<?php echo Form::submit($submit, ['class' => 'btn btn-info']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

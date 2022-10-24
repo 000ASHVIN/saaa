@@ -1,0 +1,71 @@
+<?php $__env->startSection('title', 'CPD Members Extract'); ?>
+<?php $__env->startSection('description', 'Extract a list of CPD Members'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <?php echo Form::open(); ?>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group <?php if($errors->has('from')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::label('from', 'From'); ?>
+
+                        <?php echo Form::input('text', 'from', null, ['class' => 'form-control is-date']); ?>
+
+                        <?php if($errors->has('from')): ?> <p class="help-block"><?php echo e($errors->first('from')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group <?php if($errors->has('to')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::label('to', 'To'); ?>
+
+                        <?php echo Form::input('text', 'to', null, ['class' => 'form-control is-date']); ?>
+
+                        <?php if($errors->has('to')): ?> <p class="help-block"><?php echo e($errors->first('to')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group <?php if($errors->has('cpd_hours')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::label('cpd_hours', 'CPD Hours'); ?>
+
+                        <?php echo Form::input('text', 'cpd_hours', null, ['class' => 'form-control']); ?>
+
+                        <?php if($errors->has('cpd_hours')): ?> <p class="help-block"><?php echo e($errors->first('cpd_hours')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group <?php if($errors->has('status')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::label('status', 'Status'); ?>
+
+                        <?php echo Form::select('status', [
+                            'active' => 'Active',
+                            'suspended' => 'Suspended'
+                        ],null, ['class' => 'form-control']); ?>
+
+                        <?php if($errors->has('status')): ?> <p class="help-block"><?php echo e($errors->first('status')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <?php echo Form::submit('export members', ['class' => 'btn btn-info']); ?>
+
+                </div>
+            </div>
+        <?php echo Form::close(); ?>
+
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            $('.is-date').datepicker;
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

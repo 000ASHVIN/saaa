@@ -1,0 +1,7 @@
+<div class="row">
+    <?php echo $__env->make('admin.cpd.partials.search',['selected' => true], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <br><br>
+    <div class="col-sm-12 col-md-12">
+        <?php echo $__env->make('admin.cpd.partials.actions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="event-container-box clearfix" style="padding:20px">
+    <div class="row" style="margin-bottom:0px;">
+        <div class="col-md-2">
+            Filter by category:
+        </div>
+        <div class="col-md-10">
+            <div class="form-group" data-toggle="buttons">
+                @foreach($categories as $key=>$cat)
+                    <button class="btn btn-default btn-category">
+                        <input type="radio" name="category" value="{{ $cat->id }}" autocomplete="off">{{$cat->title}}
+                    </button>
+                @endforeach 
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="sub_cat" style="margin-bottom:0px;">
+        <div class="col-md-2">
+            Sub category:
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <div id="sub_category" data-toggle="buttons">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="sub_sub_cat" style="display: none; margin-bottom:0px;">
+        <div class="col-md-2">
+            Topics
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <div id="sub_sub_category" data-toggle="buttons">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row" style="margin-bottom:0px;">
+    <div class="col-md-3 text-center" style="margin-top: 4px;">
+        <a class="btn btn-warning btn-block clear-button" style="display:none"><i class="fa fa-close"></i> Clear Search</a>
+    </div>
+</div>
+
+</div>

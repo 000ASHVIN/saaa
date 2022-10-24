@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTSTART;TZID=UTC:20160308T090000Z
+DTEND;TZID=UTC:20160318T010000Z
+DTSTAMP;TZID=UTC:20220512T113922Z
+CREATED:20220512T113922Z
+DESCRIPTION:Accounting officer engagements are the bread and butter offering of most accounting firms. However, despite this engagement not being an audit, accountants underestimate the risk and liability they face when doing accounting officer work, whether for a Close Corporation, Company, Sectional Title, Lottery application, School, NPO and many others. Join expert presenter and Head of Technical at Nkonki Auditors, Prof. Steven Firer as he maps accounting officer engagements to relevant standards and legislative requirements.
+LAST-MODIFIED:20220512T113922Z
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Preparing Working Papers for Accounting Officers and Independent Reviewers
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

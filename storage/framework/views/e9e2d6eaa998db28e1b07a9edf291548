@@ -1,0 +1,230 @@
+<?php $__env->startSection('title', 'Links & Resources'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active"><?php echo e($ticket->event->name); ?></li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-9">
+                <ul class="nav nav-tabs nav-top-border">
+                    <li class="active"><a href="#recordings" data-toggle="tab">Recording(s)</a></li>
+                    <li><a href="#webinars" data-toggle="tab">Webinar(s)</a></li>
+
+                    <?php if($ticket->venue->type == 'face-to-face' || $ticket->venue->type == 'conference'): ?>
+                        <li><a href="#Venue" data-toggle="tab">Venue</a></li>
+                    <?php endif; ?>
+
+                    <?php if($ticket->pricing->cpd_verifiable != false): ?>
+                        <li><a href="#cpd" data-toggle="tab">Certificate</a></li>
+                    <?php endif; ?>
+
+                    <li id="assessments_tab"><a href="#assessments" id="assesment-tab" data-toggle="tab">Assessments</a></li>
+                    <?php /*<li><a href="#files" data-toggle="tab">Files</a></li>*/ ?>
+                    <li><a href="#links" data-toggle="tab">Resources</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="recordings">
+                        <?php echo $__env->make('dashboard.includes.links-and-resources.recordings',['recordings' => $ticket->pricing->recordings], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+
+                    <div class="tab-pane fade" id="webinars">
+                        <?php if($ticket->venue->type == 'online'): ?>
+                            <?php echo $__env->make('dashboard.includes.links-and-resources.webinars',['webinars' => $ticket->pricing->webinars], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php else: ?>
+                            <p>The Webinar recording is not available.</p>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if($ticket->venue->type == 'face-to-face' || $ticket->venue->type == 'conference'): ?>
+                        <div class="tab-pane fade" id="Venue">
+                            <?php echo $__env->make('dashboard.includes.links-and-resources.venue',['venue' => $ticket->venue], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="tab-pane fade" id="cpd">
+                        
+                            <?php if($hasCPD): ?>
+                                <div class="row">
+                                    <?php if($claimedCPD): ?>
+                                        <div class="col-md-4">
+                                            <div class="border-box" style="text-align: center; background-color: #f2f2f2">
+                                                <i class="fa fa-2x fa-certificate"></i>
+                                                <h4><?php echo e($cpd->hours); ?> hour(s) CPD awarded</h4>
+                                                <a target="_blank" href="<?php echo e(route('dashboard.cpd.certificate',[$cpd->id])); ?>" class="btn btn-primary">
+                                                    <i class="fa fa-eye"></i> View Certificate
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <?php elseif($canManuallyClaimCPD && $ticket->event->isPast()): ?>
+                                        <?php if($ticket->event->slug == "webinar-wills-and-intestate-succession-2021"): ?>
+                                            <?php if($ticket->attended): ?>
+                                            <div class="col-md-4">
+                                                <div class="border-box" style="text-align: center; background-color: #f2f2f2">
+                                                    <i class="fa fa-2x fa-certificate"></i>
+                                                    <h4><?php echo e($ticket->pricing->cpd_hours); ?> hour(s) CPD</h4>
+                                                    
+                                                    <a href="#" class="claim-cpd btn btn-primary">
+                                                        Claim My CPD
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <div class="col-md-4">
+                                                <div class="border-box" style="text-align: center; background-color: #f2f2f2">
+                                                    <i class="fa fa-2x fa-certificate"></i>
+                                                    <h4><?php echo e($ticket->pricing->cpd_hours); ?> hour(s) CPD</h4>
+
+                                                    <a href="#" class="claim-cpd btn btn-primary">
+                                                        Claim My CPD
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                    
+										<?php if(!$canManuallyClaimCPD && count($attempts) == 0): ?>
+											<div class="row">
+												<div class="col-md-4">
+													<div class="border-box" style="text-align: center; background-color: #f2f2f2">
+														<i class="fa fa-2x fa-certificate"></i>
+														<h4>Please complete the assessment.</h4>
+														<a href="#assessments" class="btn btn-primary btn-complete-assessment" data-toggle="tab">Assessments</a>
+													</div>
+												</div>
+											</div> 
+                                        <?php elseif(!$canManuallyClaimCPD && count($attempts) > 0 && $assessmentCPD): ?>
+                                            <div class="col-md-4">
+                                                <div class="border-box" style="text-align: center; background-color: #f2f2f2">
+                                                    <i class="fa fa-2x fa-certificate"></i>
+                                                    <h4><?php echo e($assessmentCPD->hours); ?> hour(s) CPD awarded</h4>
+                                                    <a target="_blank" href="<?php echo e(route('dashboard.cpd.certificate',[$assessmentCPD->id])); ?>" class="btn btn-primary">
+                                                        <i class="fa fa-eye"></i> View Certificate
+                                                    </a>
+                                                </div>
+                                            </div>											
+										<?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                       
+                    </div>
+
+                    <div class="tab-pane fade" id="assessments">
+                        <?php echo $__env->make('dashboard.includes.links-and-resources.assessments',['assessments' => $ticket->event->assessments], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+
+                    <div class="tab-pane fade" id="files">
+                        <?php echo $__env->make('dashboard.includes.links-and-resources.files',['files' => $ticket->event->files], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+
+                    <div class="tab-pane fade" id="links">
+                        <?php echo $__env->make('dashboard.includes.links-and-resources.links',['links' => $links], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+
+                <?php /*<hr>*/ ?>
+                <?php /**/ ?>
+                <?php /*<?php if(! $ticket->user->subscribed('cpd')): ?>*/ ?>
+                    <?php /*<a href="<?php echo e(route('cpd')); ?>" class="btn btn-xlg btn-primary size-10 fullwidth nomargin bopadding noradius">*/ ?>
+                        <?php /*<span class="font-lato size-30">Join CPD Today</span>*/ ?>
+                        <?php /*<span class="block font-lato">Join our Monthly Legislation Update CPD Subscription package for as little as R250.00 P/M</span>*/ ?>
+                    <?php /*</a>*/ ?>
+                <?php /*<?php endif; ?>*/ ?>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script type="text/javascript">
+        $(document).on('click', '.claim-cpd', function (e) {
+            e.preventDefault();
+            var confirm_url = "<?php echo e(route('dashboard.tickets.cpd.claim',[$ticket->id])); ?>";
+            swal({
+                title: "Claim CPD",
+                html: true,
+                text: "<p>Please confirm that you have watched the entire webinar or attended the event.</p>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#5cb85c",
+                confirmButtonText: "Confirm",
+                cancelButtonText: "Close",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    window.location = confirm_url;
+                }
+            });
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            $(document)on('click','.wod_video_play',function(){
+                var video_id = $(this).closest('.col-md-4').find('#video_id').val();
+                $.ajax({
+                            type: "POST",
+                            // cache: false,
+                            // async: false,
+                            url: '<?php echo e(route('webinars_on_demand.play')); ?>',
+                            data:  {'_token':'<?php echo e(csrf_token()); ?>', 'video_id':video_id },
+                            error: function (xhr, settings, exception) {
+                               // alert('The update server could not be contacted.');
+                            },
+                            success: function (res) {
+                            //    console.log(res);
+                            }
+                        });
+            });
+        });
+         $(document).on('click', '.complete-assesment-btn', function (e) {
+            e.preventDefault();
+            $('#assesment-tab').click();
+        });
+        </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.download_webinar').on('click', function () {
+                $('.modal').modal('hide');
+                this.closest('form').submit();
+                this.closest('form').reset();
+            });
+
+            $('.btn-complete-assessment').click(function() {
+                $('ul.nav li').removeClass('active');
+                $('ul.nav li#assessments_tab').addClass('active');
+            })
+        });
+    </script>
+
+    <?php if(request()->has('webinars')): ?>
+    <script>
+        $(document).ready(function () {
+            $('ul.nav li').removeClass('active');
+            $('ul.nav li#webinars_tab').addClass('active');
+
+            $('.tab-content .tab-pane').removeClass('in active');
+            $('.tab-content .tab-pane#webinars').addClass('in active');
+        });
+    </script>
+    <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

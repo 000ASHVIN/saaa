@@ -1,0 +1,118 @@
+<?php $__env->startSection('title', 'Sales Report'); ?>
+<?php $__env->startSection('description', 'Sales report per agent'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="bussy"></div>
+            </div>
+        </div>
+
+        <?php echo Form::open(); ?>
+
+        <div class="form-group <?php if($errors->has('agent')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('agent', 'Please select your Agent'); ?>
+
+            <select name="agent" id="agent" class="form-control">
+                <option value="System">System</option>
+                <?php foreach($users as $agent): ?>
+                    <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->first_name.' '.$agent->last_name); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php if($errors->has('agent')): ?> <p class="help-block"><?php echo e($errors->first('agent')); ?></p> <?php endif; ?>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group <?php if($errors->has('from')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('from', 'From Date'); ?>
+
+                    <?php echo Form::input('text', 'from', null, ['class' => 'form-control is-date']); ?>
+
+                    <?php if($errors->has('from')): ?> <p class="help-block"><?php echo e($errors->first('from')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group <?php if($errors->has('to')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('to', 'To Date'); ?>
+
+                    <?php echo Form::input('text', 'to', null, ['class' => 'form-control is-date']); ?>
+
+                    <?php if($errors->has('to')): ?> <p class="help-block"><?php echo e($errors->first('to')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group <?php if($errors->has('category')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('category', 'Please select your category'); ?>
+
+            <?php echo Form::select('category', [
+                'event_registration' => 'Event Invocies',
+                'webinars_on_demand' => 'Webinar Invocies',
+                'subscription_upgrade_procedure' => 'CPD Invoices',
+                'store_items' => 'Store Orders',
+                'course_subscription' => 'Course Invoices'
+            ], null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('category')): ?> <p class="help-block"><?php echo e($errors->first('category')); ?></p> <?php endif; ?>
+        </div>
+
+        <div class="form-group <?php if($errors->has('status')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('status', 'Please select your status'); ?>
+
+            <?php echo Form::select('status', [
+                null => 'Please Select..',
+                'paid' => 'Paid',
+                'unpaid' => 'Unpaid',
+                'cancelled' => 'Cancelled',
+                'partial' => 'Partial',
+                'credit noted' => 'Credit Noted',
+            ], null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('status')): ?> <p class="help-block"><?php echo e($errors->first('status')); ?></p> <?php endif; ?>
+        </div>
+
+        <div class="form-group <?php if($errors->has('commision_claimed')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('commision_claimed', 'Commission Paid'); ?>
+
+            <?php echo Form::select('commision_claimed', [
+                null => 'Please Select..',
+                true => 'Yes',
+                false => 'No',
+            ], null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('commision_claimed')): ?> <p class="help-block"><?php echo e($errors->first('commision_claimed')); ?></p> <?php endif; ?>
+        </div>
+
+        <button type="submit" name="submit" value="export_report" class="btn btn-o btn-primary" id="lock-refresh" ;>
+            <span class="spin_div fa fa-gears"><i></i></span> Extract Invoices
+        </button>
+
+        <?php echo Form::close(); ?>
+
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            $('.is-date').datepicker;
+        });
+
+        $('#lock-refresh').click(function() {
+            $('.spin_div').addClass( 'fa-spin' );
+            document.getElementById('bussy').innerHTML = "<div class=\"alert alert-info\"><i class=\"fa fa-spinner fa-spin\"></i> We are extracting your file, Please wait...</div>"
+
+            setTimeout(function() {
+                $('.spin_div').removeClass( 'fa-spin' );
+                document.getElementById('bussy').innerHTML = ""
+            }.bind(this), 10000);
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,27 @@
+<?php $__env->startSection('title', 'Sales Reps'); ?>
+<?php $__env->startSection('description', 'View All Sales Reps'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="col-md-12">
+            <div class="row">
+                <?php echo Form::open(['method' => 'Post', 'route' => 'admin.reps.save']); ?>
+
+                <?php echo $__env->make('admin.reps.includes.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <button type="submit" class="btn btn-primary">Create Sales Rep</button>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

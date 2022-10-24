@@ -1,0 +1,84 @@
+<?php $__env->startSection('title', 'Webinars'); ?>
+<?php $__env->startSection('description', 'View All Webinar Files'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container">
+            <?php foreach($events as $event): ?>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-toggle="collapse" href="#<?php echo e($event->id); ?>">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#<?php echo e($event->id); ?>"><i class="fa fa-ticket"></i> <?php echo e($event->name); ?></a>
+                                <div class="label label-success pull-right">Files: <?php echo e(count($event->links)); ?></div>
+                            </h4>
+                        </div>
+                        <div id="<?php echo e($event->id); ?>" class="collapse">
+
+                            <div class="panel-body">
+                            <?php if(count($event->links)): ?>
+                                <table class="table">
+                                   <thead>
+                                   <th>Name</th>
+                                   <th>URL</th>
+                                   <th>Instructions</th>
+                                   </thead>
+                                    <tbody>
+                                        <?php foreach($event->links as $link): ?>
+                                            <tr>
+                                                <td><?php echo e($link->name); ?></td>
+                                                <td><a target="_blank" href="<?php echo e($link->url); ?>"><?php echo e($link->url); ?></a></td>
+                                                <td><?php echo e(($link->instructions)? : "None"); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php else: ?>
+                                <p>There is no files for <?php echo e($event->name); ?></p>
+                            <?php endif; ?>
+
+                            <?php if($event->pricings->contains('name', 'Online admission')): ?>
+                            <hr>
+                            <table class="table">
+                                <thead>
+                                    <th>Title</th>
+                                    <th>Reference</th>
+                                    <th>Download Link</th>
+                                </thead>
+                                <tbody>
+                                <?php if(count($event->pricings)): ?>
+                                    <?php foreach($event->pricings as $pricing): ?>
+                                        <?php foreach($pricing->recordings as $recording): ?>
+                                            <tr>
+                                                <td><?php echo e($recording->video->title); ?></td>
+                                                <td><?php echo e($recording->video->reference); ?></td>
+                                                <td><a target="_blank" href="<?php echo e($recording->video->download_link); ?>"><?php echo e($recording->video->download_link); ?></a></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <?php endif; ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            <?php echo $events->render(); ?>
+
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

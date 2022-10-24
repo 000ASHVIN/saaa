@@ -1,0 +1,47 @@
+<?php $__env->startSection('title', 'Careers'); ?>
+<?php $__env->startSection('description', 'Show Available Jobs'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <th>Department</th>
+                        <th>Job Title</th>
+                        <th>Job Period</th>
+                        <th>Job location</th>
+                        <th>Job Placement</th>
+                        <th>Edit Available Job</th>
+                    </thead>
+                    <tbody>
+                        <?php foreach($departments as $department): ?>
+                            <?php foreach($department->jobs as $job): ?>
+                                <tr>
+                                    <td><?php echo e($department->title); ?></td>
+                                    <td><?php echo e($job->title); ?></td>
+                                    <td><?php echo e($job->period); ?></td>
+                                    <td><?php echo e($job->location); ?></td>
+                                    <td><?php echo e($job->created_at); ?></td>
+                                    <td><a href="/admin/job/edit/<?php echo e($job->slug); ?>">Edit This Job</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

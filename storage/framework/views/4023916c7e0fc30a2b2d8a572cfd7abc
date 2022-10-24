@@ -1,0 +1,64 @@
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    Meet Our Presenters
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+    SA Accounting Academy fantastic Presenters
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('Presenters'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<style>
+        img.thumbnail.rounded {
+            height: 316px;
+            width: 253px;
+            filter: grayscale(100%);
+        }
+</style>
+
+<section>
+    <div class="container">
+        <?php foreach($presenters->chunk(4) as $chunked): ?>
+            <div class="row">
+                <?php foreach($chunked as $presenter): ?>
+                    <div class="col-sm-3 col-xs-3 col-md-3">
+                        <a href="/presenters/show/<?php echo e($presenter->slug); ?>">
+                            <div class="">
+                                <?php
+                                $url='';
+                                if(isset($presenter->avatar)){
+                                    // {{ asset('storage/'.$presenter->avatar) }} 
+                                    if (!preg_match("~^(?:f|ht)tps?://~i",$presenter->avatar)) { 
+                                        // If not exist then add http storage link
+                                        $url = asset('storage/'.$presenter->avatar); 
+                                    } 
+                                    else{
+                                        $url = $presenter->avatar;
+                                    }
+                                }
+                            ?>
+                            <img class="img-responsive rounded thumbnail"  height="50%" src="<?php echo e($url); ?> " alt="">
+                            </div>
+                            <div class="caption text-center">
+                               <p class="nomargin"><?php echo e($presenter->name); ?></p>
+                           </div>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <hr>
+        <?php endforeach; ?>
+
+        <div class="text-center">
+            <?php echo $presenters->render(); ?>
+
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,35 @@
+<div class="venue">
+    <?php /*<div class="row">*/ ?>
+        <?php /*<div class="col-sm-12">*/ ?>
+            <?php /*<h4>Venue</h4>*/ ?>
+        <?php /*</div>*/ ?>
+    <?php /*</div>*/ ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                <strong><?php echo e($venue->name); ?></strong>
+                <br><?php echo e($venue->address_line_one); ?>
+
+                <?php if($venue->address_line_two != ''): ?>
+                    <br><?php echo e($venue->address_line_two); ?>
+
+                <?php endif; ?>
+                <?php if($venue->city != ''): ?>
+                    <br><?php echo e($venue->city); ?>
+
+                <?php endif; ?>
+                <?php if($venue->area_code != ''): ?>
+                    &nbsp;(<?php echo e($venue->area_code); ?>)
+                <?php endif; ?>
+                <?php if($venue->province != ''): ?>
+                    <br><?php echo e($venue->province); ?>
+
+                <?php endif; ?>
+                <?php if($venue->country != '' && $venue->country != 'South Africa'): ?>
+                    <br><?php echo e($venue->country); ?>
+
+                <?php endif; ?>
+            </p>
+        </div>
+    </div>
+</div>

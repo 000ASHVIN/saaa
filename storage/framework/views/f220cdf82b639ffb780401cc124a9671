@@ -1,0 +1,162 @@
+<?php $__env->startSection('title', 'My Account Statement'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">Account Statement</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style>
+        @media  print {
+            .print-statement{
+                margin-top: -60px!important;
+            }
+            @page  {
+                margin: 0.5cm;
+            }
+            html, body {
+                margin: -20px 0px 0px;
+                padding: 20px 10px 10px;
+                font-size: 9.5pt;
+            }
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<section>
+    <div class="container">
+        <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <div class="col-lg-9 col-md-9 col-sm-8">
+
+            <div class="print-statement">
+                <div class="visible-print">
+                    <div class="text-center">
+                        <h4>Account Statement <br> <i><small><?php echo e(\Carbon\Carbon::now()->toDateString()); ?></small></i></h4>
+                    </div>
+                </div>
+
+                <div class="pull-right">
+                    <a href="javascript:window.print()" class="pull-right btn btn-success hidden-print"><i class="fa fa-print"></i> Print Page</a>
+                    <a href="<?php echo e(route('dashboard.send_statement', $user)); ?>" onclick="send(this)" class="pull-right btn btn-info hidden-print"><i class="fa fa-send"></i> Send Via Email</a>
+                </div>
+                <table class="visible-print">
+                    <tr>
+                        <td width="400px" class="pull-left" style="text-align: left; padding: 5px">
+                            <?php if($user->profile->company): ?>
+                                <?php echo e($user->profile->company); ?><br>
+                                <?php echo e($user->profile->tax); ?><br>
+                            <?php else: ?>
+                                <?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?> <br>
+                                <?php echo e($user->id_number); ?><br>
+                                <?php echo e($user->email); ?><br>
+                                <?php echo e($user->cell); ?><br>
+                            <?php endif; ?>
+
+                            <?php if(count($user->addresses)): ?>
+                                <?php if($user->addresses->contains('type', 'work')): ?>
+                                    <?php echo e($user->addresses->where('type', 'work')->first()->line_one); ?> <br>
+                                    <?php echo e($user->addresses->where('type', 'work')->first()->line_two); ?> <br>
+                                    <?php echo e($user->addresses->where('type', 'work')->first()->city); ?> <br>
+                                    <?php echo e($user->addresses->where('type', 'work')->first()->area_code); ?>
+
+                                <?php else: ?>
+                                    <?php echo e($user->addresses->first()->line_one); ?> <br>
+                                    <?php echo e($user->addresses->first()->line_two); ?> <br>
+                                    <?php echo e($user->addresses->first()->city); ?> <br>
+                                    <?php echo e($user->addresses->first()->area_code); ?>
+
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </td>
+                        <td width="100px"></td>
+                        <td width="500px"><img style="width: 100%" src="http://imageshack.com/a/img921/7616/cpqaRH.jpg" alt=""></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <thead>                    
+                        <th class="center">Date</th>
+                        <th>Type</th>
+                        <th>Reference</th>
+                        <th class="text-right">Dr</th>
+                        <th class="text-right">Cr</th>
+                    </thead>
+                    <tbody>
+                    <?php if(count($user->transactions)): ?>
+                        <?php foreach($user->transactions->sortBy('date') as $transaction): ?>
+                            <tr class="
+                            <?php echo e(($transaction->tags == 'Payment') ? 'success' : ''); ?>
+
+                            <?php echo e(($transaction->tags == 'Discount') ? 'info' : ''); ?>
+
+                            <?php echo e(($transaction->tags == 'Cancellation') ? 'danger' : ''); ?>
+
+                                    ">                                
+                                <td><?php echo e($transaction->date->toFormattedDateString()); ?></td>                                
+                                <td>
+                                    <?php echo e($transaction->tags); ?>
+
+                                </td>
+                                <td class="hidden-print">
+                                    <a target="_blank" href="<?php echo e(route('invoices.show',$transaction->invoice->id)); ?>">#<?php echo e($transaction->invoice->reference); ?></a>
+                                </td>
+                                <td class="visible-print">
+                                    <?php echo e($transaction->invoice->reference); ?>
+
+                                </td>
+                                <td class="text-right"><?php echo e(($transaction->type == 'debit') ? $transaction->amountAsCurrency() : '-'); ?></td>
+                                <td class="text-right"><?php echo e(($transaction->type == 'credit') ? $transaction->amountAsCurrency() : '-'); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">
+                                No recorded transactions.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    </tbody>
+                    <tfoot>
+
+                    <tr>
+                        <td colspan="4" class="text-right">
+                            <b>Account Balance:</b>
+                        </td>
+                        <td class="text-right">
+                            <b><?php echo e(money_format('%.2n', $user->transactions->where('type', 'debit')->sum('amount') - $user->transactions->where('type', 'credit')->sum('amount'))); ?></b>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#cpd_date').datepicker();
+        });
+
+        function send(this1)
+        {
+            this1.innerHTML=`<i class="fa fa-spinner fa-spin"></i> Sending..`;
+            this1.click();
+        }
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

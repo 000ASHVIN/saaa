@@ -1,0 +1,57 @@
+<?php $__env->startSection('title', 'Store'); ?>
+<?php $__env->startSection('description', 'Categories'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="<?php echo e(route('admin.store_categories.create')); ?>" class="pull-right btn btn-primary"><i class="fa fa-pencil"></i> Create New</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Category title</th>
+                            <th width="10%">Display in Store</th>
+                            <th width="10%">Total listings</th>
+                            <th width="2%"></th>
+                            <th width="2%"></th>
+                        </thead>
+                        <tbody>
+                            <?php foreach($categories as $category): ?>
+                                <tr>
+                                    <td><?php echo e($category->title); ?></td>
+                                    <td><?php echo e(($category->active ? "Yes" : "No")); ?></td>
+                                    <td><?php echo e($category->listings->count()); ?></td>
+                                    <td><a href="<?php echo e(route('admin.store_categories.edit', $category->id)); ?>" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a></td>
+                                    <td>
+                                        <?php echo Form::open(['method' => 'DELETE', 'route' => ['admin.store_categories.destroy', $category->id]]); ?>
+
+                                            <button class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+                                        <?php echo Form::close(); ?>
+
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php echo $categories->render(); ?>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

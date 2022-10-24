@@ -1,0 +1,65 @@
+<?php $__env->startSection('title', 'Departments'); ?>
+<?php $__env->startSection('description', 'Create a new department'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container">
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+              <?php echo Form::open(['Method' => 'STORE', 'route' => ['admin.departments.store']]); ?>
+
+                    <div class="form-group">
+                        <?php echo Form::label('title','Department Title'); ?>
+
+                        <?php echo Form::input('text','title', null, ['class' => 'form-control', 'placeholder' => 'Accounts Department']); ?>
+
+                    </div>
+
+                    <div class="form-group">
+                        <?php echo Form::label('description','Department Description'); ?>
+
+                        <?php echo Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Describe this department']); ?>
+
+                    </div>
+
+                    <div class="form-group">
+                        <?php echo Form::submit('Create Department', ['class' => 'btn btn-default']); ?>
+
+                    </div>
+                <?php echo Form::close(); ?>
+
+          </div>
+
+            <div class="col-md-6">
+                <?php if(count($departments)): ?>
+                    <table class="table">
+                        <thead>
+                            <th>Department Title</th>
+                            <th>Department Description</th>
+                            <th>Open Jobs</th>
+                            <th>Edit Department</th>
+                        </thead>
+                        <?php foreach($departments as $department): ?>
+                        <tr>
+                            <td><?php echo e($department->title); ?></td>
+                            <td><?php echo e(str_limit($department->description, 50)); ?></td>
+                            <td><a href="/admin/jobs"><?php echo e(count($department->jobs)); ?> Position Open</a></td>
+                            <td><a href="#"><i class="fa fa-edit"></i> Edit Department (Coming Soon)</a></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

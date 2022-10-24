@@ -1,0 +1,33 @@
+<?php $__env->startSection('title', 'Email Lists'); ?>
+<?php $__env->startSection('description', 'Email List Export'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <a href="<?php echo e(route('admin.exports.all_webinar_tickets')); ?>" class="btn btn-default"><span
+                                class="fa fa-list"></span> Download all users that has purchased any Webinar</a>
+                </div>
+                <div class="form-group">
+                    <a href="<?php echo e(route('admin.exports.all_cpd_members_with_invoice')); ?>" class="btn btn-default"><span
+                                class="fa fa-list"></span> Download All CPD Members with subscription invoice</a>
+                </div>
+                <div class="form-group">
+                    <a href="<?php echo e(route('admin.exports.all_store_order_members')); ?>" class="btn btn-default"><span
+                                class="fa fa-list"></span> Download all users that has purchased any Store Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

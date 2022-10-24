@@ -1,0 +1,36 @@
+<?php if(count($course->promoCodes) > 0): ?>
+
+
+    <?php foreach($course->promoCodes->take(1) as $promoCode): ?>
+        <div class="panel panel-default"  v-if="option">
+
+            <div class="panel-heading">
+                Claim Your Discount
+            </div>
+
+            <div class="panel-body">
+                <?php if(array_flatten(App\AppEvents\PromoCode::sessionCodes(), $promoCode->code )): ?>
+                    <h5 class="no-margin-bottom">Your discount has been applied</h5>
+                <?php else: ?>
+                    <h5 v-if="couponApplied" class="no-margin-bottom">Your discount has been applied</h5>
+                    <div v-else>
+                    <h5>Claim your discount now!</h5>
+                    <?php echo Form::open(['method' => 'post','id'=>'Coupon_code_apply', 'route' => ['check_coupon', $course->id]]); ?>
+
+                    <?php echo Former::text('code','Your Unique Discount Code'); ?>
+
+                    <input name="type" type="hidden" value="course">
+                    <input name="course_id" type="hidden" value="<?php echo e($course->id); ?>">
+                    <input name="event_name" type="hidden" value="<?php echo e($course->title); ?>">
+                    <button type="button"  @click.prevent="applyCouponCode"  class="btn btn-primary">
+                        <i class="fa fa-lock"></i> Apply Coupon
+                    </button>
+                    <?php echo Form::close(); ?>
+
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+<?php endif; ?>

@@ -1,0 +1,22 @@
+<div id="link_create" class="modal fade modal-aside horizontal right">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Create a new Link
+                </h4>
+            </div>
+                <div class="modal-body">
+                    <?php echo Form::open(['method' => 'post', 'route' => ['admin.video.link.store', $video->id], 'files' => 'true']); ?>
+
+                    <?php echo $__env->make('admin.videos.includes.links.form', ['submit' => 'Save'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo Form::close(); ?>
+
+                </div>
+        </div>
+
+    </div>
+</div>

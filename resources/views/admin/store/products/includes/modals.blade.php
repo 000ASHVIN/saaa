@@ -1,0 +1,1 @@
+<script id="add-to-listing" type="text/html">@include('admin.store.products.includes.modals.add-to-listing',['product' => $product])</script>

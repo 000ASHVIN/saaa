@@ -1,0 +1,363 @@
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('name', 'Name'); ?>
+
+            <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+          <div class="form-group <?php if($errors->has('email')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('email', 'Email'); ?>
+
+                <?php echo Form::input('text', 'email', null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('email')): ?> <p class="help-block"><?php echo e($errors->first('email')); ?></p> <?php endif; ?>
+           </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('contact_number')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('contact_number', 'Contact Number'); ?>
+
+    <?php echo Form::input('text', 'contact_number', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('contact_number')): ?> <p class="help-block"><?php echo e($errors->first('contact_number')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+
+    <div class="form-group <?php if($errors->has('date_of_birth')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('date_of_birth', 'Date of Birth'); ?>
+
+        <?php echo Form::input('date', 'date_of_birth', Carbon\Carbon::parse($reward->date_of_birth)->format('Y-m-d'), ['class' => 'form-control']); ?>
+
+        <?php if($errors->has('date_of_birth')): ?> <p
+                class="help-block"><?php echo e($errors->first('date_of_birth')); ?></p> <?php endif; ?>
+    </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('product')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('product', 'Product interested in:'); ?>
+
+            <?php echo Form::select('product', $product, null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('product')): ?> <p class="help-block"><?php echo e($errors->first('product')); ?></p> <?php endif; ?>
+        </div>
+        </div>
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('age')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('age', 'Age'); ?>
+
+    <?php echo Form::select('age', [
+        '20 - 30' => '20 - 30',
+        '31 - 40' => '31 - 40',
+        '41 - 50' => '41 - 50',
+        '51 - 60' => '51 - 60',
+        '60 - older' => '60 - older',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('age')): ?> <p class="help-block"><?php echo e($errors->first('age')); ?></p> <?php endif; ?>
+</div>
+</div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('accountant_type')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('accountant_type', 'Type of accountant:'); ?>
+
+            <?php echo Form::select('accountant_type', [
+                'In practice ' => 'In practice ',
+                'In commerce' => 'In commerce',
+                'Both' => 'Both',
+                'Other' => 'Other'
+            ],null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('accountant_type')): ?> <p
+                    class="help-block"><?php echo e($errors->first('accountant_type')); ?></p> <?php endif; ?>
+        </div>
+        </div>
+  
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('gender')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('gender', 'Gender'); ?>
+
+    <?php echo Form::select('gender', [
+        'Male' => 'Male',
+        'Female' => 'Female',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('gender')): ?> <p class="help-block"><?php echo e($errors->first('gender')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('race')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('race', 'Race'); ?>
+
+    <?php echo Form::select('race', [
+        'Black' => 'Black',
+        'Indian' => 'Indian',
+        'Coloured' => 'Coloured',
+        'White' => 'White',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('race')): ?> <p class="help-block"><?php echo e($errors->first('race')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('level_of_management')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('level_of_management', 'Level of management '); ?>
+
+    <?php echo Form::select('level_of_management', [
+        'Junior' => 'Junior',
+        'Middle' => 'Middle',
+        'Senior' => 'Senior',
+        'Director' => 'Director',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('level_of_management')): ?> <p class="help-block"><?php echo e($errors->first('level_of_management')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('registered_professional_accountancy_body')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('registered_professional_accountancy_body', 'Are you a member of a registered professional accountancy body?'); ?>
+
+    <?php echo Form::select('registered_professional_accountancy_body', [
+        true => 'Yes',
+        false => 'No',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('registered_professional_accountancy_body')): ?> <p class="help-block"><?php echo e($errors->first('registered_professional_accountancy_body')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('professional_body_name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('professional_body_name', 'Select name of professional body'); ?>
+
+    <?php echo Form::select('professional_body_name', [
+        null => 'Please Select',
+        'AAT' => 'AAT',
+        'CIMA' => 'CIMA',
+        'IAC' => 'IAC',
+        'IIA' => 'IIA',
+        'SAICA' => 'SAICA',
+        'ACCA' => 'ACCA',
+        'CIS' => 'CIS',
+        'ICBA' => 'ICBA',
+        'SAIBA' => 'SAIBA',
+        'SAIPA' => 'SAIPA',
+        'OTHER' => 'OTHER',
+    ],null, ['class' => 'form-control', 'v-model' => 'professional_body']); ?>
+
+    <?php if($errors->has('professional_body_name')): ?> <p class="help-block"><?php echo e($errors->first('professional_body_name')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+<div v-if="professional_body == 'OTHER'">
+    <div class="form-group <?php if($errors->has('other_professional_body_name')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('other_professional_body_name', 'Other (Please Specify)'); ?>
+
+        <?php echo Form::input('text', 'other_professional_body_name', null, ['class' => 'form-control']); ?>
+
+        <?php if($errors->has('other_professional_body_name')): ?> <p class="help-block"><?php echo e($errors->first('other_professional_body_name')); ?></p> <?php endif; ?>
+    </div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('do_you_adhere_to_a_code_of_conduct')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('do_you_adhere_to_a_code_of_conduct', 'Do you adhere to a Code of Conduct that is equal or similar to the IFAC Code of Conduct?'); ?>
+
+    <?php echo Form::select('do_you_adhere_to_a_code_of_conduct', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('do_you_adhere_to_a_code_of_conduct')): ?> <p class="help-block"><?php echo e($errors->first('do_you_adhere_to_a_code_of_conduct')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('are_your_cpd_hours_up_to_date')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('are_your_cpd_hours_up_to_date', 'Are your CPD hours up to date as required by your professional body?'); ?>
+
+    <?php echo Form::select('are_your_cpd_hours_up_to_date', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('are_your_cpd_hours_up_to_date')): ?> <p class="help-block"><?php echo e($errors->first('are_your_cpd_hours_up_to_date')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('do_you_use_engagement_letters')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('do_you_use_engagement_letters', 'Do you use engagement letters for all clients?'); ?>
+
+    <?php echo Form::select('do_you_use_engagement_letters', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('do_you_use_engagement_letters')): ?> <p class="help-block"><?php echo e($errors->first('do_you_use_engagement_letters')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('latest_technical_knowledge_or_library')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('latest_technical_knowledge_or_library', 'Do you have access to the latest technical knowledge or library?'); ?>
+
+    <?php echo Form::select('latest_technical_knowledge_or_library',[
+        true => 'Yes',
+        false => 'No'
+    ], null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('latest_technical_knowledge_or_library')): ?> <p class="help-block"><?php echo e($errors->first('latest_technical_knowledge_or_library')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('do_you_have_the_required_infrastructure')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('do_you_have_the_required_infrastructure', 'Do you have the required infrastructure and resources to perform professional work for clients?'); ?>
+
+    <?php echo Form::select('do_you_have_the_required_infrastructure', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('do_you_have_the_required_infrastructure')): ?> <p class="help-block"><?php echo e($errors->first('do_you_have_the_required_infrastructure')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('do_you_or_your_firm_perform_reviews_of_all_work')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('do_you_or_your_firm_perform_reviews_of_all_work', 'Do you or your firm perform reviews of all work performed by your professional support staff?'); ?>
+
+    <?php echo Form::select('do_you_or_your_firm_perform_reviews_of_all_work',[
+        true => 'Yes',
+        false => 'No'
+    ] ,null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('do_you_or_your_firm_perform_reviews_of_all_work')): ?> <p class="help-block"><?php echo e($errors->first('do_you_or_your_firm_perform_reviews_of_all_work')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group <?php if($errors->has('do_you_apply_relevant_auditing_and_assurance_standards')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('do_you_apply_relevant_auditing_and_assurance_standards', 'Do you apply relevant auditing and assurance standards when issuing reports on financial statements for clients?'); ?>
+
+    <?php echo Form::select('do_you_apply_relevant_auditing_and_assurance_standards', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('do_you_apply_relevant_auditing_and_assurance_standards')): ?> <p class="help-block"><?php echo e($errors->first('do_you_apply_relevant_auditing_and_assurance_standards')); ?></p> <?php endif; ?>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+
+<div class="form-group <?php if($errors->has('do_you_use_the_latest_technology_and_software')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('do_you_use_the_latest_technology_and_software', 'Do you use the latest technology and software to manage your practice and perform professional work?'); ?>
+
+    <?php echo Form::select('do_you_use_the_latest_technology_and_software', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('do_you_use_the_latest_technology_and_software')): ?> <p
+            class="help-block"><?php echo e($errors->first('do_you_use_the_latest_technology_and_software')); ?></p> <?php endif; ?>
+</div>
+</div>
+<div class="col-md-6">
+
+    <div class="form-group <?php if($errors->has('adviser_to_contact_me')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('adviser_to_contact_me', 'I’d like an Old Mutual Adviser to contact me?'); ?>
+
+        <?php echo Form::select('adviser_to_contact_me', [
+            true => 'Yes',
+            false => 'No'
+        ],null, ['class' => 'form-control']); ?>
+
+        <?php if($errors->has('adviser_to_contact_me')): ?> <p
+                class="help-block"><?php echo e($errors->first('adviser_to_contact_me')); ?></p> <?php endif; ?>
+    </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="form-group <?php if($errors->has('being_a_referral_agent')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('being_a_referral_agent', 'I’d like to hear more about being a referral agent?'); ?>
+
+            <?php echo Form::select('being_a_referral_agent', [
+                true => 'Yes',
+                false => 'No'
+            ],null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('being_a_referral_agent')): ?> <p
+                    class="help-block"><?php echo e($errors->first('being_a_referral_agent')); ?></p> <?php endif; ?>
+        </div>
+        </div>
+        <div class="col-md-6">
+
+            <div class="form-group <?php if($errors->has('income')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('income', 'Income (R)'); ?>
+
+                <?php echo Form::select('income', [
+                    '0 - 300 000 pa' => '0 - 300 000 pa',
+                    '300 001 - 500 000 pa' => '300 001 - 500 000 pa',
+                    '500 001 - 700 000 pa' => '500 001 - 700 000 pa',
+                    '700 001 - 900 000 pa' => '700 001 - 900 000 pa',
+                    '900 001 - 1 500 000 pa' => '900 001 - 1 500 000 pa',
+                    '1 500 000 - 2 500 000 pa' => '1 500 000 - 2 500 000 pa',
+                    'More than 2 500 000 pa' => 'More than 2 500 000 pa',
+                ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('income')): ?> <p class="help-block"><?php echo e($errors->first('income')); ?></p> <?php endif; ?>
+            </div>
+            </div>    
+</div>
+
+
+<button class="btn btn-primary" onclick="spin(this)"><i class="fa fa-check"></i> Submit Form</button>
+

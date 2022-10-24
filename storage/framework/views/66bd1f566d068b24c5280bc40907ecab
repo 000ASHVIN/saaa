@@ -1,0 +1,44 @@
+<?php echo Form::open(['Method' => 'post', 'route' => 'admin.payments.payments_per_day']); ?>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo form::label('from', 'Please select a from date'); ?>
+
+            <?php echo Form::input('text', 'from', null, ['class' => 'form-control daterange']); ?>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo form::label('to', 'Please select a to date'); ?>
+
+            <?php echo Form::input('text', 'to', null, ['class' => 'form-control daterange']); ?>
+
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <?php echo form::label('type', 'Please select a Type'); ?>
+
+    <?php echo Form::select('type', [
+        '' => 'Please Select',
+        'instant_eft' => 'Instant EFT',
+        'eft' => 'Offline EFT',
+        'cc' => 'Credit Card',
+        'debit' => 'Debit Order',
+        'cash' => 'Cash',
+        'snap_scan' => 'Snap Scan',
+    ], null, ['class' => 'form-control', 'id' => 'date-range']); ?>
+
+</div>
+
+<div class="form-group">
+    <?php echo Form::submit('View Results', ['class' => 'btn btn-default']); ?>
+
+</div>
+
+<?php echo Form::close(); ?>

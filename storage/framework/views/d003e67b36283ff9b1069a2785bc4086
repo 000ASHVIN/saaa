@@ -1,0 +1,23 @@
+<section class="callout-dark heading-title heading-arrow-bottom" style="padding: 10px;">
+    <div class="container">
+
+        <div class="col-md-12">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="text-center">
+                    <br>
+                    <?php echo Form::open(['method' => 'post', 'route' => 'home']); ?>
+
+                    <div class="form-group <?php if($errors->has('search')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::input('text', 'search', request()->search?request()->search:null, ['class' => 'form-control', 'placeholder' => 'Search for content', 'style' => 'text-align:center']); ?>
+
+                        <?php if($errors->has('search')): ?> <p class="help-block"><?php echo e($errors->first('search')); ?></p> <?php endif; ?>
+                    </div>
+                    <button onclick="spin(this)" style="color: #173175" class="btn-block btn btn-default"><i class="fa fa-search"></i> Search</button>
+                    <?php echo Form::close(); ?>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

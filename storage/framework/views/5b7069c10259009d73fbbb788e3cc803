@@ -1,0 +1,40 @@
+<?php $__env->startSection('title'); ?>
+    CPD Certificate
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('dashboard.cpd.show',$cpd); ?>
+
+<?php $__env->stopSection(); ?>
+<?php 
+$video_id = [607,608,609,610,611,612,613,614,667,668];
+?>
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <div class="col-sm-12 text-center">
+                    <a href="<?php echo e(route('dashboard.cpd.certificate.download',[$cpd->id])); ?>"
+                       class="btn btn-sm btn-primary">Download PDF</a>
+                    <br><br>
+                </div>
+                <?php if($cpd->certificate->view_path == 'certificates.wob' && $cpd->certificate->source && in_array($cpd->certificate->source->id,$video_id)): ?>
+                <?php echo $__env->make("certificates.saaawod",['pdf' => false, 'cpd' => $cpd], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
+                <?php else: ?>
+                <?php echo $__env->make($cpd->certificate->view_path,['pdf' => false, 'cpd' => $cpd], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>;
+                <?php endif; ?>
+                
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

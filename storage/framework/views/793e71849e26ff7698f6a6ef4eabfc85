@@ -1,0 +1,35 @@
+<?php $__env->startSection('title', 'Webinars'); ?>
+<?php $__env->startSection('description', 'View All Webinar Links'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <th>Name</th>
+                    <th>Link</th>
+                    <th>Password</th>
+                </thead>
+                <tbody>
+                <?php foreach($webinars as $webinar): ?>
+                <tr>
+                    <td><?php echo e(($webinar->pricing ? $webinar->pricing->event->name : $webinar->id ." Event pricing has been removed")); ?></td>
+                    <td><a target="_blank" href="<?php echo e(($webinar->url ? : "#")); ?>"><?php echo e(($webinar->url ? : "#")); ?></a></td>
+                    <td><?php echo e(($webinar->passcode) ? : "No Password"); ?></td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Pricing Options</div>
+    <div class="panel-body">
+
+        <div v-if="pricingOptions.length >= 1">
+            <label class="radio" v-for="pricing in pricingOptions" style="display: block">
+                <input type="radio" value="{{ pricing }}" v-model="forms.eventSignup.pricingOption">
+                <i></i>
+                <span style="text-decoration: line-through;" v-if="pricing.discount > 0">{{ pricing.price | currency 'R' }}</span>
+                <span v-if="pricing.discount > 0"><strong>{{ pricing.discounted_price | currency 'R' }}</strong></span>
+                <span v-else><strong>{{ pricing.price | currency 'R' }}</strong></span>
+                - {{ pricing.name }}
+            </label>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>

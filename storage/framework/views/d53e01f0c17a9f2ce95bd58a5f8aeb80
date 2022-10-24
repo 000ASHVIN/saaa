@@ -1,0 +1,12 @@
+<div class="form-group <?php if($errors->has('selected_features[]')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('selected_features[]', 'Please select your features'); ?>
+
+    <?php echo Form::select('selected_features[]', $features->pluck('name', 'id')->toArray(), $pricing->features->pluck('id')->toArray(), ['class' => 'select2', 'multiple' => true, 'style' => 'width:100%']); ?>
+
+    <?php if($errors->has('selected_features[]')): ?> <p class="help-block"><?php echo e($errors->first('selected_features[]')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<?php echo Form::submit($submit, ['class' => 'btn btn-info']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

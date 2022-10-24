@@ -1,0 +1,43 @@
+<?php echo $__env->make('includes.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<link href="/assets/frontend/css/layout-shop.css" rel="stylesheet" type="text/css"/>
+
+<div id="wrapper">
+    <?php echo $__env->make('includes.top-bar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <?php if(Request::is('/')): ?>
+        <?php echo $__env->make('includes.slider', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php elseif(
+        Request::is('auth/login') ||
+        Request::is('join')||
+        Request::is('auth/register')||
+        Request::is('dashboard')||
+        Request::is('dashboard/edit')||
+        Request::is('dashboard/edit/addresses')||
+        Request::is('dashboard/edit/avatar')||
+        Request::is('dashboard/edit/password')||
+        Request::is('dashboard/edit/privacy')||
+        Request::is('dashboard/events')||
+        Request::is('dashboard/courses')||
+        Request::is('dashboard/cpd')||
+        Request::is('dashboard/invoices')||
+        Request::is('password/email')||
+        Request::is('password/reset') ||
+        Request::is('events/*/register') 
+    ): ?>
+
+    <?php else: ?>
+        <?php echo $__env->make('includes.page-header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
+
+    <div id="app">
+
+        <?php echo $__env->yieldContent('content'); ?>
+        <?php echo $__env->make('includes.welcome', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+
+    <?php echo $__env->make('includes.top-footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>    
+</div>
+
+<?php echo $__env->make('includes.side-panel', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('includes.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

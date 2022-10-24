@@ -1,0 +1,8 @@
+<section id="page-title" class="padding-top-15 padding-bottom-15">
+	<div class="row">
+		<div class="col-sm-7">
+			<h1 class="mainTitle"><?php echo $__env->yieldContent('title', 'Dashboard'); ?></h1>
+			<span class="mainDescription"><?php echo $__env->yieldContent('description', 'overview &amp; stats'); ?> </span>
+		</div>
+	</div>
+</section>

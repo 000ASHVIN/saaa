@@ -1,0 +1,32 @@
+<div id="assign_assessment" class="modal fade modal-aside horizontal right" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Assign New Assessment</h4>
+            </div>
+            <div class="modal-body">
+                <?php echo Form::open(['method' => 'post', 'route' => ['admin.event.assessment.store', $event->slug]]); ?>
+
+
+                <div class="form-group <?php if($errors->has('assessments[]')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('assessments[]', 'Please select your features'); ?>
+
+                    <?php echo Form::select('assessments[]', $assessments->pluck('title', 'id')->toArray(), $event->assessments->pluck('id')->toArray(), ['class' => 'select2', 'multiple' => true, 'style' => 'width:100%']); ?>
+
+                    <?php if($errors->has('assessments[]')): ?> <p class="help-block"><?php echo e($errors->first('assessments[]')); ?></p> <?php endif; ?>
+                </div>
+
+                <hr>
+
+                <?php echo Form::submit('Assign Assessment', ['class' => 'btn btn-info']); ?>
+
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<?php if(count($tickets)): ?>
+
+    <?php if(isset($year)): ?>
+        <a href="<?php echo e(route('dashboard.events')); ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back to Events</a>
+        <hr>
+        <table class="table table-hover">
+            <thead>
+                <th class="text-left">Upcoming Event</th>
+                <th class="text-left">Start Time</th>
+                <th class="text-left">Date</th>
+                <th>Status</th>
+                <th>CPD</th>
+                <th class="text-center">CPD Catchup</th>
+            </thead>
+            <tbody>
+
+            <?php foreach($tickets as $ticket): ?>
+                <tr>
+                    <td class="text-left">
+                        <a href="" data-target="#event_modal-<?php echo e($ticket->id); ?>" data-toggle="tooltip" title="<?php echo e($ticket->event->name); ?>" data-placement="top">
+                            <?php echo e(str_limit($ticket->event->name, $limit = 35)); ?>
+
+                        </a>
+                        <?php echo $__env->make('dashboard.includes.events_modal', $ticket, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </td>
+
+                    <td valign="top" class="text-left">
+                        <i class="fa fa-clock-o"></i> <?php echo e(($ticket->venue->start_time!="" && $ticket->venue->start_time!="1970-01-01 00:00:00")?Date("H:i:s",strtotime($ticket->venue->start_time)):Date("H:i:s",strtotime($ticket->event->start_time))); ?> <br>
+                    </td>
+
+                    <td valign="top" class="text-left">
+                        <?php foreach($ticket->dates as $date): ?>
+                            <?php echo e($date->date); ?> <br>
+                        <?php endforeach; ?>
+                    </td>
+
+                    <td valign="top" class="text-left">
+                        <?php if($ticket->invoice_order): ?>
+                            <?php if($ticket->invoice_order->status == 'paid'): ?>
+                                <a href="<?php echo e(route('order.show',$ticket->invoice_order->id)); ?>"
+                                   class="label label-success" data-toggle="tooltip" title="Paid" data-placement="right"><i
+                                            class="fa fa-check"></i></a>
+                            <?php else: ?>
+                                <?php if($ticket->invoice_order->status == 'unpaid'): ?>
+                                    <a href="<?php echo e(route('order.show',$ticket->invoice_order->id)); ?>"
+                                       class="label label-warning" data-toggle="tooltip" title="Unpaid"
+                                       data-placement="right"> <i class="fa fa-times"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="<?php echo e(route('order.show',$ticket->invoice_order->id)); ?>"
+                                       class="label label-danger" data-toggle="tooltip" title="Cancelled"
+                                       data-placement="right"> <i class="fa fa-ban"></i>
+                                    </a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            None
+                        <?php endif; ?>
+                    </td>
+
+                    <td>
+                        <?php if($ticket->pricing && $ticket->pricing->cpd_hours > 0): ?>
+                            <?php if(\App\Users\Cpd::where('user_id', $ticket->user->id)->where('ticket_id', $ticket->id)->first()): ?>
+                                <span href="#" data-toggle="tooltip" title="" data-placement="top" data-original-title="Claimed">
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            <?php else: ?>
+                                <span href="#" data-toggle="tooltip" title="" data-placement="top" data-original-title="Pending">
+                                    <i class="fa fa-close"></i>
+                                </span>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </td>
+
+                    <td valign="top" class="text-right">
+                        <?php if(($ticket->invoice_order && $ticket->invoice_order->status == 'paid')): ?>
+                            <span class="label label-primary" style="background-color: #173175">
+                                <a href="<?php echo e(route('dashboard.tickets.links-and-resources',$ticket->id)); ?>" style="color: white"><i class="fa fa-link"></i> Links &amp; resources</a>
+                            </span>
+                        <?php elseif(! $ticket->invoice_order): ?>
+                            <span class="label label-primary" style="background-color: #173175">
+                            <a href="<?php echo e(route('dashboard.tickets.links-and-resources',$ticket->id)); ?>"
+                               style="color: white"><i class="fa fa-link"></i> Links &amp; resources</a>
+                        </span>
+                        <?php else: ?>
+                            <span class="label" style="background-color: #666; color: #ccc;"><i class="fa fa-link"></i> Links &amp; resources </span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?php echo $__env->make('dashboard.includes.event-popup',['ticket' => $ticket], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php else: ?>
+        <div class="row">
+
+            <?php if($showCurrentYear): ?>
+                <div class="col-md-6" style="margin-bottom: 30px">
+                    <div class="border-box text-center">
+                        <h4><strong><?php echo e($currentYear); ?></strong> Events</h4>
+                        <p>View all my purchased events for <?php echo e($currentYear); ?> with webinar <br> recordings, files and assessments</p>
+                        <a href="<?php echo e(route('dashboard.events', $currentYear)); ?>" class="btn btn-primary"><i class="fa fa-ticket"></i> View Events</a>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+
+            <?php foreach($tickets->groupBy('years') as $key => $value): ?>
+                <div class="col-md-6" style="margin-bottom: 30px">
+                    <div class="border-box text-center">
+                        <h4><strong><?php echo e($key); ?></strong> Events</h4>
+                        <p>View all my purchased events for <?php echo e($key); ?> with webinar <br> recordings, files and assessments</p>
+                        <a href="<?php echo e(route('dashboard.events', $key)); ?>" class="btn btn-primary"><i class="fa fa-ticket"></i> View Events</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+
+
+<?php else: ?>
+
+    <div class="alert alert-info" style="margin-bottom: 0px">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">X</span><span
+                    class="sr-only">Close</span></button>
+        <strong>Heads up!</strong> You have not registered for any events yet, to register for an event
+        <a href="<?php echo route('events.index'); ?>">click here</a>
+    </div>
+<?php endif; ?>
+
+

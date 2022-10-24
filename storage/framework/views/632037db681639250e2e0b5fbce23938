@@ -1,0 +1,5 @@
+<div class="clearfix search-result" style="margin-bottom: 20px;">
+    <h4 class="mb-0"><a target="_blank" href="<?php echo e($link); ?>"><?php echo e($title); ?></a></h4>
+    <small class="text-success"><?php echo e($created); ?> | <?php echo e($link); ?></small>
+    <p><?php echo e($description); ?> | <a href="<?php echo e($link); ?>" target="_blank">Read More</a> </p>
+</div>

@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>South African Accounting Academy</title>
+</head>
+<body>
+
+<p>Dear Admin</p>
+<p>Please check following user details for upgrade request</p>
+
+<p>User Details:</p>
+<p>
+    Full Name: <?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?><br>
+    Email: <?php echo e($user->email); ?><br>
+    Current Plan Name: <?php echo e($user->subscription('cpd')->plan->name); ?><br>
+    Requested Plan Name: <?php echo e($plan->name); ?><br>
+    Contact Number: <?php echo e($user->cell); ?><br>
+    Package Type: <?php echo e($plan->package_type); ?>
+
+</p>
+<?php echo $__env->make('emails.includes.disclaimer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+</body>
+</html>

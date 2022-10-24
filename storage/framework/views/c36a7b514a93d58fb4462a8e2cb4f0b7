@@ -1,0 +1,67 @@
+<?php echo $__env->make('includes.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php /* <?php echo $__env->make('includes.slider-top', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> */ ?>
+
+<div id="wrapper">
+    <?php echo $__env->make('includes.top-bar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <a href="/rewards/show/draftworx" class="btn btn-xlg btn-primary size-10 fullwidth nomargin bopadding noradius ">
+        <img src="/assets/frontend/images/demo/1200x800/Draftworx 728 x 90 - Leaderboard Banner 28 feb.png" alt="Slide 2" >
+    </a>
+    <?php if(Request::is('/')): ?>
+        <?php echo $__env->make('includes.slider', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php elseif(
+        Request::is('auth/login') ||
+        Request::is('register_test') ||
+        Request::is('join')||
+        Request::is('login')||
+        Request::is('subscriptions')||
+        Request::is('auth/register')||
+        Request::is('dashboard/edit/privacy')||
+        Request::is('dashboard/courses')||
+        Request::is('dashboard/wallet')||
+        Request::route()->getName() == 'dashboard.assessments.show'||
+        Request::route()->getName() == 'dashboard.invoices.overdue'||
+        Request::is('password/email')||
+        Request::is('password/reset/*') ||
+        Request::is('test') ||
+        Request::is('BlackFriday') ||
+        Request::is('BlackFriday/Draftworx') ||
+        Request::is('subscriptions/2020/BlackFriday') ||
+        Request::is('subscriptions/2020/one-day-only') ||
+        Request::is('subscriptions/2019/One-Day-Only') ||
+        Request::is('subscriptions/2020/One-Day-Only') ||
+        Request::is('subscriptions/LastMinute') ||
+        Request::is('events/*') ||
+        Request::is('profession/*') ||
+        Request::is('resource_centre') ||
+        Request::is('subscriptions/2018/saiba_member') ||
+        Request::is('support_tickets/thread/*') ||
+        Request::is('resource_centre/*') ||
+        Request::is('support_tickets/create')
+    ): ?>
+    <?php else: ?>
+        <?php echo $__env->make('includes.page-header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
+
+    <div id="app">
+        <?php echo $__env->make('includes.login', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php echo $__env->make('includes.quick_reg', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php if(auth()->check()): ?>
+        <?php echo $__env->make('subscriptions.2017.include.debit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php endif; ?>
+        <?php echo $__env->yieldContent('content'); ?>
+
+        <!-- Need Help Button -->
+        <?php echo $__env->make('resource_centre.includes.support-ticket', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        
+    </div>
+    <?php echo $__env->make('includes.newsletter_popup', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('includes.top-footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <?php if(auth()->user()): ?> 
+        <?php echo $__env->make('includes.chatbox', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php endif; ?>
+</div>
+
+<?php echo $__env->make('includes.side-panel', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('includes.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,92 @@
+<?php if($category->childCategory()->count()): ?>
+<div id="accordion<?php echo e($category->id); ?>">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion<?php echo e($category->id); ?>" href="#<?php echo e($category->id); ?>"
+                    style="text-transform: capitalize"><?php echo e($category->slug); ?></a>
+                <div class="label pull-right"><a href="<?php echo e(route('admin.categories.edit', $category->slug)); ?>"
+                        class="label label-info">Edit</a>
+
+
+                </div>
+                <div class=" label pull-right">
+                    <?php echo Form::open(['method' => 'POST', 'route' => 'admin.categories.destroy']); ?>
+
+                    <input type="hidden" name="hdn_category_id" value="<?php echo e($category->id); ?>">
+                    <button class="btn btn-sm btn-danger" style="margin-top:-8px;">Delete</button>
+                    <?php echo Form::close(); ?>
+
+                </div>
+                <div class="label label-no-plan pull-right">Categories: <?php echo e(count($category->childCategory())); ?></div>
+            </h4>
+        </div>
+        <div id="<?php echo e($category->id); ?>" class="collapse">
+            <!-- <div class=""> -->
+            <?php if(count($category->childCategory())): ?>
+            <table class="table">
+
+                <?php foreach($category->childCategory() as $category): ?>
+                <tbody>
+                    <?php if($category->childCategory()->count()): ?>
+                    <tr>
+                        <td colspan="2">
+
+                            <?php echo $__env->make('admin.blog.categories.category', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <td>
+                    </tr>
+                    <?php else: ?>
+                    <tr>
+                        <td width="70%"> <?php echo e($category->title); ?></td>
+                        <td><a href="<?php echo e(route('admin.categories.edit', $category->slug)); ?>"
+                                class="label label-info">Edit</a>
+                        <td>
+                        <td>
+                            <?php echo Form::open(['method' => 'POST', 'route' => 'admin.categories.destroy']); ?>
+
+                            <input type="hidden" name="hdn_category_id" value="<?php echo e($category->id); ?>">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                            <?php echo Form::close(); ?>
+
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+                <?php endforeach; ?>
+            </table>
+            <?php else: ?>
+            <h4>No category</h4>
+            <?php endif; ?>
+            <!-- </div> -->
+        </div>
+    </div>
+    </div>
+
+
+
+    <?php else: ?>
+
+
+    <table class="table" width="100">
+
+        <tbody>
+            <tr>
+                <td width="70%"><?php echo e($category->title); ?></td>
+                <td><a href="<?php echo e(route('admin.categories.edit', $category->slug)); ?>"
+                        class="label label-info pull-right">Edit</a>
+                <td>
+                <td>
+                    <?php echo Form::open(['method' => 'POST', 'route' => 'admin.categories.destroy']); ?>
+
+                    <input type="hidden" name="hdn_category_id" value="<?php echo e($category->id); ?>">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                    <?php echo Form::close(); ?>
+
+                </td>
+
+            </tr>
+        </tbody>
+
+    </table>
+    <?php endif; ?>

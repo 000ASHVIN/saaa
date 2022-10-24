@@ -1,0 +1,114 @@
+<?php $__env->startSection('title', $member->first_name . ' ' . $member->last_name); ?>
+<?php $__env->startSection('description', 'User Profile'); ?>
+
+<?php $__env->startSection('css'); ?>
+    <link href="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <style>
+        .daterangepicker{
+            z-index:99999!important;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php
+        $user_has_access = userHasAccess(auth()->user());
+    ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <?php echo $__env->make('admin.members.includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9 nopadding">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group text-right">
+                            <a href="#" class="btn btn-info" data-toggle="modal" data-target="#add_activity"><i class="fa fa-pencil"></i> Add Note</a>
+                        </div>
+
+                        <div class="panel panel-white" id="panel3">
+                            <div class="panel-heading panel-default">
+                                <label for="notes">Please select your notes.</label>
+                                <select name="notes" id="notes" class="form-control" v-model="NoteSelected">
+                                    <option value="" selected>Please select</option>
+                                    <?php foreach($member->notes->groupBy('type') as $key => $value): ?>
+                                        <option value="<?php echo e($key); ?>"><?php echo e(str_replace('_', ' ', ucfirst($key))); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="" v-if="NoteSelected == ''">
+                                    <div class="alert alert-warning" style="margin-bottom: 0px;">
+                                        <p>
+                                            You have not selected anything.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <?php foreach($member->notes->groupBy('type') as $key => $value): ?>
+                                    <div v-if="NoteSelected == '<?php echo $key; ?>'">
+                                        <?php foreach($value as $note): ?>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4>
+                                                        <div class="pull-left"><small><strong>Created by:</strong> <?php echo e($note->logged_by); ?></small></div>
+                                                        <div class="pull-right"><small><strong>Created at:</strong> <?php echo e($note->created_at->toFormattedDateString()); ?></small> </div>
+                                                    </h4>
+                                                </div>
+                                                <div class="panel-body" style="border-bottom: 1px solid #e3e3e3;">
+                                                    <div>
+                                                        <span class="label label-success"><?php echo ucfirst(str_replace('_', ' ', $note->type)); ?></span>
+                                                        <?php if($note->invoice): ?><span class="label label-info"><a href="<?php echo e(route('invoices.show', $note->invoice->id)); ?>" style="color: white!important;">#<?php echo e($note->invoice->reference); ?></a></span><?php endif; ?>
+                                                        <?php if($note->invoice): ?><span class="label label-warning"><a href="#" style="color: white!important;"><?php echo e(($note->commision_claimed ? " Claimed" : "Not Claimed" )); ?></a></span><?php endif; ?>
+                                                    </div>
+                                                    <hr>
+                                                    <p><?php echo $note->description; ?></p>
+                                                    <hr>
+                                                    <p>
+                                                        <?php if(auth()->user()->hasRole('super') || auth()->user()->hasRole('accounts-administrator')): ?>
+                                                            <?php if(auth()->user()->hasRole('super')): ?>
+                                                                <a class="btn btn-xs btn-primary" href="#" data-toggle="modal" data-target="#note_<?php echo e($note->id); ?>"><i class="fa fa-pencil"></i> Edit Note</a>
+                                                                <?php if($user_has_access): ?>
+                                                                <a class="btn btn-xs btn-danger" href="<?php echo e(route('admin.notes.destroy', $note->id)); ?>"><i class="fa fa-close"></i> Delete Note</a>
+                                                                <?php endif; ?>
+                                                                <?php echo $__env->make('admin.members.includes.edit_note', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                            <?php endif; ?>
+
+                                                            <?php if($note->type == 'payment_arrangement'): ?>
+                                                                <a class="btn btn-xs btn-success" href="<?php echo e(($note->completed ? "#" : route('admin.notes.complete', [$note->id, $member->id]))); ?>"><?php echo e(($note->completed ? "PTP Completed" : "Complete Now")); ?></a>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <?php echo $__env->make('admin.members.includes.add_activity', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            </div>
+        </div>
+    </div>
+
+    <?php /*<?php echo $__env->make('admin.members.includes.statement.confirm', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script src="/assets/admin/assets/js/profile.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Profile.init();
+        });
+    </script>
+    <script src="/assets/admin/assets/js/bootstrap-confirm-delete.js"></script>
+    <?php echo $__env->make('admin.members.includes.spin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

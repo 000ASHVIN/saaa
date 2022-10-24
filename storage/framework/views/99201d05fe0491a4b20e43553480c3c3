@@ -1,0 +1,35 @@
+<?php $__env->startSection('title', 'Pricing Group'); ?>
+<?php $__env->startSection('description', 'Create new pricing group'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="<?php echo e(route('admin.pricing_group.index')); ?>" class="btn btn-success"><i class="fa fa-arrow-left"></i> All Pricing Group</a>
+                <hr>
+                <?php echo Form::open(['method' => 'post', 'route' => 'admin.pricing_group.store', 'files' => true]); ?>
+
+                    <?php echo $__env->make('admin.pricing_group.includes.form', ['submit' => 'Save Pricing Group'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script>
+        $('.select2').select2({
+            placeholder: "Please select",
+        });
+    </script>
+
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

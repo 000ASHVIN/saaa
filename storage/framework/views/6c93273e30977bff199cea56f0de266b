@@ -1,0 +1,68 @@
+<?php $__env->startSection('title', 'Chat Dashboard'); ?>
+<?php $__env->startSection('description', 'List of Chats'); ?>
+
+<?php $__env->startSection('styles'); ?>
+<style>
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <div class="row">
+                <div class=" panel-white col-sm-12">
+                    <table class="table table-striped" id="sample-table-2">
+                        <thead>
+                            <th>Results</th>
+                            <th>Full Name</th>
+                            <th></th>
+                            <th>Action</th>
+                        </thead> 
+                        <br>
+                        <tbody>
+                        <?php if(count($chats)): ?> 
+                            <span style="display: none;">
+                                <?php echo e($i = 0); ?>
+
+                            </span>
+                            <?php foreach($chats as $chat): ?>
+        
+                          
+                                <?php if($chat): ?>
+                                    <span style="display: none;">
+                                        <?php echo e($i++); ?>
+
+                                    </span>
+                                    <tr>
+                                        <td width="1px"><span class="label label-body"><?php echo $i; ?></span></td>
+            
+                                        <td><?php echo e($chat->user->first_name); ?></td>
+            
+                                        <td>
+                                            <?php /* <div class="label label-success"><?php echo e($chat->unseen); ?></div> */ ?>
+                                        </td>
+
+                                        <td>
+                                            <a class="btn btn-default" href="<?php echo e(route('admin.chatbox.read', $chat->id)); ?>">Read</a>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

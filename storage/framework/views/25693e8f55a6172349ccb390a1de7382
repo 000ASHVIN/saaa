@@ -1,0 +1,15 @@
+<li class="timeline-item success">
+	<div class="margin-left-15">
+		<div class="text-muted text-small">
+			<?php echo e($activity->created_at->diffForHumans()); ?>
+
+		</div>
+		<p>
+			<?php if(isset($activity->subject->city)): ?>
+				<?php echo e($activity->user->first_name); ?> added a new <?php echo e($activity->subject->type); ?> address in <?php echo e($activity->subject->city); ?>.
+			<?php else: ?>
+				<?php echo e($activity->user->first_name); ?> added a new <?php echo e($activity->subject->type); ?> address.
+			<?php endif; ?>
+		</p>
+	</div>
+</li>

@@ -1,0 +1,108 @@
+<?php $__env->startSection('title', 'Videos'); ?>
+<?php $__env->startSection('description', 'All videos'); ?>
+<?php $__env->startSection('styles'); ?>
+<link rel="stylesheet" href="/assets/frontend/plugins/magnific-popup/magnific-popup.css">
+<style>
+    .mfp-wrap {
+        z-index: 9999999 !important;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <br>
+
+
+      <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+      <div class="row">
+        <div class="col-md-4">
+            <?php echo Form::open(['method' => 'get', 'route' => 'admin.video.search']); ?>
+
+            <div class="form-group <?php if($errors->has('event_name')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('title', 'Search Videos'); ?>
+
+                <?php echo Form::input('text', 'title', \Input::has('title')?\Input::get('title'):"", ['class' => 'form-control', 'placeholder' => 'Searching']); ?>
+
+                <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('event_name')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group <?php if($errors->has('tag')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('tag', 'Tag'); ?>
+
+            <?php echo Form::select('tag', [
+                '' => 'Select Tag',
+                'studio' => 'Studio',
+                'webinar' => 'Webinar Recording'
+            ],\Input::has('tag')?\Input::get('tag'):"", ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('tag')): ?> <p class="help-block"><?php echo e($errors->first('tag')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <button class="btn btn-primary" onclick="spin(this)"  style="top: 22px;"><i class="fa fa-search" ></i> Search</button>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+            <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="<?php echo e(route('admin.videos.create')); ?>" class="btn btn-primary pull-right">Add a video</a>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <?php if(count($videos)): ?>
+                <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Tag</th>
+                            <th>Watch Video</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($videos as $video): ?>
+                        <tr>
+                            <td style="width: 125px"><img src="<?php echo e($video->cover); ?>" alt="Thumbnail" class="thumbnail" style="max-width: 100px; margin-bottom: 0px"></td>
+                            <td><?php echo e($video->title); ?></td>
+                            <td><?php echo e($video->tag); ?></td>
+                            <!-- <td><a href="<?php echo e($video->download_link); ?>" target="_blank" class="label label-success">Watch Video</a></td> -->
+                            <td><?php if($video->view_link): ?><a href="<?php echo $video->view_link; ?>" data-plugin-options="{&quot;type&quot;:&quot;iframe&quot;}" class="label label-success my-webinars-btn-container lightbox"> <i class="fa fa-play"></i> Watch Video</a> <?php endif; ?></td>
+                            <td>
+                                <a class="btn btn-xs btn-info" href="<?php echo e(route('admin.videos.edit',$video->id)); ?>">
+                                    <i class="fa fa-pencil"></i> Edit</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+                <hr>
+                <?php echo $videos->appends(Input::except('page'))->render(); ?>
+
+            <?php else: ?>
+                <p>There are no videos</p>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script src="/assets/frontend/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            jQuery(".lightbox").magnificPopup({"type":"iframe"});
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

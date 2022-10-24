@@ -1,0 +1,20 @@
+<div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('title', 'Title'); ?>
+
+    <?php echo Form::input('text', 'title', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('active', 'Display in store'); ?>
+
+    <?php echo Form::select('active', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('active')): ?> <p class="help-block"><?php echo e($errors->first('active')); ?></p> <?php endif; ?>
+</div>
+
+<?php echo Form::submit($button, ['class' => 'btn btn-success']); ?>

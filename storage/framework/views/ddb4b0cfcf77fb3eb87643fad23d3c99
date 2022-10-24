@@ -1,0 +1,148 @@
+<?php $__env->startSection('title', $member->first_name . ' ' . $member->last_name); ?>
+<?php $__env->startSection('description', 'User Profile'); ?>
+
+<?php $__env->startSection('css'); ?>
+    <link href="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <style>
+        .daterangepicker{
+            z-index:99999!important;
+        }
+        .actions .btn {
+            margin: 5px 0;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <?php if($member->isPracticePlan()): ?>
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                <div class="pull-left">
+                    <a href="<?php echo e(route('dashboard.company.staff.certificates.download', $member->id)); ?>" class="btn btn-sm btn-info">Download Certificates of Staff</a>
+                </div>
+                <div class="pull-right">
+                    <a target="_blank" href="<?php echo e(route('member.activity_log.export', $member->id)); ?>" class="btn btn-sm btn-primary">Export Activity Log</a>
+                </div>
+            </div>
+            <?php endif; ?>
+            <?php echo $__env->make('admin.members.includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9 nopadding">
+                <div class="panel panel-white no-radius">
+                    <div class="panel-heading border-light">
+                        <h4 class="panel-title"><i class="fa fa-lock"></i> <strong>Pending Invites</strong></h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <th width="25%">Full Name</th>
+                            <th width="50%">Email Address</th>
+                            <th class="text-center">Invite Date</th>
+                            </thead>
+                            <tbody>
+                            <?php if($member->company): ?>
+                                <?php if(count($member->company->invites->where('completed', '==' ,false))): ?>
+                                    <?php foreach($member->company->invites->where('completed', '==' ,false) as $invite): ?>
+                                        <tr>
+                                            <td><?php echo e($invite->first_name.' '.$invite->last_name); ?></td>
+                                            <td><?php echo e($invite->email); ?></td>
+                                            <td class="text-center"><?php echo e(date_format($invite->created_at, 'd F')); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="3">You have no new pending invites.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3">Company has not been setup yet</td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+
+                <div class="panel panel-white no-radius">
+                    <div class="panel-heading border-light">
+                        <h4 class="panel-title"><i class="fa fa-unlock"></i> <strong>Staff Members</strong></h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <th width="25%">Full Name</th>
+                            <th width="25%">Email Address</th>
+                            <th width="25%">Contact Number</th>
+                            <th width="25%">Subscription</th>
+                            <th class="text-center">CPD Hours</th>
+                            <th class="text-center"></th>
+                            </thead>
+                            <tbody>
+                            <?php if($member->company): ?>
+                                <?php if(count($member->company->staff)): ?>
+                                    <?php foreach($member->company->staff as $staff): ?>
+                                        <tr>
+                                            <td><?php echo e($staff->first_name.' '.$staff->last_name); ?></td>
+                                            <td><a target="_blank" href="<?php echo e(route('admin.members.show', $staff->id)); ?>"><?php echo e($staff->email); ?></a></td>
+                                            <td><?php echo e(($staff->cell) ? : "None"); ?></td>
+                                            <td><?php echo e(($staff->subscription('cpd')) ? $staff->subscription('cpd')->plan->name : "None"); ?></td>
+                                            <td class="text-center"><div class="label label-info"><?php echo e($staff->cpds->sum('hours')); ?> Hours</div></td>
+                                            <?php /* <td><a target="_blank" href="<?php echo e(route('admin.members.show', $staff->id)); ?>" class="btn btn-sm btn-primary">View Profile</a></td> */ ?>
+                                            <td class="text-center actions">
+                                                <a target="_blank" href="<?php echo e(route('admin.members.show', $staff->id)); ?>" class="btn btn-sm btn-primary view-profile">View Profile</a>
+                                                <?php if( !$staff->subscription('cpd') || $member->subscription('cpd')->plan_id != $staff->subscription('cpd')->plan_id): ?>
+                                                    <?php echo Form::open(['method' => 'GET', 'route' => ['member.subscription.allocate', $staff->id]]); ?>
+
+                                                    
+                                                        <input type="hidden" name="plan_id" value="<?php echo e($member->subscription('cpd')->plan_id); ?>">
+                                                        <?php echo Form::submit('Allocate', ['class' => 'btn btn-sm btn-info']); ?>
+
+                                                        
+                                                    <?php echo Form::close(); ?>
+
+                                                    
+                                                <?php endif; ?>
+
+                                                <?php if($staff->subscription('cpd')): ?>
+                                                    <a href="/admin/<?php echo e($staff->id); ?>/subscription/period/update" class="btn btn-sm btn-primary">Update Duration</a>
+                                                <?php endif; ?>
+
+                                                <?php if($staff->subscription('cpd') && $member->subscription('cpd')->plan_id == $staff->subscription('cpd')->plan_id): ?>
+                                                    <a href="/admin/<?php echo e($staff->id); ?>/subscription/remove" class="btn btn-sm btn-info">Remove Subscription</a>
+                                                <?php endif; ?>
+
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="6">Member have no staff members at the moment</td>
+                                    </tr>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6">Company has not been setup yet</td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/assets/admin/assets/js/profile.js"></script>
+    <script src="/assets/admin/assets/js/bootstrap-confirm-delete.js"></script>
+    <?php echo $__env->make('admin.members.includes.spin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

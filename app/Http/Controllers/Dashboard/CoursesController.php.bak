@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use App\Models\Course;
+use Illuminate\Http\Request;
+
+class CoursesController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $courses = auth()->user()->courses()->paginate(10);
+        return view('dashboard.courses.index', compact('courses'));
+    }
+
+    public function show($reference)
+    {
+        $course = Course::where('reference', $reference)->first();
+        return view('dashboard.courses.show', compact('course'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

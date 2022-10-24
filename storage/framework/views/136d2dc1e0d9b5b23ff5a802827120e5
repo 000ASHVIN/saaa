@@ -1,0 +1,17 @@
+<div class="form-group <?php if($errors->has('event')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('event', 'Event'); ?>
+
+    <?php echo Form::select('event', $events->pluck('name','id'), old('event')?old('event'):request()->event, ['class' => 'form-control select2', 'placeholder' => 'Select event' ]); ?>
+
+    <?php if($errors->has('event')): ?> <p class="help-block"><?php echo e($errors->first('event')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('schedule_date')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('schedule_date', 'Schedule Date'); ?>
+
+    <?php echo Form::input('text', 'schedule_date', old('schedule_date')?old('schedule_date'):Carbon\Carbon::now()->addDays(1)->format('Y-m-d'), ['class' => 'form-control is-date']); ?>
+
+    <?php if($errors->has('schedule_date')): ?> <p class="help-block"><?php echo e($errors->first('schedule_date')); ?></p> <?php endif; ?>
+</div>
+
+<?php echo Form::submit($button, ['class' => 'btn btn-success']); ?>

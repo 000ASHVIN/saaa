@@ -1,0 +1,40 @@
+<?php $__env->startSection('title', 'Roles'); ?>
+<?php $__env->startSection('description', 'View all available roles'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="col-md-8">
+            <div class="row">
+                <table class="table">
+                    <th>Role</th>
+                    <th>Description</th>
+                    <th>Slug</th>
+                    <th>Users</th>
+                    <th class="text-center">Tools</th>
+                    <tbody>
+                    <?php foreach($roles as $role): ?>
+                        <tr>
+                            <td><?php echo e($role->name); ?></td>
+                            <td><?php echo e($role->description); ?></td>
+                            <td><?php echo e($role->slug); ?></td>
+                            <td><div class="label label-body"><?php echo e(count($role->users)); ?></div></td>
+                            <td class="text-center"><a class="btn btn-xs btn-default" href="<?php echo e(route('admin.member_roles.assign_to_permissions.edit', $role->id)); ?>">Edit Role</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <a href="<?php echo e(route('admin.member_roles.create')); ?>" class="btn btn-primary">Add New Role</a>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

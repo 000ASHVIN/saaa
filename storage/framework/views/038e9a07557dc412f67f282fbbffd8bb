@@ -1,0 +1,17 @@
+<div class="col-md-12">
+    <?php if(count($videos)): ?>
+        <div class="row">
+            <?php foreach($videos->chunk(3) as $chunk): ?>
+                <?php foreach($chunk as $video): ?>
+                    <?php echo $__env->make('webinars_on_demand.includes.video', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <div class="alert alert-info no-webinars">
+            <p><strong>Note..</strong></p>
+            <p>Your search returned <?php echo e(count($videos)); ?> results, please check your search and try again.</p>
+            <p><i>Suggestion: Try a diferent category or title</i></p>
+        </div>
+    <?php endif; ?>
+</div>

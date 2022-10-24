@@ -1,0 +1,11 @@
+<li class="timeline-item success">
+	<div class="margin-left-15">
+		<div class="text-muted text-small">
+			<?php echo e(date_format($activity->created_at, 'd F Y')); ?>
+
+		</div>
+		<p>
+			<?php echo e($activity->user->first_name); ?> added a new <?php echo e($activity->subject->hours); ?> hour CPD entry - <?php echo e(str_limit($activity->subject->source, 80)); ?>.
+		</p>
+	</div>
+</li>

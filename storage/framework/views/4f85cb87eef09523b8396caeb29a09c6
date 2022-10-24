@@ -1,0 +1,5 @@
+<div id="recordings" class="tab-pane fade">
+    <div class="row">
+        <?php echo $__env->make('admin.videos.forms.recordings',compact('edit','video','recordings'), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+</div>

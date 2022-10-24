@@ -1,0 +1,7 @@
+<?php foreach($member->latestActivities() as $activity): ?>
+    <?php if(isset($activity->subject)): ?>
+        <?php echo $__env->make("includes.activities.types.{$activity->name}", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php elseif($activity->subject == null): ?>
+        <?php echo $__env->make("includes.activities.types.activity_name", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+    <?php endif; ?>
+<?php endforeach; ?>

@@ -1,0 +1,284 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('name', 'Name'); ?>
+
+                <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('subscription_event')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('subscription_event', 'CPD Subscription Event'); ?>
+
+                <?php echo Form::select('subscription_event', [
+                    true => 'Yes',
+                    false => 'No',
+                ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('subscription_event')): ?> <p class="help-block"><?php echo e($errors->first('subscription_event')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('is_open_to_public')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('is_open_to_public', 'Should this event be visible to the public ?'); ?>
+
+                <?php echo Form::select('is_open_to_public', [
+                    true => 'Yes',
+                    false => 'No'
+                ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('is_open_to_public')): ?> <p class="help-block"><?php echo e($errors->first('is_open_to_public')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('is_active', 'Status'); ?>
+
+                <?php echo Form::select('is_active', [
+                    true => 'Active',
+                    false => 'Not Active',
+                ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('type')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('type', 'Seminar / Webinar / Conference'); ?>
+
+                <?php echo Form::select('type', [
+                     'seminar' => 'Seminar',
+                     'webinar' => 'Webinar',
+                     'conference' => 'Conference',
+                 ], null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('type')): ?> <p class="help-block"><?php echo e($errors->first('type')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('category')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('category', 'Type'); ?>
+
+                <?php echo Form::select('category', [
+                    'all_cpd_subs' => 'Everyone (This event is open to anyone for registrations)',
+                    'free' => 'Free Event (This is a free event)',
+                ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('category')): ?> <p class="help-block"><?php echo e($errors->first('category')); ?></p> <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group <?php if($errors->has('tags')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('tags', 'Categories'); ?>
+
+                <?php echo Form::select('tags[]', $categories, null, ['class' => 'select2 form-control', 'multiple' => true]); ?>
+
+                <?php if($errors->has('tags')): ?> <p class="help-block"><?php echo e($errors->first('tags')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('background_url')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('background_url', 'Top background cover URL'); ?>
+
+                <span class="pull-right"><strong><small><i>1903 X 566</i></small></strong></span>
+                <?php echo Form::input('text', 'background_url', null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('background_url')): ?> <p class="help-block"><?php echo e($errors->first('background_url')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('presenter')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('presenter', 'Please select your presenter'); ?>
+
+                <?php echo Form::select('presenter[]', $presenters, null, ['class' => 'select2 form-control', 'multiple' => true]); ?>
+
+                <?php if($errors->has('presenter')): ?> <p class="help-block"><?php echo e($errors->first('presenter')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php if(isset($event)): ?>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('sync_event')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('sync_event', 'Synced Tax Faculty subscription Event?'); ?>
+
+               
+                <?php echo Form::select('sync_event', ['yes' => 'Yes', 'no' => 'No'], $event->is_synced_event ? 'yes' : 'no', ['class' => 'form-control']); ?>
+
+                
+                <?php if($errors->has('sync_event')): ?> <p class="help-block"><?php echo e($errors->first('sync_event')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+<?php else: ?>
+<div class="col-md-12"><hr></div>
+<?php endif; ?>
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('start_date')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('start_date', 'Start Date'); ?>
+
+                <?php echo Form::input('text', 'start_date', null, ['class' => 'is-date form-control']); ?>
+
+                <?php if($errors->has('start_date')): ?> <p class="help-block"><?php echo e($errors->first('start_date')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('end_date')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('end_date', 'End Date'); ?>
+
+                <?php echo Form::input('text', 'end_date', null, ['class' => 'is-date form-control']); ?>
+
+                <?php if($errors->has('end_date')): ?> <p class="help-block"><?php echo e($errors->first('end_date')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('end_time')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('end_time', 'End Time'); ?>
+
+                <?php echo Form::input('text', 'end_time', null, ['class' => 'form-control timepicker']); ?>
+
+                <?php if($errors->has('end_time')): ?> <p class="help-block"><?php echo e($errors->first('end_time')); ?></p> <?php endif; ?>
+            </div>
+
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('next_date')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('next_date', 'Next Date'); ?>
+
+                <?php echo Form::input('text', 'next_date', null, ['class' => 'is-date form-control']); ?>
+
+                <?php if($errors->has('next_date')): ?> <p class="help-block"><?php echo e($errors->first('next_date')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('start_time')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('start_time', 'Start Time'); ?>
+
+                <?php echo Form::input('text', 'start_time', null, ['class' => 'form-control timepicker']); ?>
+
+                <?php if($errors->has('start_time')): ?> <p class="help-block"><?php echo e($errors->first('start_time')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="form-group <?php if($errors->has('featured_image')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('featured_image', 'Featured Image'); ?>
+
+                <?php echo Form::select('featured_image', [
+                    '' => 'Please Select',
+                    'http://imageshack.com/a/img922/8194/PvOjE0.jpg' => 'Webinar | Seminar',
+                    'http://imageshack.com/a/img922/7981/Nd3fK0.jpg' => 'Webinar',
+                    'http://imageshack.com/a/img922/8194/PvOjE0.jpg' => 'Seminar'
+                ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('featured_image')): ?> <p class="help-block"><?php echo e($errors->first('featured_image')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12"><hr></div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('is_redirect')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('is_redirect', 'Is Redirect'); ?>
+
+                <span class="pull-right" style="font-style: italic"><strong>Only if event is not hosted with us.</strong></span>
+                <?php echo Form::select('is_redirect', [
+                   null => 'Please Select',
+                   true => 'Yes',
+                   false => 'No'
+               ],null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('is_redirect')): ?> <p class="help-block"><?php echo e($errors->first('is_redirect')); ?></p> <?php endif; ?>
+            </div>
+
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('redirect_url')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('redirect_url', 'Redirect Url'); ?>
+
+                <span class="pull-right" style="font-style: italic"><strong>Only if event is not hosted with us</strong></span>
+                <?php echo Form::input('text', 'redirect_url', null, ['class' => 'form-control', 'placeholder' => 'http://www.thesait.org.za/']); ?>
+
+                <?php if($errors->has('redirect_url')): ?> <p class="help-block"><?php echo e($errors->first('redirect_url')); ?></p> <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12"><hr></div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('video_title')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('video_title', 'Heading for Video'); ?>
+
+                <span class="pull-right" style="font-style: italic"><strong>Display previous video title</strong></span>
+                <?php echo Form::input('text', 'video_title', null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('video_title')): ?> <p class="help-block"><?php echo e($errors->first('video_title')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('video_url')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('video_url', 'Video URL'); ?>
+
+                <span class="pull-right" style="font-style: italic"><strong>Render Previous video URL</strong></span>
+                <?php echo Form::input('text', 'video_url', null, ['class' => 'form-control']); ?>
+
+                <?php if($errors->has('video_url')): ?> <p class="help-block"><?php echo e($errors->first('video_url')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12"><hr></div>
+<div class="col-md-12">
+
+    <div class="form-group <?php if($errors->has('registration_instructions')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('registration_instructions', 'Registration Instructions'); ?>
+
+        <?php echo Form::textarea('registration_instructions', null, ['class' => 'description form-control', 'rows' => '6']); ?>
+
+        <?php if($errors->has('registration_instructions')): ?> <p class="help-block"><?php echo e($errors->first('registration_instructions')); ?></p> <?php endif; ?>
+    </div>
+
+    <div class="form-group <?php if($errors->has('short_description')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('short_description', 'Short Description'); ?>
+
+        <?php echo Form::textarea('short_description', null, ['class' => 'description form-control', 'rows' => '6']); ?>
+
+        <?php if($errors->has('short_description')): ?> <p class="help-block"><?php echo e($errors->first('short_description')); ?></p> <?php endif; ?>
+    </div>
+
+    <div class="form-group <?php if($errors->has('description')): ?> has-error <?php endif; ?>">
+        <?php echo Form::label('description', 'Description'); ?>
+
+        <?php echo Form::textarea('description', null, ['class' => 'form-control ckeditor']); ?>
+
+        <?php if($errors->has('description')): ?> <p class="help-block"><?php echo e($errors->first('description')); ?></p> <?php endif; ?>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <?php echo Form::submit($submit, ['class' => 'btn btn-success', 'id' => 'create-event']); ?>
+
+    </div>
+</div>

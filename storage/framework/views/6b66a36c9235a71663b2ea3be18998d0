@@ -1,0 +1,39 @@
+<div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('title', 'Category Title'); ?>
+
+    <?php echo Form::input('text', 'title', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('description')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('description', 'Description'); ?>
+
+    <?php echo Form::textarea('description', null, ['class' => 'form-control', 'rows' => '10', 'col' => '5']); ?>
+
+    <?php if($errors->has('description')): ?> <p class="help-block"><?php echo e($errors->first('description')); ?></p> <?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('parent_id')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('parent_id', 'Please select Parent category'); ?>
+
+    <?php echo Form::select('parent_id', array('0'=>'Select Parent Category')+$categories, null, ['class' => 'form-control select2']); ?>
+
+    <?php if($errors->has('parent_id')): ?> <p class="help-block"><?php echo e($errors->first('parent_id')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('image')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('image', 'Image'); ?>
+
+    <?php echo Form::file('image', null, ['class' => 'form-control']); ?>
+
+    <input type="hidden" name="remove_image" id="input_remove_image" value="">
+    <?php if(isset($category) && $category->image): ?>
+        <p style="margin-top:5px; text-align:right;" id="category_image_preview">
+            <a href="<?php echo e(asset('storage/'.$category->image)); ?>" target="_blank"><i class="fa fa-link"></i> Category Image</a>
+            <a href="javascript:void(0);" id="remove_category_image" style="color:#AA0000"><i class="fa fa-times"></i></a>
+        </p>
+    <?php endif; ?>
+    <?php if($errors->has('image')): ?> <p class="help-block"><?php echo e($errors->first('image')); ?></p> <?php endif; ?>
+</div> 
+
+<?php echo Form::submit($submit, ['class' => 'btn btn-success']); ?>

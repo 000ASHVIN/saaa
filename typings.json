@@ -1,0 +1,6 @@
+{
+  "ambientDependencies": {
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#fab0b336b0414fac23963bde83f7d7077f6cf14c",
+    "vue": "github:DefinitelyTyped/DefinitelyTyped/vue/vue.d.ts#88a3ea263eba30418924f53331a00376c51c2f54"
+  }
+}

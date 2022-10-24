@@ -1,0 +1,42 @@
+<?php $__env->startSection('meta_tags'); ?>
+    <title> Past Webinars & Events | <?php echo e(config('app.name')); ?></title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('title'); ?>
+    Events / Conferences
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+    View our past events and recordings
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('events'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section class="alternate" style="background-image: url('/assets/frontend/images/demo/wall2.jpg');">
+        <div class="container">
+            <?php echo $__env->make('events.includes.search_form', ['select' => 'past'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?php if(count($events)): ?>
+                        <?php foreach($events as $event): ?>
+                            <?php echo $__env->make('events.includes.event_single_block', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php endforeach; ?>
+                        <?php echo $events->render(); ?>
+
+                    <?php else: ?>
+                        <div class="event-container-box clearfix">
+                            <h4>No Events was found</h4>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

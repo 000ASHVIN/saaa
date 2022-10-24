@@ -1,0 +1,64 @@
+<div class="form-group <?php if($errors->has('account_holder')): ?> has-error <?php endif; ?>">
+    <label for="#">Account Name</label>
+    <?php echo Form::input('text', 'account_holder', null, ['class' => 'form-control', 'v-model' =>'forms.search_debit_order.account_holder']); ?>
+
+</div>
+
+<div class="form-group <?php if($errors->has('number')): ?> has-error <?php endif; ?>">
+    <label for="#">Bank Account Number</label>
+    <?php echo Form::input('text', 'number', null, ['class' => 'form-control', 'v-model' =>'forms.search_debit_order.number']); ?>
+
+    <?php if($errors->has('number')): ?> <p class="help-block"><?php echo e($errors->first('number')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('status')): ?> has-error <?php endif; ?>">
+    <label for="#">Debit Order Status</label>
+    <?php echo Form::select('status', [
+         '' => 'Please Select..',
+         true => 'Active',
+         false => 'Inactive'
+    ],null, ['class' => 'form-control', 'v-model' =>'forms.search_debit_order.status']); ?>
+
+    <?php if($errors->has('status')): ?> <p class="help-block"><?php echo e($errors->first('status')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('debit_date')): ?> has-error <?php endif; ?>">
+    <label for="#">Debit Date</label>
+    <?php echo Form::select('debit_date', [
+        '' => 'Please Select',
+        '1' => '1',
+        '2' => '2',
+        '15' => '15',
+        '20' => '20',
+        '25' => '25',
+        '28' => '28',
+        '30' => '30',
+    ],null, ['class' => 'form-control', 'v-model' =>'forms.search_debit_order.debit_date']); ?>
+
+    <?php if($errors->has('debit_date')): ?> <p class="help-block"><?php echo e($errors->first('debit_date')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('provider')): ?> has-error <?php endif; ?>">
+    <label for="#">Provider</label>
+    <?php echo Form::select('provider', [
+         '' => 'Please Select..',
+         'peach' => 'Peach',
+         'stratcol' => 'Stratcol'
+    ],null, ['class' => 'form-control', 'v-model' =>'forms.search_debit_order.provider']); ?>
+
+    <?php if($errors->has('provider')): ?> <p class="help-block"><?php echo e($errors->first('provider')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('branch')): ?> has-error <?php endif; ?>">
+    <label for="#">Branch Code</label>
+    <?php echo Form::input('text', 'branch', null, ['class' => 'form-control', 'v-model' =>'forms.search_debit_order.branch']); ?>
+
+    <?php if($errors->has('branch')): ?> <p class="help-block"><?php echo e($errors->first('branch')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group form-inline">
+    <button class="btn btn-primary" @click.prevent="search"><i class="fa fa-search"></i> Search</button>
+    <button class="btn btn-warning" @click.prevent="resetSearch"><i class="fa fa-search"></i> Reset Search</button>
+
+    <button class="btn btn-success pull-right" @click.prevent="download_data"><i class="fa fa-download"></i> Download Results</button>
+</div>

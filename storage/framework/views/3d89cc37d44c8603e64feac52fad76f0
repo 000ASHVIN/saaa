@@ -1,0 +1,29 @@
+<div id="question" class="tab-pane fade">
+<?php   
+    $question = config('sponsor_questions');
+    if(isset($sponsor->question_id)){
+        $que = explode(",", $sponsor->question_id);
+    }else{
+        $que = null;
+    }
+?>
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+<?php echo Form::label('Question', 'Question'); ?>
+
+</div>
+<div class="row">
+    <?php foreach($question as $key => $question ): ?>
+        <div class="col-md-6">
+            <div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+                <?php echo Form::checkbox( 'question[]', $key ,isset($que)?in_array($key,$que):'',['class' => 'md-check', 'id' => $key] ); ?>
+
+                <?php echo Form::label($question,  ucfirst(str_replace('_',' ',$question))); ?>
+
+            </div> 
+        </div>
+    <?php endforeach; ?>
+</div> 
+
+<button class="btn btn-primary"><i class="fa fa-check"></i> <?php echo $button; ?></button>
+</div>
+

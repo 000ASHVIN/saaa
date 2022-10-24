@@ -1,0 +1,232 @@
+<?php $__env->startSection('title', 'Members'); ?>
+<?php if(isset($members) && $members instanceof \Illuminate\Pagination\LengthAwarePaginator): ?>
+<?php $__env->startSection('description', 'Found '.$members->total().' member(s)'); ?>
+<?php else: ?>
+<?php $__env->startSection('description', 'Found '.count($members).' member(s) for "'.$search.'"'); ?>
+
+<?php endif; ?>
+
+<?php $__env->startSection('content'); ?>  
+
+   
+          
+            <?php echo Form::open(['method' => 'get', 'route' => 'admin.searchData']); ?>
+
+            <div class="col-md-3">
+                <div class="form-group <?php if($errors->has('first_name')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('full_name', 'Search Full Name'); ?>
+
+                    <?php echo Form::input('text', 'full_name', \Input::has('full_name')?\Input::get('full_name'):"", ['class' => 'form-control', 'placeholder' => 'Searching']); ?>
+
+                    <?php if($errors->has('full_name')): ?> <p class="help-block"><?php echo e($errors->first('full_name')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group <?php if($errors->has('email')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('email', 'Search Email'); ?>
+
+                    <?php echo Form::input('text', 'email', \Input::has('email')?\Input::get('email'):"", ['class' => 'form-control', 'placeholder' => 'Searching']); ?>
+
+                    <?php if($errors->has('email')): ?> <p class="help-block"><?php echo e($errors->first('email')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group <?php if($errors->has('cell')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('cell', 'Search Cell Phone'); ?>
+
+                    <?php echo Form::input('text', 'cell', \Input::has('cell')?\Input::get('cell'):"", ['class' => 'form-control', 'placeholder' => 'Searching']); ?>
+
+                    <?php if($errors->has('cell')): ?> <p class="help-block"><?php echo e($errors->first('cell')); ?></p> <?php endif; ?>
+                </div>
+            </div>  
+ 
+        <div class="col-md-3">
+            <div class="form-group <?php if($errors->has('status')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('status', 'Search Status'); ?>
+
+            <?php echo Form::select('status', [
+                '' => 'Select Status',
+                'active' => 'active',
+                'suspended' => 'suspended',
+                'cancelled' => 'cancelled',
+                'outstanding' => 'outstanding',
+                'banned' => 'banned'
+
+            ],\Input::has('status')?\Input::get('status'):"", ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('status')): ?> <p class="help-block"><?php echo e($errors->first('status')); ?></p> <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group <?php if($errors->has('subscription')): ?> has-error <?php endif; ?>">
+            <label>Search Subscription</label>
+            <select name="subscription" id="subscription" class="form-control">
+                <option value="">Select Plan</option>
+                <?php foreach($plan as $key=>$p): ?>
+                <option value="<?php echo e($key); ?>"><?php echo e($p); ?></option>
+                <?php endforeach; ?>
+            </select>
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="form-group <?php if($errors->has('account')): ?> has-error <?php endif; ?>">
+            <label>Search Account</label>
+            <select name="account" id="account" class="form-control">
+                <option value="">Select Account</option>
+                <?php foreach($rep as $k=>$r): ?>
+                <option value="<?php echo e($k); ?>"><?php echo e($r); ?></option>
+                <?php endforeach; ?>
+            </select>
+            </div>
+        </div>
+
+          <div class="col-md-3">
+            <div class="form-group <?php if($errors->has('body')): ?> has-error <?php endif; ?>">
+            <label>Search Professional Body</label>
+            <select name="body" id="body" class="form-control">
+                <option value="">Select Professional Body</option>
+                <?php foreach($body as $b): ?>
+                <option value="<?php echo e($b); ?>"><?php echo e($b); ?></option>
+                <?php endforeach; ?>
+            </select>
+            </div> 
+        </div>
+        
+        <div class="col-md-3">
+                <div class="form-group">
+                    <button type="button" style="width: 100%;top: 20px;" onclick="spin(this)" class="btn btn-primary btn-wide btn-scroll btn-scroll-top ti-search"><span>Search Now</span></button>
+                </div>
+        </div>  
+
+        
+           <?php echo Form::close(); ?>
+
+    
+        
+    <div class="row">
+        <div class=" panel-white col-sm-12">
+            <table class="table table-striped" id="sample-table-2">
+                <thead>
+                    <th>Results</th>
+                    <th>Full Name</th>
+                    <th class="hidden-xs">Email</th>
+                    <th>Cellphone Number</th>
+                    <th>Status</th>
+                    <th>Subscription</th>
+                    <th>Account</th>
+                    <th>Professional body</th>
+                    <th>View Profile</th>
+                </thead> 
+                <br>
+                <tbody>
+                <?php if(count($members)): ?> 
+                    <span style="display: none;">
+                        <?php echo e($i = 0); ?>
+
+                    </span>
+                    <?php foreach($members as $member): ?>
+
+                  
+                    <?php if($member): ?>
+                        <span style="display: none;">
+                            <?php echo e($i++); ?>
+
+                        </span>
+                        <tr>
+                            <td width="1px"><span class="label label-body"><?php echo $i; ?></span></td>
+
+                            <td><?php echo e($member->first_name); ?> <?php echo e($member->last_name); ?></td>
+
+                            <td class="hidden-xs">
+                                <a href="mailto:<?php echo e($member->email); ?>" rel="nofollow" target="_blank">
+                                    <?php echo e($member->email); ?>
+
+                                </a>
+                            </td>
+                            <td><?php echo e($member->cell); ?></td>
+
+                            <td>
+                                <?php if($member->status === 'active'): ?>
+                                    <div class="label label-success"><?php echo e($member->status); ?></div>
+                                <?php else: ?>
+                                    <div class="label label-danger"><?php echo e($member->status); ?></div>
+                                <?php endif; ?>
+                            </td>
+ 
+                            <td>
+                                <div class="label label-plan">
+                                      <?php echo e(($member->subscription('cpd')?$member->subscription('cpd')->plan->name: "Member has no plan" )); ?>
+
+                                </div>
+                            </td>  
+ 
+                            <td>
+         
+                                    <?php echo e(($member->subscription('cpd')?(($member->subscription('cpd')->agent_id>0)?($member->subscription('cpd')->SalesAgent()?$member->subscription('cpd')->SalesAgent()->name:""):""):"")); ?>
+
+                            </td> 
+ 
+                            <td>
+                                <div class="label label-body">
+                                    <?php if($member->profile && $member->profile->body): ?>
+                                        Member of <?php echo e($member->profile->body); ?>
+
+                                    <?php else: ?>
+                                        None
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                            <td> 
+                                <?php if($member->status != 'cancelled'): ?>
+                                <a class="btn btn-default" href="<?php echo e(route('admin.members.show', $member->id)); ?>">View profile</a>
+                                <?php else: ?>
+                                <a href="#" data-toggle="modal" data-target="#whyIsThisUserBeenDeleted<?php echo e($member->id); ?>" class="btn btn-default">View Notes</a>
+                                    <div id="whyIsThisUserBeenDeleted<?php echo e($member->id); ?>" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Account Information</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php echo ($member->deleted_at_description)? : "No information to display"; ?>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
+
+                        </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+            <?php if(isset($members) && $members instanceof \Illuminate\Pagination\LengthAwarePaginator): ?>
+            <?php echo $members->appends(request()->except('page'))->render(); ?>
+
+            <?php endif; ?>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

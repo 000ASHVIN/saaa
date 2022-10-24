@@ -1,0 +1,49 @@
+<?php $__env->startSection('title', 'Default BYO Features'); ?>
+<?php $__env->startSection('description', 'Default Build Your Own Features'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="form-group">
+                        <?php echo Form::open(); ?>
+
+                        <label for="topics">Current Default Build Your Own Topics</label>
+                        <select name="topics[]" id="topics" multiple="true" class="form-control select2">
+                            <?php foreach($topics as $topic): ?>
+                                <option <?php echo e(($default->contains('id', $topic->id)  ? "selected" : "")); ?> value="<?php echo e($topic->id); ?>"><?php echo e(ucwords($topic->name)); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <hr>
+
+                        <button type="submit" onclick="spin(this)" class="form-control btn btn-primary">Update Topics</button>
+                        <?php echo Form::close(); ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+    <script type="text/javascript">
+        $('.select2').select2();
+
+        function spin(this1)
+        {
+            this1.closest("form").submit();
+            this1.disabled=true;
+            this1.innerHTML=`<i class="fa fa-spinner fa-spin"></i> Working..`;
+        }
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

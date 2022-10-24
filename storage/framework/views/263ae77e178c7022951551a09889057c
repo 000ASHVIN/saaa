@@ -1,0 +1,385 @@
+<?php $__env->startSection('title', 'Edit Personal Information'); ?>
+
+
+
+<?php $__env->startSection('styles'); ?>
+    <link href="/assets/frontend/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/frontend/css/demo.css" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li hreff="#">Edit</li>
+                        <li class="active">General</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <?php echo $__env->make('dashboard.edit.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                <div class="margin-top-20"></div>
+
+                <?php echo Form::model($user, ['method' => 'post', 'route' => 'dashboard.edit']); ?>
+
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('first_name','First Name'); ?>
+
+                                <?php echo Form::input('text', 'first_name', null , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('last_name','Last Name'); ?>
+
+                                <?php echo Form::input('text','last_name', null , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="pull-left">
+                                    <?php echo Form::label('email','Email Address'); ?>
+
+                                </div>
+                                <div class="pull-right"><a href="#" data-toggle="modal" data-target="#change_email_address"><small><i class="fa fa-lock"></i> <strong><i>Change</i></strong></small></a></div>
+                                <?php echo Form::input('text','email', null , ['class' => 'form-control', 'disabled' => true]); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="pull-left">
+                                    <?php echo Form::label('id_number','ID Number'); ?>
+
+                                </div>
+                                <div class="pull-right"><a href="#" data-toggle="modal" data-target="#change_id_number"><small><i class="fa fa-lock"></i> <strong><i>Change</i></strong></small></a></div>
+
+                                <?php echo Form::input('text','id_number', null , ['class' => 'form-control', 'disabled' => true]); ?>
+
+                            </div>
+                        </div>
+                        
+
+                        <!-- <div class="col-md-2">
+                         
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <?php echo Form::label('cell','Mobile Number'); ?>
+
+                                <?php echo Form::input('text','cell', null , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-6">
+                            <div class="form-group <?php if($errors->has('country_code')): ?> has-error <?php endif; ?>">
+                        
+                            <?php echo Form::label('cell','Mobile Number'); ?>
+
+                            <?php echo Form::input('tel','cell', null , ['class' => 'form-control','id' => 'cell']); ?>
+
+                              <!--<input id="phone" name="phone" type="tel">-->
+                                <?php if($errors->has('country_code')): ?> <p class="help-block"><?php echo e($errors->first('country_code')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('alternative_cell','Daytime Contact Number'); ?>
+
+                                <?php echo Form::input('text','alternative_cell', null , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <?php echo Form::label('npo_registration_number','NPO Registration Number'); ?>
+
+                                <?php echo Form::input('text','npo_registration_number', $user->profile->npo_registration_number , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <?php echo Form::label('about_me','About Me', ['class' => 'control-label']); ?>
+
+                                <?php echo Form::textarea('about_me', $user->profile->about_me, ['class' => 'form-control', 'rows' => "3", 'cols' => '20']); ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Additional Billing Information</legend>
+                    <div class="form-group <?php if($errors->has('billing_email_address')): ?> has-error <?php endif; ?>">
+                        <div class="pull-left"> <?php echo Form::label('billing_email_address', 'Billing Email Address'); ?></div>
+                        <div class="pull-right"><small><strong><i class="fa fa-info-circle"></i> <i>This email address will be cc'd when sending your account invoices.)</i></strong></small></div>
+                        <?php echo Form::input('text', 'billing_email_address', null, ['class' => 'form-control']); ?>
+
+                        <?php if($errors->has('billing_email_address')): ?> <p class="help-block"><?php echo e($errors->first('billing_email_address')); ?></p> <?php endif; ?>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Professional Body Information</legend>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group <?php if($errors->has('body_id')): ?> has-error <?php endif; ?>">
+                                <?php echo Form::label('body_id', 'Main Professional Body'); ?>
+
+                                <select name="body_id" id="body_id" class="form-control" v-model="bodies">
+                                    <option value="null" <?php if(! $user->body): ?> selected <?php endif; ?>>Please Select</option>
+                                    <?php foreach($bodies as $body): ?>
+                                        <?php if($user->body): ?>
+                                            <option value="<?php echo e($body->id); ?>" <?php echo e(($body->id == $user->body->id ? "selected" : "")); ?>><?php echo e(ucfirst($body->title)); ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo e($body->id); ?>"><?php echo e($body->title); ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                                <?php if($errors->has('body_id')): ?> <p class="help-block"><?php echo e($errors->first('body_id')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" v-if="bodies == '5'">
+                            <div class="form-group <?php if($errors->has('specified_body')): ?> has-error <?php endif; ?>">
+                                <?php echo Form::label('specified_body', 'Please Specify'); ?>
+
+                                <?php echo Form::input('text', 'specified_body', null, ['class' => 'form-control']); ?>
+
+                                <?php if($errors->has('specified_body')): ?>
+                                    <p class="help-block"><?php echo e($errors->first('specified_body')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" v-if="bodies !== '17' && bodies !== 'null'">
+                            <div class="form-group <?php if($errors->has('membership_number')): ?> has-error <?php endif; ?>">
+                                <?php echo Form::label('membership_number', 'Membership Number'); ?>
+
+                                <?php echo Form::input('text', 'membership_number', null, ['class' => 'form-control']); ?>
+
+                                <?php if($errors->has('membership_number')): ?>
+                                <p class="help-block"><?php echo e($errors->first('membership_number')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group <?php if($errors->has('additional_professional_bodies')): ?> has-error <?php endif; ?>">
+                                <?php echo Form::label('additional_professional_bodies[]', 'Please select any additional professional bodies you belong to.'); ?>
+
+                                <?php echo Form::select('additional_professional_bodies[]', array_diff($bodies->pluck('title', 'id')->toArray(), array('Other (Not one of the above)', 'None')), null, ['class' => 'form-control select2', 'multiple' => true]); ?>
+
+                                <?php if($errors->has('additional_professional_bodies')): ?> <p class="help-block"><?php echo e($errors->first('additional_professional_bodies')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+                <fieldset>
+                    <legend>Workplace Information</legend>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('position','Occupation'); ?>
+
+                                <?php echo Form::input('text','position', $user->profile->position , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('company','Company'); ?>
+
+                                <?php echo Form::input('text','company', $user->profile->company , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('tax','Company Tax Number'); ?>
+
+                                <?php echo Form::input('text','tax', $user->profile->tax , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php echo Form::label('website','Website Url'); ?>
+
+                                <?php echo Form::input('text','website', $user->profile->website , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Locale Information</legend>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group <?php if($errors->has('area')): ?> has-error <?php endif; ?>">
+                                <?php echo Form::label('area', 'Area'); ?>
+
+                                <?php echo Form::input('text', 'area', $user->profile->area, ['class' => 'form-control']); ?>
+
+                                <?php if($errors->has('area')): ?> <p class="help-block"><?php echo e($errors->first('area')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group <?php if($errors->has('province')): ?> has-error <?php endif; ?>">
+                                <?php echo Form::label('province', 'Province'); ?>
+
+                                <?php echo Form::input('text', 'province', $user->profile->province, ['class' => 'form-control']); ?>
+
+                                <?php if($errors->has('province')): ?> <p class="help-block"><?php echo e($errors->first('province')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Demographics</legend>
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group <?php if($errors->has('industry')): ?> has-error <?php endif; ?>"> 
+                                <?php echo Form::label('industry', 'Please indicate the Industry / Sector that you work in:'); ?>
+
+                                <?php echo Form::select('industry', $industry,  $user->industry, ['class' => 'form-control', 'placeholder' => 'Select your industry/sector']); ?>
+
+                                <?php echo Form::input('text', 'other_industry', null, ['class' => 'form-control other_industry', 'style' => "display: none;"]); ?>
+
+                                <?php if($errors->has('industry')): ?> <p class="help-block"><?php echo e($errors->first('industry')); ?></p> <?php endif; ?>
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Emails & Notifications</legend>
+                    <label class="checkbox">
+                        <input type="checkbox" name="settings[send_invoices_via_email]" value="1" <?php echo e((key_exists('send_invoices_via_email', ($user->settings) ? $user->settings : []))? "checked" : ""); ?>>
+                        <i></i>  Invoice via E-mail
+                    </label>
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="settings[event_notifications]" value="1" <?php echo e((key_exists('event_notifications', ($user->settings) ? $user->settings : []))? "checked" : ""); ?>>
+                        <i></i> Event Notifications
+                    </label>
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="settings[sms_notifications]" value="1" <?php echo e((key_exists('sms_notifications', ($user->settings) ? $user->settings : []))? "checked" : ""); ?>>
+                        <i></i> SMS Notifications
+                    </label>
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="settings[marketing_emails]" value="1" <?php echo e((key_exists('marketing_emails', ($user->settings) ? $user->settings : []))? "checked" : ""); ?>>
+                        <i></i> Marketing Emails
+                    </label>
+                    <hr>
+                </fieldset>
+
+
+                <div class="margiv-top10">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Save Changes</button>
+                </div>
+                <?php echo Form::close(); ?>
+
+            </div>
+
+            <?php echo $__env->make('dashboard.edit.includes.personal.change_email_address', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php echo $__env->make('dashboard.edit.includes.personal.change_id_number', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    
+        
+ <script src="/assets/frontend/js/intlTelInput.js"></script>
+    <script>
+        $().ready(function() {
+            $('#new_id_number').rsa_id_validator({
+                displayValid: [true,"true","false"],
+                displayValid_id: "valid_id_number",
+                displayDate_id: "date",
+                displayAge_id: "age",
+                displayGender_id: "gender",
+                displayCitizenship_id: "citizen"
+            });
+         
+            var input = document.querySelector("#cell");
+            window.intlTelInput(input, {
+            // allowDropdown: false,
+            autoHideDialCode: false,
+            autoPlaceholder: "off",
+            // dropdownContainer: document.body,
+            // excludeCountries: ["us"],
+            initialCountry: "za",
+            formatOnDisplay: true,
+            // geoIpLookup: function(callback) {
+            //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+            //     var countryCode = (resp && resp.country) ? resp.country : "";
+            //     callback(countryCode);
+            //   });
+            // },
+            hiddenInput: "full_number",
+            // initialCountry: "auto",
+            // localizedCountries: { 'de': 'Deutschland' },
+            nationalMode: false,
+            // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+            // placeholderNumberType: "MOBILE",
+            // preferredCountries: ['cn', 'jp'],
+            separateDialCode: true,
+            utilsScript: "/assets/frontend/js/utils.js",
+            });
+        });
+        $(document).ready(function() {
+            // $('#employment').select2();
+            if($('#industry').val() == 'Other') {
+                $('.other_industry').show();
+            } else {
+                $('.other_industry').hide();
+            }
+            $('#industry').change(function() {
+                if($(this).val() == 'Other') {
+                    $('.other_industry').show();
+                } else {
+                    $('.other_industry').hide();
+                }
+            })
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,78 @@
+<?php namespace App\Services\Orders;
+use App\InvoiceOrder;
+use invoicr;
+class PdfGenerateInvoiceOrder
+{
+    protected $render = "I";
+    protected $type = "Order";
+    public function generate(InvoiceOrder $toGenerate)
+    {
+        $order = new invoicr("A4", "R", "en");
+        $order->setNumberFormat('.', ',');
+//        $order->setAccountability(\URL::to('/') . "/assets/frontend/images/accountability_small.jpg", 50);
+        $order->setLogo(\URL::to('/') . "/assets/frontend/images/logo_light.png", 100);
+        $order->setSnappy(\URL::to('/') . "/assets/frontend/images/small_snapscan.jpg", 50);
+        $order->setColor("#173175");
+        $order->setType("Sales Order");
+        $order->setReference($toGenerate->reference);
+        $order->setDate($toGenerate->created_at->toFormattedDateString());
+        $order->setDue($toGenerate->created_at->toFormattedDateString());
+        $order->setFrom(array("SA Accounting Academy", "Vat Number: 4850255789", "Tel: 010 593 0466", "The Broadacres Business Centre,", "Cnr 3rd Ave & Cedar Road, Broadacres,", "2191"));
+        $address = $toGenerate->user->getAddress("billing");
+        $to = ($toGenerate->user->profile->company) ?: $toGenerate->user->first_name . ' ' . $toGenerate->user->last_name;
+        $tax = ($toGenerate->user->profile->tax) ? 'Vat Number:' . $toGenerate->user->profile->tax : $toGenerate->user->email;
+        if ($address) {
+            $order->setTo(array(
+                $to,
+                $tax,
+                $address->line_one,
+                $address->line_two,
+                $address->city, $address->area_code
+            ));
+        } else {
+            $order->setTo(array(
+                $to,
+                $tax,
+                "",
+                "",
+                "",
+                ""
+            ));
+        }
+        foreach ($toGenerate->items as $item) {
+            $order->addItem(
+                $item->name,
+                $item->description,
+                $item->quantity,
+                $toGenerate->vat_rate . '%',
+                $item->price,
+                $item->discount,
+                $item->price * $item->quantity
+            );
+        }
+        if ($toGenerate->status == 'paid') {
+            $order->addBadge('Paid');
+        } else {
+            $order->addBadge(ucwords($toGenerate->status), '#980000');
+        }
+        $order->addTotal("Sub total", $sub = $toGenerate->sub_total);
+        if ($toGenerate->discount > 0) {
+            $order->addTotal("Discount", $discount = $toGenerate->discount);
+            $order->addTotal("Total", $toGenerate->total - $toGenerate->discount, true);
+        } else {
+            $order->addTotal("Total", $toGenerate->total, true);
+        }
+        if ($toGenerate->vat_rate > 0)
+            $order->addTotal("VAT incl @ $toGenerate->vat_rate%", $toGenerate->total - (($toGenerate->total / ($toGenerate->vat_rate + 100)) * 100));
+        $order->addTitle("Banking Details");
+        $order->addParagraph("Bank: ABSA Bank <br>Account Holder: SA Accounting Academy<br>Account Number: 4077695135<br>Branch Code: 632005<br>Reference: $toGenerate->reference");
+        $order->addTitle("SnapScan");
+        $order->addParagraph("Did you know that you can settle this invoice using snapscan ? Please use the invoice reference as the reference and the invoice balance as the amount. If the incorrect reference is used, this will result in a delay in allocating your payment");
+        if ($this->render == "F") {
+            $path = public_path() . '/invoices/Invoice' . $toGenerate->reference . time() . '.pdf';
+            $order->render($path);
+            return $path;
+        }
+        return $order->render('Invoice' . $toGenerate->reference . '.pdf', $this->render);
+    }
+}

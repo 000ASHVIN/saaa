@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs nav-top-border">
+    <?php /*<li class="<?php echo e(isActive('dashboard.edit.subscription')); ?>"><a href="<?php echo e(route('dashboard.edit.subscription')); ?>">Manage Subscription</a></li>*/ ?>
+    <li class="<?php echo e(isActive('dashboard.edit')); ?>"><a href="<?php echo e(route('dashboard.edit')); ?>">General</a></li>
+    <?php /*<li class="<?php echo e(isActive('dashboard.edit.privacy')); ?>"><a href="<?php echo e(route('dashboard.edit.privacy')); ?>">Emails & Notifications</a></li>*/ ?>
+    <li class="<?php echo isActive('dashboard.edit.addresses'); ?>"><a href="<?php echo e(route('dashboard.edit.addresses')); ?>">Addresses</a></li>
+    <li class="<?php echo e(isActive('dashboard.edit.avatar')); ?>"><a href="<?php echo e(route('dashboard.edit.avatar')); ?>">Avatar</a></li>
+    <li class="<?php echo e(isActive('dashboard.edit.password')); ?>"><a href="<?php echo e(route('dashboard.edit.password')); ?>">Password</a></li>
+</ul>

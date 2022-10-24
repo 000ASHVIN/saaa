@@ -1,0 +1,80 @@
+<?php $__env->startSection('title', 'Edit Avatar'); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li hreff="#">Edit</li>
+                        <li class="active">Avatar</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <?php echo $__env->make('dashboard.edit.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <div class="margin-top-20"></div>
+
+                <?php echo Form::open(['files' => 'true', 'route' => 'dashboard.edit.avatar']); ?>
+
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4">
+                                <div class="thumbnail">
+                                    <img class="img-responsive" src="<?php echo e($user->avatar); ?>" alt="Image"
+                                         onError="this.onerror=null;this.src='https://accountingacademy.co.za/assets/frontend/images/default_avatar.jpg';"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 col-sm-8">
+                                <div class="sky-form nomargin">
+                                    <label class="label">Select file</label>
+                                    <label for="file" class="input input-file">
+                                        <div class="button">
+                                            <input type="file"  name="avatar" onchange="this.parentNode.nextSibling.value = this.value">Browse
+                                        </div><input type="text" readonly="">
+                                    </label>
+                                </div>
+
+
+
+                                <?php /*<a href="#" class="btn btn-danger btn-xs noradius"><i class="fa fa-times"></i> Remove Avatar</a>*/ ?>
+                                <?php /*<div class="clearfix margin-top-20">*/ ?>
+                                    <?php /*<span class="label label-info">NOTE! </span>*/ ?>
+                                    <?php /*<p>*/ ?>
+                                       <?php /*Please note that all images will be resized after uploading <br>*/ ?>
+                                       <?php /*The dimensions of the image will be 400 x 400.*/ ?>
+                                   <?php /*</p>*/ ?>
+                                <?php /*</div>*/ ?>
+
+                                <div class="margiv-top10">
+                                  <?php echo Form::submit('Upload Image', ['class' => 'btn btn-primary']); ?>
+
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                <?php echo Form::close(); ?>
+
+
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

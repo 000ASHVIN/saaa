@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-md-12">
+        <?php echo Form::open(['method' => 'post', 'route' => 'frontend.events.filter_events']); ?>
+
+        <div class="search-form">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+                        <label for="title"><strong>Event Name</strong></label>
+                        <?php echo Form::input('text', 'title', null, ['class' => 'form-control event-title-filter', 'placeholder' => 'Compliance...']); ?>
+
+                        <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+
+                <?php /*  <div class="col-md-3">
+                    <div class="form-group <?php if($errors->has('date_filter')): ?> has-error <?php endif; ?>">
+                        <label for="date_filter"><strong>Past / Upcoming</strong></label>
+                        <?php echo Form::select('date_filter', [
+                            null => 'Please Select',
+                            'past' => 'Past Events',
+                            'upcoming' => 'Upcoming Events'
+                        ], (isset($select))? $select : null, ['class' => 'form-control']); ?>
+
+                        <?php if($errors->has('date_filter')): ?> <p class="help-block"><?php echo e($errors->first('date_filter')); ?></p> <?php endif; ?>
+                    </div>
+                </div>  */ ?>
+
+                <div class="col-md-2">
+                    <div class="form-group <?php if($errors->has('type')): ?> has-error <?php endif; ?>">
+                        <label for="type"><strong>Event Type</strong></label>
+                        <?php echo Form::select('type', [
+                            null => 'Please Select',
+                            'webinar' => 'Webinar',
+                            'seminar' => 'Seminar',
+                            'conference' => 'Conference'
+                        ],null, ['class' => 'form-control event-type-filter']); ?>
+
+                        <?php if($errors->has('type')): ?> <p class="help-block"><?php echo e($errors->first('type')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group <?php if($errors->has('start_date')): ?> has-error <?php endif; ?>">
+                        <label for="start_date"><strong>Start Date</strong></label>
+                        <?php echo Form::input('text', 'start_date', null, ['class' => 'form-control datepicker box', 'data-format' => 'yyyy-mm-dd']); ?>
+
+                        <?php if($errors->has('start_date')): ?> <p class="help-block"><?php echo e($errors->first('start_date')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group <?php if($errors->has('venue')): ?> has-error <?php endif; ?>">
+                        <label for="venue"><strong>Select Venue</strong></label>
+                        <?php echo Form::select('venue', [
+                            '' => 'Please Select',
+                            'Bloemfontein' => 'Bloemfontein',
+                            'George' => 'George',
+                            'Port Elizabeth' => 'Port Elizabeth',
+                            'Pretoria' => 'Pretoria',
+                            'Sandton' => 'Sandton',
+                            'Durban' => 'Durban',
+                            'Polokwane' => 'Polokwane',
+                            'bellville' => 'Bellville',
+                            'Webinar' => 'Online Webinar',
+                        ],null, ['class' => 'form-control event-venue-filter']); ?>
+
+                        <?php if($errors->has('venue')): ?> <p class="help-block"><?php echo e($errors->first('venue')); ?></p> <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="search_spin(this)"><i class="fa fa-search"></i> Seach For Events</button>
+            <?php if(Request::is('filter_events')): ?>
+                <a href="<?php echo e(route('events.index')); ?>" class="btn btn-warning"><i class="fa fa-close"></i> Clear Search</a>
+            <?php endif; ?>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+</div>

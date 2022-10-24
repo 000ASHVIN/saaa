@@ -1,0 +1,22 @@
+<div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('title', 'Title'); ?>
+
+    <?php echo Form::input('text', 'title', (isset($title) ? $title : ""), ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('category')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('category', 'Search by category'); ?>
+
+    <select name="category" id="category" class="form-control">
+        <option value="null">Please Select..</option>
+        <option value="null">All an “All”</option>
+        <?php foreach($categories as $cat): ?>
+            <option <?php echo e(isset($category)? ($category === $cat) ? 'selected' : "" : ""); ?> value="<?php echo e($cat->id); ?>"><?php echo e($cat->title); ?></option>
+        <?php endforeach; ?>
+    </select>
+    <?php if($errors->has('category')): ?> <p class="help-block"><?php echo e($errors->first('category')); ?></p> <?php endif; ?>
+</div>
+
+<button class="btn btn-primary btn-block" onclick="spin(this)"><i class="fa fa-search"></i> Search</button>

@@ -1,0 +1,65 @@
+
+<div class="row">
+    <div class="col-md-12">
+    <?php if(count($myTickets)): ?>
+        <?php foreach($myTickets as $ticket): ?>
+                <div class="new-events-view event-container-box clearfix">
+                    <div class="event-container-inner">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h4><?php echo e($ticket->event->name); ?></h4>
+                                <h5>
+                                    <?php if(count($ticket->event->presenters)): ?>
+                                        <i class="fa fa-user"></i>
+                                        <?php echo e(implode(', ',$ticket->event->presenters->pluck('name')->toArray()).' | '); ?>
+
+                                    <?php endif; ?>
+                                    <?php if(count($ticket->event->categories)): ?>
+                                        <i class="fa fa-plus"></i>
+                                        <?php echo e(implode(', ',$ticket->event->categories->pluck('title')->toArray()).' | '); ?>
+
+                                    <?php endif; ?>
+
+                                    <?php if(count($ticket->event->cpd_hours)): ?>
+                                        <i class="fa fa-plus"></i>
+                                        <?php echo e($ticket->event->cpd_hours); ?> Hours | 
+                                    <?php endif; ?>
+
+                                    <?php if($ticket->venue->activeDates && $ticket->venue->activeDates->count()): ?>
+                                    <i class="fa fa-calendar-o"></i>
+                                    <?php echo e(($ticket->venue->activeDates->first())? date( 'd F Y',strtotime($ticket->venue->activeDates->first()->date)):""); ?>
+
+                                <?php endif; ?>
+                                    
+                                    <?php if(count($ticket->event->start_time)): ?>
+                                        <i class="fa fa-clock-o"></i>
+                                        <?php echo e($ticket->event->start_time); ?>
+
+                                    <?php endif; ?>
+                                </h5>
+                            </div>
+                            <div class="col-md-3">
+                                <?php if($ticket->id): ?>
+                                <a href="<?php echo e(route('dashboard.tickets.links-and-resources',$ticket->id).'?recordings=1'); ?>" class="btn btn-default events-btn-container"><i class="fa fa-eye"></i>View Content</a> 
+                                <?php else: ?>
+                                <a href="<?php echo e(route('events.register', $ticket->event->slug)); ?>" class="btn btn-primary events-btn-container">Book Now</a>  
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="alert alert-info" style="margin-bottom: 0px">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">X</span><span
+                        class="sr-only">Close</span></button>
+            <strong>Heads up!</strong> You have not registered for any events yet, to register for an event
+            <a href="<?php echo route('events.index'); ?>">click here</a>
+        </div>
+    <?php endif; ?>
+    </div>
+</div>
+<div class="row text-center">
+    <?php echo $myTickets->render(); ?>
+
+</div>

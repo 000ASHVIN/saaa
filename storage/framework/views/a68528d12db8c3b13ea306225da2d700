@@ -1,0 +1,84 @@
+<?php $__env->startSection('title', 'Payments'); ?>
+<?php $__env->startSection('description', 'View Payments that was allocated on each day'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <?php echo $__env->make('admin.payments.includes.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <div class="col-md-12">
+            <div class="row">
+                <table class="table">
+                    <thead>
+                    <th>User</th>
+                    <th>Payment Date</th>
+                    <th>Amount</th>
+                    <th>Payment description</th>
+                    
+                    <th class="text-center">Payment Method</th>
+                    <th class="text-center">Invoice Number</th>
+                    <th class="text-center">Invoice Balance</th>
+                    <th>Status</th>
+                    </thead>
+                    <tbody>
+                    <?php foreach($transactions as $transaction): ?>
+                        <tr>
+                            <td>
+                                <?php if($transaction->user): ?>
+                                    <a href="<?php echo e(route('admin.members.show', $transaction->user->id)); ?>" target="_blank">
+                                        <?php echo e(ucfirst($transaction->user->first_name)); ?>
+
+                                        <?php echo e(ucfirst($transaction->user->last_name)); ?>
+
+                                    </a>
+                                <?php else: ?>
+                                    <a href="#"><?php echo e($transaction->invoice->user->first_name); ?> <span class="label label-info">Account Removed</span></a>
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo e(date_format($transaction->date, 'Y/m/d')); ?></td>
+                            <td><?php echo e(money_format('%.2n', $transaction->amount)); ?></td>
+                            <td><?php echo e($transaction->description); ?></td>
+                            
+                            <td class="text-center">
+                                <?php echo e(($transaction->method)); ?>
+
+                            </td>
+                            <td class="text-center"><a href="<?php echo e(route('invoices.show',$transaction->invoice->id)); ?>" target="_blank"><?php echo e($transaction->ref); ?></a></td>
+                            <td class="text-center">
+                            <?php echo e(money_format('%.2n', $transaction->invoice->sub_total - $transaction->invoice->transactions->where('type', 'credit')->sum('amount'))); ?>
+
+                            </td>
+                            <td><?php echo e(ucfirst($transaction->invoice->status)); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php echo $transactions->render(); ?>
+
+
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script type="text/javascript" src="/assets/admin/vendor/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/assets/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+    <script>
+        $(function() {
+            $('.daterange').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,50 @@
+<div class="col-md-6">
+    <div class="heading-title heading-dotted text-center">
+        <h4>Latest <span>Invoices</span></h4>
+    </div>
+    <div class="border-box">
+        <table class="table table-striped">
+            <thead>
+            <th>Invoice Number</th>
+            <th>Balance Due</th>
+            <th>Status</th>
+            </thead>
+            <tbody>
+            <?php if(count($user->invoices)): ?>
+                <?php foreach($user->invoices()->latest()->take(2)->get() as $invoice): ?>
+                <tr>
+                    <td>#<?php echo e($invoice->reference); ?></td>
+                    <td><?php echo e(money_format('%.2n', $invoice->total - $invoice->transactions->where('type', 'credit')->sum('amount'))); ?></td>
+                    <td>
+                        <?php if($invoice->status == 'paid'): ?>
+                            <a href="" class="label custom-label" data-toggle="tooltip" title="Paid" data-placement="right">
+                                <i class="fa fa-check"></i>
+                            </a>
+                        <?php else: ?>
+                            <?php if($invoice->status == 'unpaid' || $invoice->status == 'partial'): ?>
+                                <a href=""
+                                   class="label custom-label" data-toggle="tooltip" title="Unpaid" data-placement="right"> <i class="fa fa-times"></i>
+                                </a>
+                            <?php else: ?>
+                                <a href=""
+                                   class="label custom-label" data-toggle="tooltip" title="Cancelled" data-placement="right"> <i class="fa fa-ban"></i>
+                                </a>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3">You have no available invoices.</td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+        <p style="text-align: center">
+            <?php /* <a href="#" class="btn btn-primary" data-target="#payment" data-toggle="modal">Settle Account</a> */ ?>
+            <a href="<?php echo e(route('dashboard.invoices')); ?>" class="btn btn-default">View Invoices</a>
+        </p>
+        <?php echo $__env->make('dashboard.includes.payment', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+</div>

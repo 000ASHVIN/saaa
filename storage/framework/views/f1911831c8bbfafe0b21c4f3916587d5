@@ -1,0 +1,161 @@
+<?php $__env->startSection('meta_tags'); ?>
+    <title><?php echo e($post->checkMetaTitle()); ?></title>
+    <meta name="description" content="<?php echo e(($post->meta_description!="")?$post->meta_description:(str_limit(strip_tags($post->description), 100))); ?>">
+    <meta name="keyword" content="<?php echo e($post->keyword); ?>">
+    <meta name="Author" content="<?php echo ucfirst(@$post->author->first()->name); ?>"/>
+
+<?php $__env->stopSection(); ?>   
+
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    <?php echo e($post->title); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+    Article: <?php echo e($post->title); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('article', $post); ?>
+
+<?php $__env->stopSection(); ?>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <?php echo $__env->make('blog.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9">
+                <h4 class="blog-post-title"><?php echo e($post->title); ?></h4>
+
+                <ul class="blog-post-info list-inline">
+                    <li>
+                        <i class="fa fa-clock-o"></i>
+                        <span class="font-lato"><?php echo e(date_format(\Carbon\Carbon::parse($post->publish_date?$post->publish_date:$post->created_at), 'F d, Y')); ?></span>
+                    </li>
+                    <li>
+                        <i class="fa fa-folder-open-o"></i>
+                        <?php foreach($post->categories as $category): ?>
+                            <span class="font-lato"><?php echo e($category->title); ?></span>
+                        <?php endforeach; ?>
+                    </li>
+                    <li>
+                        <i class="fa fa-user"></i>
+                        <span class="font-lato"><?php echo e(ucfirst($post->author->first()->name)); ?></span>
+                    </li>
+                </ul>
+
+
+                <?php /*  <figure class="margin-bottom-20">
+                    <?php if(! $post->image): ?>
+                        <img class="img-responsive article-image-single" src="/assets/frontend/images/default-blog.jpg" alt="Default">
+                    <?php else: ?>
+                        <img class="img-responsive article-image-single" src="<?php echo e(asset('storage/'.$post->image)); ?>" alt="">
+                    <?php endif; ?>
+                </figure>  */ ?>
+
+                <p><?php echo $post->description; ?></p>
+
+                <div class="divider divider-dotted"><!-- divider --></div>
+
+                <h4 class="page-header margin-bottom-60 size-20 clearfix">
+                    <span><?php echo e(count($post->comments)); ?></span> COMMENTS
+                    <div class="hidden-xs pull-right">
+                        <?php echo $__env->make('blog.components.share', ['url' => Request::url()], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </h4>
+
+
+                <?php if(count($post->acceptedComments())): ?>
+                    <div class="comments">
+                        <?php foreach($post->acceptedComments() as $comment): ?>
+                        <div class="comment-item">
+                            <span class="user-avatar">
+                                <img class="pull-left" src="/assets/frontend/images/user-icon.png" width="64" height="64" alt="">
+                            </span>
+
+                            <div class="media-body">
+                                <h4 class="media-heading bold"><?php echo e($comment->name); ?></h4>
+                                <small class="block"><?php echo e(date_format(\Carbon\Carbon::parse($comment->created_at), 'F d, Y')); ?></small>
+                                <?php echo nl2br(e($comment->description)); ?>
+
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-info">
+                        There are not comments for this article at the moment, check back later.
+                    </div>
+                <?php endif; ?>
+
+                <h4 class="page-header size-20 margin-bottom-60">
+                    LEAVE A <span>COMMENT</span>
+                </h4>
+
+                <?php if(auth()->user()): ?>
+                    <?php echo Form::open(['method' => 'post', 'route' => ['news.comment.store', $post->slug]]); ?>
+
+                    <input type="hidden" value="<?php echo e(auth()->user()->full_name()); ?>" maxlength="100" name="name">
+                    <input type="hidden" value="<?php echo e(auth()->user()->email); ?>" maxlength="100" name="email">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label>COMMENT</label>
+                                <textarea required="required" maxlength="1000" rows="5" class="form-control" name="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <button class="btn btn-3d btn-lg btn-reveal btn-black">
+                                <i class="fa fa-check"></i>
+                                <span>SUBMIT MESSAGE</span>
+                            </button>
+
+                        </div>
+                    </div>
+                    <?php echo Form::close(); ?>
+
+                <?php else: ?>
+                    <div class="alert alert-info">
+                        You must be logged in to add a comment, <a href="/login">log in now</a>.
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+        <script>
+        var popupSize = {
+            width: 780,
+            height: 550
+        };
+        $(document).on('click', '.social-buttons > a', function(e){
+
+            var
+                verticalPos = Math.floor(($(window).width() - popupSize.width) / 2),
+                horisontalPos = Math.floor(($(window).height() - popupSize.height) / 2);
+
+            var popup = window.open($(this).prop('href'), 'social',
+                'width='+popupSize.width+',height='+popupSize.height+
+                ',left='+verticalPos+',top='+horisontalPos+
+                ',location=0,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1');
+
+            if (popup) {
+                popup.focus();
+                e.preventDefault();
+            }
+
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

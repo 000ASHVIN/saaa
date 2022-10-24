@@ -1,0 +1,14 @@
+<div class="row">
+    <?php echo $__env->make('admin.cpd.partials.search',['selected' => false], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <br><br>
+    <div class="col-sm-12 col-md-12">
+        <form class="form-inline">
+            <div class="form-group">
+                <?php echo $__env->make('admin.cpd.partials.filters', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            </div>
+            <button type="button" v-on:click="addAllFilteredAttendeesToSelected" class="btn btn-info pull-right">
+                Add all&nbsp;<i class="fa fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+</div>

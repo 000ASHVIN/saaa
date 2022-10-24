@@ -1,0 +1,125 @@
+<?php if(!$edit): ?>
+    <create-edit-video :video-providers="<?php echo e($videoProviders->toJson()); ?>" inline-template>
+        <?php endif; ?>
+        <div class="panel panel-default">
+            <?php if(!$edit): ?>
+                <div class="panel-heading">
+                    <div class="col-sm-12 col-md-8">
+                        <h4>Details</h4>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="panel-body">
+                <?php if(!$edit): ?>
+                    <?php echo Former::open()->route('admin.videos.store'); ?>
+
+                <?php else: ?>
+                    <?php echo Former::open()->route('admin.videos.update',$video->id); ?>
+
+                    <?php echo Former::populate($video); ?>
+
+                <?php endif; ?>
+                <?php echo Former::text('title','Title')->v_model('form.title'); ?>
+
+                <?php echo Former::text('reference','Reference')->v_model('form.reference'); ?>
+
+                <?php echo Former::select('video_provider_id','Video Provider')->options($videoProviders->pluck('title','id')->toArray())->v_model('form.videoProviderId'); ?>
+
+
+                <?php echo Former::select('category','Category',($categories ? ['' => 'Category'] + $categories->toArray() : ['' => 'Category']),null,['placeholder'=>'Category']); ?>
+
+
+<?php
+    if(!isset($subcategories)) {
+        $subcategories = [];
+    }
+    $style = 'display:none;';
+    if(count($subcategories)) {
+        $style = '';
+    }
+?>
+
+<div class="" style="<?php echo $style; ?>" id="sub_cat">
+    <?php echo Former::select('sub_category','Sub Category',['' => 'Select'] + $subcategories,null); ?>
+
+</div>
+<?php
+    if(!isset($subsubcategories)) {
+        $subsubcategories = [];
+    }
+    $style = 'display:none;';
+    if(count($subsubcategories)) {
+        $style = '';
+    }
+?>
+<div class="" style="<?php echo $style; ?>" id="sub_sub_cat">
+    <?php echo Former::select('sub_sub_category','Sub Sub Category')->options(['' => 'Select'] + $subsubcategories); ?>
+
+</div>
+
+                <?php echo Former::checkbox('can_be_downloaded','')->text('Can be downloaded'); ?>
+
+                <?php echo Former::text('download_link','Download link')->v_model('form.downloadLink'); ?>
+
+                <?php echo Former::text('view_link','View link')->v_model('form.viewLink'); ?>
+
+
+                <?php echo Former::text('hours','CPD Hours')->v_model('form.hours'); ?>
+
+
+                <?php echo Former::select('tag','Video Tag')->options([
+                    null => 'Please Select',
+                    'studio' => 'Studio',
+                    'webinar' => 'Webinar Recording',
+                ]); ?>
+
+
+                <?php echo Former::text('amount','Price')->v_model('form.amount'); ?>
+
+
+                <div class="form-group <?php if($errors->has('presenters')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('VideoPresentersList', 'Please Select Presenters'); ?>
+
+                    <?php echo Form::select('VideoPresentersList[]', $presenters,  (isset($video))?$video->presenters->pluck('id')->toArray():'', ['class' => 'select2 form-control', 'multiple' => true]); ?>
+
+                    <?php if($errors->has('presenters')): ?> <p class="help-block"><?php echo e($errors->first('presenters')); ?></p> <?php endif; ?>
+                </div>
+
+                <?php echo Former::textarea('description')->class('ckeditor')->rows(10)->autofocus()->v_model('form.description');; ?>
+
+                    
+                <div class="form-group <?php if($errors->has('features')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('VideoFeaturesList', 'Please select your features'); ?>
+
+                    <?php echo Form::select('VideoFeaturesList[]', $features,  (isset($video))?$video->features->pluck('id')->toArray():'', ['class' => 'select2 form-control', 'multiple' => true]); ?>
+
+                    <?php if($errors->has('features')): ?> <p class="help-block"><?php echo e($errors->first('features')); ?></p> <?php endif; ?>
+                </div>
+
+              
+                <?php echo Former::select('status','Status')->options([
+                    null => 'Please Select',
+                    0 => 'Active',
+                    1 => 'Inactive',
+                ]); ?>
+
+                <?php echo Former::select('view_resource','Resources')->options([
+                    null => 'Please Select',
+                    0 => 'No',
+                    1 => 'Yes',
+                ]); ?>
+
+                <?php if(!$edit): ?>
+                    <?php echo Former::submit('Create')->addClass('btn-primary'); ?>
+
+                <?php else: ?>
+                    <?php echo Former::submit('Update')->addClass('btn-primary'); ?>
+
+                <?php endif; ?>
+                <?php echo Former::close(); ?>
+
+            </div>
+        </div>
+        <?php if(!$edit): ?>
+    </create-edit-video>
+<?php endif; ?>

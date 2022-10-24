@@ -1,0 +1,174 @@
+<?php $__env->startSection('title', $event->name); ?>
+<?php $__env->startSection('intro', 'Event Registration'); ?>
+<?php $__env->startSection('styles'); ?>
+    <style type="text/css">
+        .no-margin-bottom {
+            margin-bottom: 0;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section style="background-image: url('/assets/frontend/images/demo/wall2.jpg'); padding-top: 40px;">
+
+        <app-simple-event-registration-screen :event="<?php echo e($event); ?>"
+                                              :dietary="<?php echo e($dietaryRequirements); ?>"
+                                              :promoCodes="<?php echo e($promoCodes->toJson()); ?>"
+                                              :user="<?php echo e(auth()->user()->load('cards')); ?>"
+                                              :donations="<?php echo e(env('DONATIONS_AMOUNT') > 0 ? env('DONATIONS_AMOUNT') : 0); ?>"
+                                              inline-template>
+            <div class="row">
+                <div id="app-register-screen" class="container app-screen">
+
+                    <div class="row">
+                        <div class="col-md-12" v-if="!forms.eventSignup.venue">
+                            <?php echo $__env->make('events.single.venues.selector', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </div>
+
+                        <?php if(count($promoCodes) > 0): ?>
+                            <div class="col-md-7 col-md-offset-1" v-if="forms.eventSignup.venue">
+                                <?php else: ?>
+                                    <div class="col-md-8 col-md-offset-1" v-if="forms.eventSignup.venue">
+                                        <?php endif; ?>
+
+                                        <?php /* The Selected Venue */ ?>
+                                        <div class="row">
+                                            <?php echo $__env->make('events.single.venues.selected', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+
+                                        <?php /* Pricing Options */ ?>
+                                        <div class="row">
+                                            <?php echo $__env->make('events.single.pricings.options', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Donations */ ?>
+                                        <div class="row">
+                                            <?php echo $__env->make('includes.donation', ['vif' => "donations && forms.eventSignup.pricingOption", 'vmodel' => "forms.eventSignup.donations"], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Dates */ ?>
+                                        <div class="row" v-if="forms.eventSignup.pricingOption">
+                                            <?php echo $__env->make('events.single.pricings.dates', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Extras */ ?>
+                                        <div class="row" v-if="extras.length > 0">
+                                            <?php echo $__env->make('events.extras', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Dietary Requirements */ ?>
+                                        <div class="row" v-if="forms.eventSignup.venue.city">
+                                            <?php echo $__env->make('events.dietary-requirements', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Billing Options */ ?>
+                                        <div class="row"
+                                             v-if="forms.eventSignup.pricingOption && forms.eventSignup.dates.length > 0 && total > 0">
+                                            <?php echo $__env->make('events.billing.billing_options', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Billing Information */ ?>
+                                        <div class="row"
+                                             v-if="forms.eventSignup.pricingOption && forms.eventSignup.dates.length > 0 && total > 0">
+                                            <?php echo $__env->make('events.billing.billing', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                        <?php /* Free Registrations */ ?>
+                                        <div class="row"
+                                             v-if="forms.eventSignup.pricingOption && forms.eventSignup.dates.length > 0 && total == 0">
+                                            <?php echo $__env->make('events.billing.simple', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        </div>
+
+                                    </div>
+
+                                    <?php /*Promo Codes*/ ?>
+
+                                    <div v-if="forms.eventSignup.venue">
+                                        <?php if(count($promoCodes) > 0): ?>
+                                            <div class="col-md-3">
+
+                                                <?php foreach($promoCodes->take(1) as $promoCode): ?>
+                                                    <div class="panel panel-default">
+
+                                                        <div class="panel-heading">
+                                                            Claim Your Discount
+                                                        </div>
+
+                                                        <div class="panel-body">
+                                                            <?php if(array_flatten(App\AppEvents\PromoCode::sessionCodes(), $promoCode->code )): ?>
+                                                                <h5 class="no-margin-bottom">Your discount has been applied</h5>
+                                                            <?php else: ?>
+                                                                <h5>Claim your discount now!</h5>
+                                                                <?php echo Form::open(['method' => 'post', 'route' => ['check_coupon', $event->id]]); ?>
+
+                                                                <?php echo Former::text('code','Your Unique Discount Code'); ?>
+
+                                                                <input name="type" type="hidden" value="{{ forms.eventSignup.venue.type }}">
+                                                                <input name="event_name" type="hidden" value="{{ event.slug }}">
+                                                                <?php echo Former::submit('Submit'); ?>
+
+                                                                <?php echo Form::close(); ?>
+
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <?php if($event->registration_instructions && $event->registration_instructions != ""): ?>
+                                           <div class="col-md-3">
+                                               <hr>
+                                               <div class="panel panel-warning">
+
+                                                   <div class="panel-heading">
+                                                       <i class="fa fa-bullhorn fa-x2" style="font-size: 20px"></i>  <strong>Registration Instructions</strong>
+                                                   </div>
+
+                                                   <div class="panel-body">
+                                                       <?php echo $event->registration_instructions; ?>
+
+                                                   </div>
+                                               </div>
+                                           </div>
+                                        <?php endif; ?>
+
+                                        <?php if(auth()->user()->hasCompany() && auth()->user()->hasCompany()->company->admin()->status != 'active'): ?>
+                                            <div class="col-md-3">
+                                                <div class="panel panel-danger" v-if="forms.eventSignup.venue.type == 'online'">
+
+                                                    <div class="panel-heading">
+                                                        <i class="fa fa-close fa-x2" style="font-size: 20px"></i>  <strong>Company Account Suspended!</strong>
+                                                    </div>
+
+                                                    <div class="panel-body">
+                                                        <p>
+                                                            Your company account has been suspended due to non payment,
+                                                            Please contact <?php echo e(ucfirst(auth()->user()->hasCompany()->company->admin()->first_name).' '.ucfirst(auth()->user()->hasCompany()->company->admin()->last_name)); ?>
+
+                                                            <?php echo e(auth()->user()->hasCompany()->company->admin()->cell); ?> |
+                                                            <a href="mailto: <?php echo e(auth()->user()->hasCompany()->company->admin()->email); ?>"><?php echo e(auth()->user()->hasCompany()->company->admin()->email); ?></a>
+                                                        </p>
+                                                        <hr>
+                                                        <p>
+                                                            Should you proceed with this registration you will be charged for this event and no refunds will be processed.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </app-simple-event-registration-screen>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/assets/frontend/plugins/form.masked/jquery.maskedinput.js"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

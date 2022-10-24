@@ -1,0 +1,48 @@
+<?php $__env->startSection('title', 'Professional Bodies'); ?>
+<?php $__env->startSection('description', 'All Professional Bodies'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <th style="width: 20%">Professional Body</th>
+                    <th style="width: 20%">Email Address</th>
+                    <th style="width: 5%" class="text-center">CPD Packages</th>
+                    <th style="width: 20%" class="text-center" colspan="1">Tools</th>
+                </thead>
+                <tbody>
+                <?php if(count($bodies)): ?>
+                    <?php foreach($bodies as $body): ?>
+                        <tr>
+                            <td><?php echo e($body->title); ?></td>
+                            <td><?php echo e($body->email); ?></td>
+                            <td class="text-center"><?php echo e(count($body->plans)); ?> Available </td>
+                            <td style="width: 5%;" class="text-center">
+                                <a class="btn btn-info" href="<?php echo e(route('admin.professional_bodies.edit', $body->id)); ?>"><i class="ti-pencil"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4">No Professional Bodies Available</td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+
+            </table>
+
+            <a href="<?php echo e(route('admin.professional_bodies.create')); ?>" class="btn btn-wide btn-success">Create new</a>
+        </div>    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,67 @@
+<div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('title', 'Title'); ?>
+
+    <?php echo Form::input('text', 'title', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('description')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('description', 'Description'); ?>
+
+    <?php echo Form::input('text', 'description', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('description')): ?> <p class="help-block"><?php echo e($errors->first('description')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('code')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('code', 'Code'); ?>
+
+    <?php echo Form::input('text', 'code', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('code')): ?> <p class="help-block"><?php echo e($errors->first('code')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('discount_type')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('discount_type', 'Discount Type'); ?>
+
+    <?php echo Form::select('discount_type', [
+        'percentage' => 'Percentage',
+        'amount' => 'Amount',
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('discount_type')): ?> <p class="help-block"><?php echo e($errors->first('discount_type')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('discount_amount')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('discount_amount', 'Discount Amount'); ?>
+
+    <?php echo Form::input('text', 'discount_amount', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('discount_amount')): ?> <p class="help-block"><?php echo e($errors->first('discount_amount')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('has_limited_uses')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('has_limited_uses', 'Is Limited'); ?>
+
+    <?php echo Form::select('has_limited_uses', [
+        true => 'Yes',
+        false => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('has_limited_uses')): ?> <p class="help-block"><?php echo e($errors->first('has_limited_uses')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('remaining_uses')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('remaining_uses', 'Remaining Uses'); ?>
+
+    <span class="pull-right"><i>0 for unlimited</i></span>
+    <?php echo Form::input('text', 'remaining_uses', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('remaining_uses')): ?> <p class="help-block"><?php echo e($errors->first('remaining_uses')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<?php echo Form::submit($submit, ['class' => 'btn btn-info']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

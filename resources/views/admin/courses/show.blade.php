@@ -1,0 +1,234 @@
+@extends('admin.layouts.master')
+
+@section('title', 'Show Course')
+@section('description', str_limit($course->title, 80))
+
+@section('styles')
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+    <style>
+        @keyframes spinner {
+            to {transform: rotate(360deg);}
+        }
+        .spinner:before {
+            animation: rotate 2s linear infinite;
+            background-color: transparent;
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            margin-top: -10px;
+            margin-left: -10px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            border-top-color: #21679b;
+            animation: spinner .6s linear infinite;
+        }
+        a.rightbtn {
+            float: right;
+            margin: -39px 10px 0 0;
+        }
+        .semester-price {
+            position: relative;
+        }
+        .semester-price .index {
+            position: absolute;
+            background: #006ee6;
+            height: 30px;
+            width: 34px;
+            border-radius: 50%;
+            line-height: 2.5;
+            text-align: center;
+            color: white;
+            top: 2px;
+            left: 2px;
+        }
+        .semester-price input {
+            padding-left: 45px;
+            margin-bottom: 5px;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <section>
+        <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+            <div class="tabbable">
+                <ul class="nav nav-tabs" id="navigation-tabs">
+                    <li class="active"><a data-toggle="tab" href="#overview">Course Overview</a></li>
+                    <li class=""><a data-toggle="tab" href="#links">Links</a></li>
+                    <li class=""><a data-toggle="tab" href="#students">Students</a></li>
+                    <li class=""><a data-toggle="tab" href="#invoices">Enrollment Invoices</a></li>
+                    <li class=""><a data-toggle="tab" href="#discount">Discount</a></li>
+                </ul>
+                <a class="btn btn-success rightbtn" href="{{route('admin.courses.duplicate',$course->id)}}">Duplicate Course</a>
+
+                <div class="tab-content">
+                    @include('admin.courses.partials.overview')
+                    @include('admin.courses.partials.links')
+                    @include('admin.courses.partials.students')
+                    @include('admin.courses.partials.invoices')
+                    @include('admin.courses.pages.discounts')
+                </div>
+
+            </div>
+        </div>
+    </section>
+@endsection
+
+@section('scripts')
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            $('#remove_course_image').on('click', function(){
+                $('#course_image_preview').hide();
+                $('#input_remove_image').val('1');
+            });
+            $('#remove_course_brochure').on('click', function(){
+                $('#course_brochure_preview').hide();
+                $('#input_remove_brochure').val('1');
+            });
+        });
+    </script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="/admin/assets/js/index.js"></script>
+
+    <script src="/assets/admin/assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script type="text/javascript">
+        $('.select2').select2({
+            placeholder: "Please select",
+        });
+        $('.is-date').datepicker;
+
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {
+            var that = this;
+            $(document).on('focusin.modal', function (e) {
+                if ($(e.target).hasClass('select2')) {
+                    return true;
+                }
+                if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
+                    that.$element.focus();
+                }
+            });
+        };
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('#navigation-tabs a[href="#{{old('tab')}}"]').tab('show')
+            new Clipboard('#copy-button');
+        })
+    </script>
+
+    <script>
+        function spin(this1)
+        {
+            this1.closest("form").submit();
+            this1.disabled=true;
+            this1.innerHTML=`<i class="fa fa-spinner fa-spin"></i> Working..`;
+        }
+    </script>
+
+    <!-- DataTables -->
+    <script>
+        $('#students_table').DataTable({
+            serverSide: true,
+            ajax: '/admin/courses/students/{{ $course->id }}',
+            rowId: 'id',
+            columns: [
+                {data: 'name'},
+                {data: 'email'},
+                {data: 'cell'},
+                {
+                    data: "id",
+                    "searchable": false,
+                    "sortable": false,
+                    "render": function (id, type, full, meta) {
+                        return '<a href="/admin/members/' + id + '" class="btn btn-sm btn-secondary btn-circle" style="background-color: #21679b; border-color: #21679b; color: white"><i class="fa fa-eye"></i></a>';
+                    }
+                },
+            ],
+            'processing': true,
+            'language': {
+                'loadingRecords': '&nbsp;',
+                'processing': '<div class="spinner"></div>'
+            }
+        });
+    </script>
+
+    <script>
+        $('#invoice_table').DataTable({
+            serverSide: true,
+            ajax: '/admin/courses/invoices/{{ $course->id }}',
+            rowId: 'user_id',
+            columns: [
+                {data: 'id'},
+                {data: 'client'},
+                {data: 'reference'},
+                {data: 'balance', render: $.fn.dataTable.render.number(',', '.', 2)},
+                {data: 'total', render: $.fn.dataTable.render.number(',', '.', 2)},
+                {
+                    data: "user_id",
+                    "searchable": false,
+                    "sortable": false,
+                    "render": function (user_id, type, full, meta) {
+                        return '<a target="_blank" href="/admin/members/' + user_id + '" class="btn btn-sm btn-secondary btn-circle" style="background-color: #21679b; border-color: #21679b; color: white"><i class="fa fa-eye"></i></a>';
+                    }
+                },
+            ],
+            'processing': true,
+            'language': {
+                'loadingRecords': '&nbsp;',
+                'processing': '<div class="spinner"></div>'
+            }
+        });
+    </script>
+
+    <script>
+         $('#type_of_course_id').val() === 'semester'? $('.no-of-semesters').show() : $('.no-of-semesters').hide();
+        
+        if($('#no_of_semesters_id').val() > 0) {
+            const semester = $('#no_of_semesters_id').val();
+            for(i = 1 ; i <= semester; i++) {
+                $('.semester-price-inputs .input-'+i).show()
+            }
+        }
+        $('#type_of_course_id').change(function() {
+            const type = $(this).val()
+            type === 'semester'? $('.no-of-semesters').show() : $('.no-of-semesters').hide()
+        })
+        let semesterPriceInput = "<div class='semester-price input-1'>"+
+                                    "<div class='index index-1'>1</div>"+
+                                    "<input type='number' name='semester_price[1]' class='form-control'>"+
+                                "</div>";
+        let lastSemester = $('#no_of_semesters_id').val();
+        $('#no_of_semesters_id').keyup(function() {
+            const semester = $(this).val()
+
+            if(semester > 0) {
+
+                if(semester > lastSemester) {
+                    lastSemester++;
+                    for(i = lastSemester; i <= semester; i++) {
+                        $('.semester-price-inputs').append(semesterPriceInput.replace(/1/g, i))
+                    }
+                    lastSemester = semester;
+
+                } else {
+                    var start = parseInt(semester) + 1;
+                    var end = lastSemester;
+                    for(j = start; j <= end; j++) {
+                        $('.semester-price-inputs .input-'+j).remove();
+                    }
+                    lastSemester = semester;
+                }
+
+            }
+        })
+        $('#no_of_semesters_id').focusout(function() {
+            $(this).val(lastSemester)
+        })
+    </script>
+@endsection

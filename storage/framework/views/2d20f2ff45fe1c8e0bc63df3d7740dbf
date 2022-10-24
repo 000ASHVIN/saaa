@@ -1,0 +1,127 @@
+<?php $__env->startSection('title', $member->first_name . ' ' . $member->last_name); ?>
+<?php $__env->startSection('description', 'User Profile'); ?>
+
+<?php $__env->startSection('css'); ?>
+    <link href="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <style>
+        .daterangepicker{
+            z-index:99999!important;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <?php echo $__env->make('admin.members.includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9 nopadding">
+                <?php if(count($myTickets)): ?>
+                    <div class="form-group clearfix">
+                        <button class="btn btn-info btn-o pull-right clearfix" style="margin: 5px" id="deselectAll"><i class="fa fa-close"></i> Deselet All</button>
+                        <button class="btn btn-success btn-o pull-right clearfix" style="margin: 5px" id="SelectAll"><i class="fa fa-check"></i> Select All</button>
+                    </div>
+
+                    <?php echo Form::open(['method' => 'post', 'route' => 'tickets.destroy']); ?>
+
+                    <?php foreach($myTickets->sortBy('startDate') as $ticket): ?>
+                        <?php if($ticket->pricing && $ticket->event): ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-white no-radius">
+                                    <div class="panel-heading border-light" style="background: #01448c; color: white">
+                                        <h4 class="panel-title"><?php echo e(ucfirst($ticket->pricing->venue->type)); ?> | <span class="text-bold"><?php echo e($ticket->event->name); ?></span></h4>
+                                        <div class="panel-tools">
+                                            <div class="form-inline">
+                                                <div class="checkbox clip-check check-primary">
+                                                    <input type="checkbox" id="<?php echo e($ticket->id); ?>" value="<?php echo e($ticket->id); ?>" name="tickets[]">
+                                                    <label for="<?php echo e($ticket->id); ?>"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Start Date:</strong> <?php if($ticket->dates->first()): ?> <?php echo e($ticket->dates->first()->date); ?> <?php endif; ?></p>
+                                                <p><strong>Venue: </strong> <?php echo e($ticket->pricing->venue->name); ?></p>
+                                                <p><strong>Price: </strong> R<?php echo e($ticket->pricing->price); ?></p>
+                                                <a href="<?php echo e(route('ticket_edit', $ticket->id)); ?>" class="btn btn-xs btn-default"><i class="fa fa-pencil"></i> Edit</a>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <p><strong>Ticket Number: </strong> <?php echo e($ticket->code); ?></p>
+                                                <p><strong>Description: </strong> <?php echo e($ticket->description); ?></p>
+                                                <?php if($ticket->invoice): ?>
+                                                    <p><strong>Invoice: </strong> # <a target="_blank" href="<?php echo e(route('invoices.show', $ticket->invoice->id)); ?>"><?php echo e($ticket->invoice->reference); ?></a></p>
+                                                <?php else: ?>
+                                                    <strong>Invoice: </strong> -
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-white no-radius">
+                                <div class="panel-heading border-light">
+                                    <h4 class="panel-title"><?php echo e($member->first_name); ?> has <span class="text-bold">no events</span>
+                                    </h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p>If you beleive this is a technical error, Please inform the development team.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(count($myTickets)): ?>
+                    <hr>
+                    <button type="submit" class="btn btn-danger btn-o btn-block" onclick="spin(this)"><i class="fa fa-trash"></i> Delete Selected Tickets</button>
+                <?php endif; ?>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script src="/assets/admin/assets/js/profile.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.js"></script>
+    <script src="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Profile.init();
+        });
+    </script>
+    <script src="/assets/admin/assets/js/bootstrap-confirm-delete.js"></script>
+    <script>
+        $( document ).ready( function( )
+        {$( '.delete' ).bootstrap_confirm_delete(
+            {
+                debug:    false,
+                heading:  'Remove Ticket',
+                message:  'Are you sure you want to delete this ticket?',
+                data_type:'post',
+                callback: function ( event )
+                {
+                    var button = event.data.originalObject;
+                    button.closest( 'form' ).submit();
+                },
+            }
+        );
+        } );
+    </script>
+
+    <?php echo $__env->make('admin.members.includes.spin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

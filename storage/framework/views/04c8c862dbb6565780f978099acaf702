@@ -1,0 +1,43 @@
+<?php $__env->startSection('title', 'Permissions'); ?>
+<?php $__env->startSection('description', 'Create New Permissions'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="row">
+            <div class="col-md-8">
+                <?php echo Form::open(['method' => 'post', 'route' => 'admin.permissions_store']); ?>
+
+                <div class="form-group">
+                    <?php echo Form::label('name', 'Name'); ?>
+
+                    <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+                </div>
+
+                <div class="form-group">
+                    <?php echo Form::label('description', 'Description'); ?>
+
+                    <?php echo Form::input('text', 'description', null, ['class' => 'form-control']); ?>
+
+                </div>
+
+                <div class="form-group">
+                    <?php echo Form::submit('Add New', ['class' => 'btn btn-primary']); ?>
+
+                </div>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

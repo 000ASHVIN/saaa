@@ -1,0 +1,60 @@
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('name', 'Name'); ?>
+
+    <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('price')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('price', 'Price'); ?>
+
+    <?php echo Form::input('text', 'price', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('price')): ?> <p class="help-block"><?php echo e($errors->first('price')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('min_user')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('min_user', 'Minimum User'); ?>
+
+    <?php echo Form::input('text', 'min_user', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('min_user')): ?> <p class="help-block"><?php echo e($errors->first('min_user')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('max_user')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('max_user', 'Maximum User'); ?>
+
+    <?php echo Form::input('text', 'max_user', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('max_user')): ?> <p class="help-block"><?php echo e($errors->first('max_user')); ?></p> <?php endif; ?>
+</div>
+
+
+<div class="form-group <?php if($errors->has('billing')): ?> has-error <?php endif; ?>">
+        <small class="pull-right" style="font-style: italic">billings will not be displayed on the website.</small>
+        <?php echo Form::label('billing', 'Billing'); ?>
+
+        <?php echo Form::select('billing', [
+            'month' => 'Monthly',
+            'year' => 'Yearly'
+        ],null, ['class' => 'form-control']); ?>
+
+        <?php if($errors->has('billing')): ?> <p class="help-block"><?php echo e($errors->first('billing')); ?></p> <?php endif; ?>
+    </div>
+
+    
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <small class="pull-right" style="font-style: italic">is_actives will not be displayed on the website.</small>
+    <?php echo Form::label('is_active', 'Is this a active ?'); ?>
+
+    <?php echo Form::select('is_active', [
+        1 => 'Yes',
+        0 => 'No'
+    ],null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<button type="submit" class="btn btn-primary"><?php echo e($submit); ?></button>

@@ -1,0 +1,43 @@
+<div id="assessment" class="tab-pane fade">
+    <?php if(count($video->assessments)): ?>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <th>Title</th>
+                <th>CPD Hours</th>
+                <th>Pass Percentage</th>
+                <th>Time Limit</th>
+                <th>Maximum Attempts</th>
+                <th>Randomize Questions</th>
+                <th>Questions</th>
+                </thead>
+            <tbody>
+            <?php foreach($video->assessments as $assessment): ?>
+                <tr>
+                    <td><?php echo e($assessment->title); ?></td>
+                    <td><?php echo e($assessment->cpd_hours); ?></td>
+                    <td><?php echo e($assessment->pass_percentage); ?></td>
+                    <td><?php echo e($assessment->time_limit_minutes); ?></td>
+                    <td><?php echo e($assessment->maximum_attempts); ?></td>
+                    <td><?php echo e(($assessment->randomize_questions_order ? "Yes" : "No")); ?></td>
+                    <td><?php echo e(count($assessment->questions)); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="alert alert-info">
+            <p>There is no Assessment for this video.</p>
+        </div>
+    <?php endif; ?>
+
+    <hr>
+    <div class="form-group">
+        <button class="btn btn-info" data-toggle="modal" data-target="#assign_assessment">Assign New Assessment</button>
+        <?php if($edit): ?>
+            <?php if(count($video->recordings) && !count($video->links) && !count($video->assessments)): ?> 
+                <a href="<?php echo route('admin.video.sync-resources', $video->id); ?>" class="btn btn-warning">Copy Event Resources</a>
+            <?php endif; ?>    
+        <?php endif; ?>
+        <?php echo $__env->make('admin.videos.includes.assessment.assign', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    Latest News Articles
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+    Read some news articles online..
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('news'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('styles'); ?>
+    <style>
+      
+        
+    </style>
+<?php $__env->stopSection(); ?>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <?php echo $__env->make('blog.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9">
+                <div class="heading-title heading-dotted">
+                    <h3><i class="fa fa-newspaper-o"></i> Latest <span>News</span></h3>
+                </div>
+                <?php if(count($posts)): ?> 
+                    <div class="row">
+                        <?php foreach($posts as $post): ?>
+                            <?php if($post->categories): ?>
+                                <?php foreach($post->categories as $category): ?>
+                                    <?php echo $__env->make('blog.includes.post', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?> 
+
+                <?php if(count($categories_post)): ?>
+                    <?php foreach($categories_post as $category): ?>
+                        <?php if(count($category->publishedPosts)): ?>
+                        <div class="heading-title heading-dotted">
+                            <h3><i class="fa fa-newspaper-o"></i> <?php echo e($category->title); ?> <span>News</span></h3>
+                        </div>
+
+                        <div class="row">
+                                <?php foreach($category->publishedPosts->take(3) as $post): ?>
+                                    <?php echo $__env->make('blog.includes.post', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                <?php endforeach; ?>
+                        </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?> 
+                <?php else: ?>
+                    <div class="alert alert-info">
+                        There are no news articles at the moment, check back later.
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,17 @@
+<!-- App Globals -->
+<script>
+    window.App = {
+        // Laravel CSRF Token
+        csrfToken: '<?php echo e(csrf_token()); ?>',
+
+        // Current User ID
+        userId: <?php echo Auth::user() ? Auth::id() : 'null'; ?>,
+
+        // Current Team ID
+        currentTeamId: null,
+        <?php /*<?php if(Auth::user() && Spark::usingTeams() && Auth::user()->hasTeams()): ?>*/ ?>
+            <?php /*currentTeamId: <?php echo e(Auth::user()->currentTeam->id); ?>,*/ ?>
+        <?php /*<?php else: ?>*/ ?>
+        <?php /*<?php endif; ?>*/ ?>
+    }
+</script>

@@ -1,0 +1,41 @@
+<div id="app-register-screen" class=" app-screen">
+           
+    <?php /* Subscription Plan Selector */ ?>
+    <div class="col-md-12" v-if="plans.length > 0 && plansAreLoaded && ! forms.subscription.plan">
+
+        <?php echo $__env->make('subscriptions.partials.plans.draftselector', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ 
+
+    </div>
+
+    <?php /* Plan is Selected */ ?>
+    <div class="col-md-8 col-md-offset-2" v-if="selectedPlan">
+
+        <?php /* Selected Plan */ ?>
+        <?php echo $__env->make('subscriptions.partials.plans.selected', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <?php /* Donations */ ?>
+        <?php echo $__env->make('includes.donation', ['vif' => "donations && selectedPlan && selectedPlanIsYearly", 'vmodel' => "forms.subscription.donations", 'vonchange' => 'getEftLink'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <?php /* Plan features */ ?>
+        <?php echo $__env->make('subscriptions.partials.plans.features', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <?php /* Billing Options */ ?>
+        <?php echo $__env->make('subscriptions.partials.billing_options', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <?php /* Billing Options Details */ ?>
+        <?php echo $__env->make('subscriptions.partials.billing_information', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+        <?php /* Terms and Conditions and Complete Subscription Signup */ ?>
+        <?php echo $__env->make('subscriptions.partials.terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    </div>
+<div class="text-center ">
+    <p>Not sure which subscription plan is for you?</p>
+    <a href="#" data-target="#need_help_subscription" data-toggle="modal" target="_blank" style="margin-bottom: 10px; background-color: #162e6e;" class="btn btn-primary btn-lg ">Need Help ?</a>   
+    </div>
+ </div>
+
+
+<br>
+<br>

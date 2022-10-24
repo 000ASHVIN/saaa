@@ -1,0 +1,6 @@
+<div v-if="forms.eventSignup.paymentOption && total > 0">
+    <?php echo $__env->make('events.billing.po', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('events.billing.eft', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('events.billing.wallet', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('events.billing.credit_card', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</div>

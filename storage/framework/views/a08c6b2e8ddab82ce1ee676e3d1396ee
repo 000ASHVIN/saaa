@@ -1,0 +1,48 @@
+<div id="modify_attempt_<?php echo e($attempt->id); ?>" class="modal fade modal-aside horizontal right" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Attempt #<?php echo e($int); ?> : <?php echo e($attempt->assessment->title); ?></h4>
+            </div>
+
+            <?php echo Form::model($attempt, ['method' => 'POST', 'route' => ['admin.event.attempt.update', $attempt->id]]); ?>
+
+            <div class="modal-body">
+                <div class="form-group <?php if($errors->has('created_at')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('created_at', 'Attempt Percentage'); ?>
+
+                    <?php echo Form::input('text', 'created_at', date_format($attempt->created_at, 'd F Y'), ['class' => 'form-control', 'disabled' => 'disabled']); ?>
+
+                    <?php if($errors->has('created_at')): ?> <p class="help-block"><?php echo e($errors->first('created_at')); ?></p> <?php endif; ?>
+                </div>
+
+                <div class="form-group <?php if($errors->has('percentage')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('percentage', 'Attempt Percentage'); ?>
+
+                    <?php echo Form::input('text', 'percentage', $attempt->percentage.'%', ['class' => 'form-control', 'disabled' => 'disabled']); ?>
+
+                    <?php if($errors->has('percentage')): ?> <p class="help-block"><?php echo e($errors->first('percentage')); ?></p> <?php endif; ?>
+                </div>
+
+                <div class="form-group <?php if($errors->has('passed')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('passed', 'Attempt Passed'); ?>
+
+                    <?php echo Form::select('passed', [
+                        true => 'Yes',
+                        false => 'No'
+                    ],null, ['class' => 'form-control']); ?>
+
+                    <?php if($errors->has('passed')): ?> <p class="help-block"><?php echo e($errors->first('passed')); ?></p> <?php endif; ?>
+                </div>
+
+                <?php echo Form::submit('Update Attempt', ['class' => 'btn btn-info']); ?>
+
+            </div>
+            <?php echo Form::close(); ?>
+
+        </div>
+
+    </div>
+</div>

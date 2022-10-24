@@ -1,0 +1,140 @@
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    Contact Us
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('intro'); ?>
+    Contact Head Office
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('Contact'); ?>
+
+<?php $__env->stopSection(); ?>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <h3>Drop us a line or just say Hello!</h3>
+
+                    <?php echo Form::open(array('route' => 'contact_store', 'class' => 'form')); ?>
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?php echo Form::label('name','Full Name'); ?>
+
+                                <?php echo Form::input('text','name', null , ['class' => 'form-control']); ?>
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <?php echo Form::label('email','Email Address'); ?>
+
+                                <?php echo Form::input('text','email', null , ['class' => 'form-control']); ?>
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <?php echo Form::label('number','Phone'); ?>
+
+                                <?php echo Form::input('text','number', null , ['class' => 'form-control', 'maxlength' => '10']); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <?php echo Form::label('subject','Subject'); ?>
+
+                                <?php echo Form::input('text','subject', null , ['class' => 'form-control']); ?>
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <?php echo Form::label('department','Department'); ?>
+
+                                <?php echo Form::select('department',array(
+                                    '0' => 'Please Select....',
+                                    'Accounts Department' => 'Accounts Department',
+                                    'Technical Support' => 'Technical Support',
+                                    'Please Contact Me' => 'Please Contact Me',
+                                ), null, ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo Form::label('body_message','Message *'); ?>
+
+                                <?php echo Form::textarea('body_message', null , ['class' => 'form-control']); ?>
+
+                            </div>
+                        </div>
+                        <div class="row" >	
+                            <div class="col-md-12">	
+                            <?php if(env('GOOGLE_RECAPTCHA_KEY')): ?>	
+                                <div class="g-recaptcha"	
+                                    data-sitekey="<?php echo e(env('GOOGLE_RECAPTCHA_KEY')); ?>">	
+                                </div>	
+                            <?php endif; ?>	
+                            </div>	
+                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo Form::submit('Send Message', ['class' => 'btn btn-primary']); ?>
+
+                            </div>
+                        </div>
+
+                    <?php echo Form::close(); ?>
+
+                </div>
+
+
+                <div class="col-md-4 col-sm-4">
+                    <h2>Visit Us</h2>
+                    <div id="map" class="height-400"></div>
+                    <hr />
+
+                    <p>
+                        <span class="block"><strong><i class="fa fa-map-marker"></i> Address:</strong> 12 Riviera Ln, ext 8, Featherbrooke Estate, Krugersdorp, 1746</span>
+                        <br>
+                        <span class="block"><strong><i class="fa fa-archive"></i> Postal address:</strong> Postnet Suite 1, Private bag X75, Bryanston, 2021</span>
+                        <br>
+                        <span class="block"><strong><i class="fa fa-phone"></i> Phone:</strong> <a href="tel:010 593 0466">010 593 0466</a></span>
+                        <br>
+                        <span class="block"><strong><i class="fa fa-envelope"></i> Email:</strong> <a href="mailto:support@accountingacademy.co.za">support@accountingacademy.co.za</a></span>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script type="text/javascript">
+
+        jQuery(document).ready(function(){
+            var map = new GMaps({
+                div: '#map',
+                lat: -26.07056663502945,
+                lng: 27.836499325295883,
+                scrollwheel: false
+            });
+
+            var marker = map.addMarker({
+                lat: -26.07056663502945,
+                lng: 27.836499325295883,
+                title: '<?php echo e(settings('company-name')); ?>'
+            });
+
+        });
+
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

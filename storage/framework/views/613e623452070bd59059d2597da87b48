@@ -1,0 +1,41 @@
+<?php $__env->startSection('title', 'Webinars'); ?>
+<?php $__env->startSection('description', 'All users that downloaded Webinars'.' '.count(\App\DownloadWebinars::all())); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <th>User</th>
+                    <th>Webinar Video</th>
+                    <th>Downloaded</th>
+                </thead>
+                <tbody>
+                <?php if(count($webinars)): ?>
+                    <?php foreach($webinars as $webinar): ?>
+                        <tr>
+                            <td><?php echo e(\App\Users\User::find($webinar->user_id)->first_name); ?> <?php echo e(\App\Users\User::find($webinar->user_id)->last_name); ?></td>
+                            <td><?php echo e($webinar->webinar_title); ?></td>
+                            <td><?php echo e($webinar->created_at); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+            <?php echo $webinars->render(); ?>
+
+        </div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

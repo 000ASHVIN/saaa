@@ -1,0 +1,31 @@
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('name', 'Name'); ?>
+
+    <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('email')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('email', 'Email Address'); ?>
+
+    <?php echo Form::input('text', 'email', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('email')): ?> <p class="help-block"><?php echo e($errors->first('email')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('user_id')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('user_id', 'Actual User Account'); ?>
+
+    <?php echo Form::select('user_id', $agents->pluck('name', 'id'), null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('user_id')): ?> <p class="help-block"><?php echo e($errors->first('user_id')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('active', 'Status'); ?>
+
+    <?php echo Form::select('active', ['1'=>'Active','0'=>'Not Active'], null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('active')): ?> <p class="help-block"><?php echo e($errors->first('active')); ?></p> <?php endif; ?>
+</div>

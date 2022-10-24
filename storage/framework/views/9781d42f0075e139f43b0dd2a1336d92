@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <?php echo Form::label('date','CPD Date'); ?>
+
+            <?php echo Form::input('text', 'dateFormatted', null, ['class' => 'form-control cpd_date']); ?>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo Form::label('hours','CPD Hours'); ?>
+
+            <?php echo Form::input('text','hours', null, ['class' => 'form-control', 'placeholder' => 'Numeric value. Eg. 1 for 1 hour']); ?>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo Form::label('source', 'Topic'); ?>
+
+            <?php echo Form::input('text', 'source', null, ['class' => 'form-control']); ?>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php echo Form::label('service_provider', 'Service provider'); ?>
+
+            <?php echo Form::input('text', 'service_provider', null, ['class' => 'form-control']); ?>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('verifiable')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('verifiable', 'Verifiable'); ?>
+
+            <?php echo Form::select('verifiable', [
+                true => 'Yes',
+                false => 'No'
+            ],null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('verifiable')): ?> <p class="help-block"><?php echo e($errors->first('verifiable')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group <?php if($errors->has('category')): ?> has-error <?php endif; ?>">
+            <?php echo Form::label('category', 'Category'); ?>
+
+            <?php echo Form::select('category', [
+                'tax' => 'Tax',
+                'ethics' => 'Ethics',
+                'auditing' => 'Auditing',
+                'accounting' => 'Accounting',
+            ],null, ['class' => 'form-control']); ?>
+
+            <?php if($errors->has('category')): ?> <p class="help-block"><?php echo e($errors->first('category')); ?></p> <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <?php echo Form::label('attachment', 'Attachment'); ?>
+
+        <div class="fancy-file-upload">
+            <i class="fa fa-upload"></i>
+            <input type="file" class="form-control" name="attachment" onchange="jQuery(this).next('input').val(this.value);">
+            <input type="text" class="form-control" placeholder="no file selected" readonly="">
+            <span class="button">Choose File</span>
+        </div>
+    </div>
+
+
+    <div class="col-md-12">
+        <br>
+        <br>
+        <div class="form-group">
+            <div class="text-center">
+                <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Cancel</button>
+                <button class="btn btn-primary" onclick="spin(this)"><i class="fa fa-check"></i> <?php echo e($submit); ?></button>
+            </div>
+        </div>
+    </div>
+</div>

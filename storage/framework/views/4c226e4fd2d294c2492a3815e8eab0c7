@@ -1,0 +1,16 @@
+<?php $__env->startSection('title', 'Careers'); ?>
+<?php $__env->startSection('description', 'Job Applications'); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

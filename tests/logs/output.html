@@ -1,0 +1,2233 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head id="ctl00_Head1"><title>
+	Administrative Backend :: Southern African Institute for Business Accountants
+</title>
+
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="description" content="">
+			<meta name="author" content="">
+
+			<meta name="robots" content="noindex,nofollow">
+
+			<!-- Bootstrap core CSS -->
+			<link href="/global_inc/css/bootstrap.min.css" rel="stylesheet">
+			<link href="/global_inc/css/jasny-bootstrap.min.css" rel="stylesheet">
+      
+			<!-- FontAwesome.css + Animation-Custom.css -->  
+			<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+			<link href="/global_inc/css/animate-custom.css" type="text/css" rel="stylesheet">
+      
+			<!-- Component CSS -->  
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css?parameter=1" type="text/css" rel="stylesheet">
+			<link href="/global_inc/css/datepicker.css" type="text/css" rel="stylesheet">
+
+			<!-- Google Font include -->
+			<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,700|Oswald:400,300,700|Lato:400,300,700" rel="stylesheet" type="text/css">
+
+			<!-- Custom YM Backend CSS -->
+			<link rel="stylesheet" type="text/css" href="/global_inc/css/custom.css">
+			<link rel="stylesheet" type="text/css" href="/global_inc/css/custom.media.css">
+			<link rel="stylesheet" type="text/css" href="/global_inc/css/nav-wizard.css">
+
+			<!--<link rel="stylesheet" type="text/css" href="/global_inc/stylesheet_back.css" />-->
+			<link rel="stylesheet" type="text/css" href="/global_inc/dhtmlcalendar.css">
+
+			<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+			<!--[if lt IE 9]>
+			  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+			<![endif]-->
+
+			<script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/dragdrop/dragdrop-min.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/container-min.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/menu/menu-min.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/json/json-min.js"></script><script type="text/javascript" src="/combined.js?context=admin&amp;transfersession=0&amp;_v=1.54"></script>
+			<script type="text/javascript">
+	
+				var m_pulse = new Pulse(new Date());
+				m_pulse.Start();
+	
+				function ReenablePulse() {
+					m_pulse.Restart();
+				}
+
+				var _gaq = _gaq || [];
+				
+					_gaq.push(
+						['YM._setAccount', 'UA-2449742-47'],
+						['YM._setDomainName', 'none'],
+						['YM._setAllowLinker', true],
+						['YM._trackPageview']
+					);
+
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			</script>
+			<script type="text/javascript" src="/global_inc/js/auto_complete_ajax.js"></script>
+			<script type="text/javascript" src="/global_inc/js/auto_complete_common.js"></script>
+			<script type="text/javascript" src="/global_inc/js/auto_complete_text_box.js"></script>
+
+			<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+			<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+    
+			<!-- Bootstrap core JavaScript
+			================================================== -->
+			<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js"></script>
+			<script src="/global_inc/js/jasny-bootstrap.min.js"></script>
+      
+			<!-- Component JS -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
+    
+			<!-- Easy Pie Chart - http://rendro.github.io/easy-pie-chart/ -->
+			<script src="/global_inc/js/jquery.easypiechart.min.js"></script>
+    
+			<!-- Sparkline Charts - http://omnipotent.net/jquery.sparkline/#s-about -->
+			<script src="/global_inc/js/sparkline.js"></script>
+
+			<!-- Google Charts -->
+			<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script><link href="https://www.google.com/uds/api/visualization/1.0/a5a2278ce1a9f0876d1c20cfc1b821dc/ui+en.css" type="text/css" rel="stylesheet"><script src="https://www.google.com/uds/api/visualization/1.0/a5a2278ce1a9f0876d1c20cfc1b821dc/format+en,default+en,ui+en,corechart+en.I.js" type="text/javascript"></script>
+				
+			<!-- Replace old calendar icons from ASP Classic DHTMLCalendar function -->
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$("img[src=\"/global_graphics/icons/cal_16.gif\"]").replaceWith("<i class=\"fa fa-calendar\" style=\"font-size: 14px; cursor: pointer;\"></i>");
+
+					//set up keydown event on all
+					//numeric only input fields
+					$('input.numericOnly').on('keydown', function (e) {
+						// Allow: backspace, delete, tab, escape, enter
+						if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+							// Allow: Ctrl+A
+							(e.keyCode == 65 && e.ctrlKey === true) ||
+							// Allow: home, end, left, right
+							(e.keyCode >= 35 && e.keyCode <= 39)) {
+							return;
+						}
+						// Ensure that it is a number and stop the keypress			
+						if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+							e.preventDefault();
+						}
+					});
+				});
+			</script>
+
+			
+    
+			<link href="/global_inc/jquery-ui-custom.css" rel="stylesheet" type="text/css">
+			<script language="javascript" type="text/javascript">
+				var organizationSelected = false;
+				$(document).ready(function() {
+					var ts = Math.round(new Date().getTime());
+                    var cburl = "/global_engine/ajax/OrganizationSearch.aspx?cb=" + ts + "&ClientAppID=21487&Limit=15";
+					$("input:#ctl00_PageContent_txtOrganization").autocomplete({
+						'minLength': 2,
+						'delay': 200,
+						'source': cburl,
+						'select': function(event, ui) {
+			                if (ui.item.id != '0') {
+			                    SetOrganizationSelection(ui.item.label);
+			                }
+			                return false;
+						}
+					});
+
+					$("#ctl00_PageContent_txtOrganization").focus(function() {
+						if (organizationSelected) {
+			                $(this).select();
+			            }
+			        });
+
+					$("#ctl00_PageContent_txtOrganization").keydown(function() {
+						if (organizationSelected && $(this).val() == '') {
+			                ClearOrganizationSelection(false);
+			            }
+					});
+				});
+
+				function SetOrganizationSelection(label) {
+					organizationSelected = true;
+					$("#ctl00_PageContent_txtOrganization").val(label);
+				}
+
+			    function ClearOrganizationSelection(clearInput) {
+			        if (clearInput){
+						$("#ctl00_PageContent_txtOrganization").val("");
+                    }
+
+			        $("#ctl00_PageContent_txtOrganization").attr("style", "background-color: transparent;");
+			        $("#imgSelectionOK").hide();
+					$("#btnSubmitOrganization").hide();
+					organizationSelected = false;
+			    }
+			</script>
+
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/assets/skins/sam/container.css"><style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style></head>
+	
+	<body class="m-scene" id="main"><iframe id="_yuiResizeMonitor" title="Text Resize Monitor" tabindex="-1" role="presentation" style="position: absolute; background-color: transparent; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; width: 2em; height: 2em; left: 0px; top: -27px; visibility: visible; "></iframe>
+		
+
+		<div id="divClientBillingAlert" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mblnClientBillingAlert" aria-hidden="true">
+			<div class="modal-dialog" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header" style="min-height: 47px;">
+						<button id="btnClientBillingAlert" type="button" class="close" data-dismiss="modal" aria-label="Close" data-target="#divClientBillingAlert">
+							<span aria-hidden="true">×</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<h4 id="ClientBillingAlertTitle" class="modal-title">ATTENTION! There is an issue regarding your billing information.</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							If your invoice is currently past due please contact the billing department by calling 727-827-0046 (option 3) or emailing <a href="mailto:billing@yourmembership.com">billing@yourmembership.com</a> to resolve this issue.
+							If currently paying by credit card, please <a href="/admin/client_services/client_contacts.asp#invoice">click here</a> to ensure your credit card has not expired or that the card has not been declined. Please update your card information or contact the billing department to resolve the issue.
+						</p>
+						<br>
+						Thank you,<br>
+						Billing Department
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="top-bar">
+			<div class="admin-bar">
+				<div class="logo-container">
+					<a class="logo" href="/admin/">
+						<img src="/global_inc/graphics/ym_green.jpg">
+					</a>
+				</div>
+				<div class="sitename-container">
+					<h3>Southern African Institute for Business Accountants</h3>
+				</div>
+				<div class="welcome-container inner">
+					<div class="toolbar">
+						<ul class="navbar noticebar navbar-right">
+                            <!-- My Sites Dropdown -->
+							<li>
+								
+
+<script type="text/javascript">
+    function LinkedBackend(clientID) {
+        $.ajax({
+            url: '/global_engine/ajax/LinkedAccount.aspx?id=' + clientID,
+            dataType: 'json',
+            success: function (result) {
+                if (result.Url != undefined) {
+                    window.location.replace(result.Url);
+                }
+            }
+        });
+    }
+</script>
+
+
+
+							</li>
+
+							<!-- Welcome Dropdown -->
+							<li class="dropdown account">
+								
+
+<div class="dropdown account">
+    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        <img class="avatar mright-5" src="/global_graphics/mugshot1.gif" style="height: 32px">
+        <span class="">&nbsp;Welcome, Gerhard Theunissen&nbsp;</span>
+        <i class="fa fa-caret-down"></i>
+    </a>
+    <ul role="menu" class="dropdown-menu noticebar-menu noticebar-hoverable">
+        <li>
+            
+            <a class="noticebar-item" href="/">View Frontend</a>
+            
+        </li>
+        <li>
+            <a class="noticebar-item" href="/admin/Profile.aspx">Edit Profile</a>
+        </li>
+        <li>
+            <a class="noticebar-item" href="/admin/members/touch_list.asp?mode=user&amp;intAdminDisplay=intAdminID">My Activity Log</a>
+        </li>
+		<li>
+			<a class="noticebar-item" href="/admin/members/reminder_list.asp?strOpenClose=0&amp;start=12/10/2015&amp;end=&amp;range=12/10/2015|&amp;category=">
+				Upcoming Reminders<span class="badge badge-success" style="float: right;">0</span>
+			</a>
+		</li>
+		<li>
+			<a class="noticebar-item" href="/admin/UnityLoginRedirect.aspx?desturl=/members/manage_profile.asp" target="_blank">Sign in to Unity</a>
+		</li>
+		
+        <li>
+            <a class="noticebar-item" href="/global_engine/admin/login_process.asp?logout=true" onclick="return confirm('Are you sure you want to sign out?');">Sign Out</a>
+        </li>
+    </ul>
+</div>
+
+								
+							</li>
+
+                            <!-- Support Flyout button -->
+							<li class="dropdown account">
+								
+
+<div class="support account">
+    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        <i class="fa fa-user"></i>
+        <span class="navbar-visible-collapsed">&nbsp;Support&nbsp;</span>
+    </a>
+</div>
+
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="main-items">
+				<div class="row">
+					<div class="col-md-9 col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+								<span class="sr-only">Toggle Navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar last"></span>
+							</button>
+						</div>
+						<div class="collapse navbar-collapse" id="navbar-collapse-1">
+							<ul class="nav nav-tabs" role="tablist">
+					
+
+<!-- Main Navigation -->	
+
+        <li class="">
+            <a href="/admin/dashboard.aspx">
+                <i class="fa fa-th mright-5"></i>
+                Your Dashboard
+            </a>
+        </li>
+    
+        <li class="">
+            <a href="/admin/ContentSettings.aspx">
+                <i class="fa fa-list mright-5"></i>
+                Content &amp; Settings
+            </a>
+        </li>
+    
+        <li class="">
+            <a href="/admin/members/default.aspx">
+                <i class="fa fa-users mright-5"></i>
+                Directory &amp; CRM
+            </a>
+        </li>
+    
+        <li class="">
+            <a href="/admin/saved_queries.asp">
+                <i class="fa fa-bar-chart-o mright-5"></i>
+                Exports &amp; Reporting
+            </a>
+        </li>
+    
+        <li class="">
+            <a href="/admin/features.aspx">
+                <i class="fa fa-calendar-o mright-5"></i>
+                Features
+            </a>
+        </li>
+    
+        <li class="active">
+            <a href="/admin/ecommerce/Default.aspx">
+                <i class="fa fa-tag mright-5"></i>
+                Ecommerce
+            </a>
+        </li>
+    
+				</ul>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-3">
+						<ul class="nav nav-tabs alt">
+							
+
+<li class="dropdown search-dropdown pull-right">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-search"></i>
+		<span class="toptext-hide">Search</span>
+	</a>
+	<ul class="dropdown-menu" role="menu">
+		<li>
+			<form id="QuickSearchForm" name="QuickSearchForm" action="/admin/members/default.aspx" method="post" onsubmit="QuickSearchForm_OnSubmit(this);">
+				<div id="search">
+					<h6>Name (person)</h6>
+					<div class="input-group">
+						<input type="text" name="txtQuickSearchName" class="form-control" onkeypress="return DoOnCrKeyPress(event,SubmitQuickSearchForm);">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" onclick="SubmitQuickSearchForm(); return false;">Go</button>
+						</span>
+					</div>
+					<h6>Organization (entity)</h6>
+					<div class="input-group">
+						<input type="text" name="txtQuickSearchOrganization" class="form-control" onkeypress="return DoOnCrKeyPress(event,SubmitQuickSearchForm);">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" onclick="SubmitQuickSearchForm(); return false;">Go</button>
+						</span>
+					</div>
+                    <h6>Email</h6>
+					<div class="input-group">
+						<input type="text" name="txtQuickSearchEmail" class="form-control" onkeypress="return DoOnCrKeyPress(event,SubmitQuickSearchForm);">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" onclick="SubmitQuickSearchForm(); return false;">Go</button>
+						</span>
+					</div>
+					<h6>ID #</h6>
+					<div class="input-group">
+						<input type="text" name="txtQuickSearchID" class="form-control" onkeypress="return DoOnCrKeyPress(event,SubmitQuickSearchForm);">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" onclick="SubmitQuickSearchForm(); return false;">Go</button>
+						</span>
+					</div>
+					<h6>Invoice #</h6>
+					<div class="input-group">
+						<input type="text" name="txtQuickSearchInvoice" class="form-control" onkeypress="return DoOnCrKeyPress(event,SubmitQuickSearchForm);">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" onclick="SubmitQuickSearchForm(); return false;">Go</button>
+						</span>
+					</div>    
+				</div>
+                <input name="ddlMember" type="hidden" value="-1">
+			</form>
+		</li>
+    </ul>
+	<script type="text/javascript">
+		$('.search-dropdown .dropdown-menu').click(function (event)
+		{
+			event.stopPropagation();
+		});
+
+		function SubmitQuickSearchForm()
+		{
+			var f = document.QuickSearchForm;
+			var blnHasText = $('txtQuickSearchName').val() != '' || $('txtQuickSearchOrganization').val() != '' || $('txtQuickSearchEmail').val() != '' || $('txtQuickSearchID').val() != '';
+
+			if (blnHasText)
+			{
+				$('txtQuickSearchName').val('');
+				$('txtQuickSearchOrganization').val('');
+				$('txtQuickSearchEmail').val('');
+				$('txtQuickSearchID').val('');
+
+				f.submit();
+			}
+		}
+	</script>
+</li>
+							<li id="ctl00_QuickCreateMenu_itQuickCreate" class="dropdown create pull-right">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-plus"></i>
+		<span class="toptext-hide">Quick Create</span>
+		<span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu" role="menu">
+		
+				<li>
+					<a href="/admin/accounts/edit.asp">Admin Account</a>
+				</li>
+			
+				<li>
+					<a href="/admin/members/register_start.asp">Member</a>
+				</li>
+			
+				<li>
+					<a href="/admin/members/directory_add.asp">Non-Member</a>
+				</li>
+			
+				<li>
+					<a href="/admin/control/MemberTypes.aspx">Member Type</a>
+				</li>
+			
+				<li>
+					<a href="/admin/membership/membership_edit.asp">Membership</a>
+				</li>
+			
+				<li>
+					<a href="/admin/invoice/createinvoice.aspx">Invoice</a>
+				</li>
+			
+				<li>
+					<a href="/admin/events/event_edit.asp">Event</a>
+				</li>
+			
+				<li>
+					<a href="/admin/store/edit_product.asp">Product</a>
+				</li>
+			
+				<li>
+					<a href="/admin/content/custom_page_edit.asp">Custom Page</a>
+				</li>
+			
+	</ul>
+</li>
+						</ul>
+					</div>
+				</div>
+				<div class="clear clearfix"></div>
+			</div>
+		</div>
+		<div class="canvas">
+			
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sidebar").find("a:contains('Resource Manager')")
+            .attr("href", "#")
+            .attr("onclick", "openPopup('/admin/content/ResourceManager.aspx','winResMgr','toolbar=false,status,scrollbars,resizable','900','790'); return false;");
+    });
+</script>
+<div id="sidebar">
+    <div class="sidebar-inner">
+        <h3>
+            <i class="fa fa-tag mright-10"></i>
+            Ecommerce
+        </h3>
+        <div class="panel-group" id="accordion">
+            
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#nav0" class="accordion-toggle collapsed">
+                                    <i class="fa fa-credit-card mright-10"></i>
+                                    Dues &amp; Membership
+                                    <i class="pull-right fa fa-angle-right"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="nav0" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="no-style">
+                                    
+                                            <li class="">
+                                                <a href="/admin/membership/dues.asp">Dues Processing</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/membership/default.asp">Memberships</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/membership/Rules.aspx">Dues Rules</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/membership/RenewalRules.aspx">Renewal Rules</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/membership/membershipmodifierslist.aspx">Membership Modifiers</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/membership/membershipmodCategorylist.aspx">Modifier Categories</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/membership/promo_codes.asp">Promotional Codes</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/Import/Default.aspx?type=MembershipInvoice">Import Dues Invoice</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/saved_queries.asp?category=6&amp;showall=1">Reporting</a>
+                                            </li>
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#nav1" class="accordion-toggle collapsed">
+                                    <i class="fa fa-tags mright-10"></i>
+                                    Store
+                                    <i class="pull-right fa fa-angle-right"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="nav1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="no-style">
+                                    
+                                            <li class="">
+                                                <a href="/admin/store/view_orders.asp">Store Processing</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/store/view_product_categories.asp">Categories</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/store/view_products.asp">Products</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/store/promo_codes.asp">Promotional Codes</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/saved_queries.asp?category=7&amp;showall=1">Reporting</a>
+                                            </li>
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#nav2" class="accordion-toggle collapsed">
+                                    <i class="fa fa-heart-o mright-10"></i>
+                                    Donations
+                                    <i class="pull-right fa fa-angle-right"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="nav2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="no-style">
+                                    
+                                            <li class="">
+                                                <a href="/admin/donations/donation_receive.asp">Donation Processing</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/donations/default.asp">Donation Funds</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/control/CustomFields.aspx?entity=donation">Donation Form Custom Fields</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/saved_queries.asp?category=5&amp;showall=1">Reporting</a>
+                                            </li>
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#nav3" class="accordion-toggle">
+                                    <i class="fa fa-calculator mright-10"></i>
+                                    Finance
+                                    <i class="pull-right fa fa-angle-right"></i>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="nav3" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <ul class="no-style">
+                                    
+                                            <li class="">
+                                                <a href="/admin/invoice/batch.aspx">Financial Batches</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/control/FinancialTrxOptions.aspx">Batch Export Options</a>
+                                            </li>
+                                        
+                                            <li class="highlight">
+                                                <a href="/admin/invoice/default.aspx">Invoice &amp; Transaction Manager</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/invoice/sets.asp">Bulk Invoicing Sets</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/Import/Default.aspx?type=Invoice">Invoice Payment Import</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/control/ImportPaymentOptions.aspx">Payment Import Configuration</a>
+                                            </li>
+                                        
+                                            <li class="">
+                                                <a href="/admin/saved_queries.asp?category=9&amp;showall=1">Reporting</a>
+                                            </li>
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                
+        </div>
+    </div>
+</div>
+
+			<div id="divMainContent" class="content">
+				<div class="controlcenter">
+					<div id="ctl00_PageHelp_pnlPageHelp">
+	
+        <div class="help-container">
+	        <button class="close" type="button" data-dismiss="modal">
+                <span aria-hidden="true">×</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <div id="divHelpFooterLinks">
+                <div class="col-xs-6">
+                    <a href="/admin/Login.aspx?redir=https://support.yourmembership.com/hc/en-us/requests" target="_blank" style="border-bottom: 0;font-weight: bold;">View Tickets</a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="/admin/Login.aspx?redir=https://support.yourmembership.com/hc/en-us" target="_blank" style="border-bottom: 0;font-weight: bold;">Support Home</a>
+                </div>
+                <div class="clear clearfix"></div>
+            </div> <!-- /help links -->
+      		<div class="help-inner">
+			    <div class="help-content">
+				    <h3><span id="spanTitle"></span></h3>
+				    <p id="pHelpContent">
+				    </p>
+			    </div>
+			    <div class="help-search">
+				    <i class="fa fa-search fa-fw" id="iSearchIcon"></i>
+				    <input type="text" id="txtSearchKnowledgeBase" placeholder="Search the Knowledge Base">
+				    <div id="divSearching" class="mtop-5" style="text-align: center; width: 100%;"><i class="fa fa-spinner fa-spin mright-5"></i>Searching...</div>
+				    <div id="divSearchResults" class="mtop-5"></div>
+                </div>
+		    </div>
+	    </div>
+	<script type="text/javascript">
+		var dataValue = JSON.stringify({ "pageHelpID": 0 });
+		function LoadHelp()
+		{
+			$.ajax({
+				type: "post",
+				url: "/admin/PageHelpLoader.aspx/LoadHelp",
+				data: dataValue,
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function (result) { OnSuccess(result.d); },
+				error: function (XMLHttpRequest, status, error) { OnFailure(result.d); }
+			});
+		}
+
+		function OnSuccess(result)
+		{
+			var data = result.split("8==8(o)8==8");
+
+			$("#spanTitle").html(data[0]);
+			$("#pHelpContent").html(data[1]);
+		}
+
+		function OnFailure(result)
+		{
+			$("#spanTitle").html("Error");
+			$("#pHelpContent").html("Help is unavailable at this time.");
+		}
+
+		$(".support .dropdown-toggle").click(function ()
+		{
+		    LoadHelp();
+		    $(".help-container").toggleClass("visible");
+		});
+        
+		$(".help-container .close").click(function ()
+		{
+		    $(".help-container").toggleClass("visible")
+		});
+
+		$("div.help-search #txtSearchKnowledgeBase").keypress(function (e) {
+			if (e.which == 13) {
+				// do search
+				var strSearchString = $(this).val();
+
+				if (strSearchString.trim() == "") {
+					$("div.help-search #divSearchResults").html("<div style=\"width: 100%; text-align: center;\">Please enter some search terms above.</div>");
+					$("div.help-search #divSearchResults").show();
+				}
+				else {
+					$("div.help-search #divSearchResults").html("");
+					$("div.help-search #divSearchResults").hide();
+					$("div.help-search #divSearching").show();
+
+					$.ajax({
+						type: "post",
+						url: "/admin/PageHelpLoader.aspx/SearchKnowledgeBase",
+						data: JSON.stringify({ "SearchString": strSearchString }),
+						contentType: 'application/json; charset=utf-8',
+						dataType: 'json',
+						success: function (result) {
+							$("div.help-search #divSearching").hide();						
+							$("div.help-search #divSearchResults").html(result.d);
+							$("div.help-search #divSearchResults").show();
+						},
+						error: function (XMLHttpRequest, status, error) { 
+							$("div.help-search #divSearching").hide();
+							$("div.help-search #divSearchResults").html("<div style=\"width: 100%; text-align: center;\">There was an error processing your request.</div>");
+							$("div.help-search #divSearchResults").show();
+						}
+					});
+				}
+			}
+		});
+
+	</script>
+
+</div>
+					<form name="aspnetForm" method="post" action="default.aspx?invoice=300015447" onsubmit="javascript:return WebForm_OnSubmit();" id="aspnetForm" role="form" novalidate="">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMjA3OTY3NjEzMA9kFgJmD2QWCmYPZBYCAgEPZBYCAgIPZBYCAgEPFgIeBFRleHQFqQ0NCgkJCTxsaW5rIGhyZWY9Ii9nbG9iYWxfaW5jL2pxdWVyeS11aS1jdXN0b20uY3NzIiByZWw9InN0eWxlc2hlZXQiIHR5cGU9InRleHQvY3NzIiAvPg0KCQkJPHNjcmlwdCBsYW5ndWFnZT0iamF2YXNjcmlwdCIgdHlwZT0idGV4dC9qYXZhc2NyaXB0Ij4NCgkJCQl2YXIgb3JnYW5pemF0aW9uU2VsZWN0ZWQgPSBmYWxzZTsNCgkJCQkkKGRvY3VtZW50KS5yZWFkeShmdW5jdGlvbigpIHsNCgkJCQkJdmFyIHRzID0gTWF0aC5yb3VuZChuZXcgRGF0ZSgpLmdldFRpbWUoKSk7DQogICAgICAgICAgICAgICAgICAgIHZhciBjYnVybCA9ICIvZ2xvYmFsX2VuZ2luZS9hamF4L09yZ2FuaXphdGlvblNlYXJjaC5hc3B4P2NiPSIgKyB0cyArICImQ2xpZW50QXBwSUQ9MjE0ODcmTGltaXQ9MTUiOw0KCQkJCQkkKCJpbnB1dDojY3RsMDBfUGFnZUNvbnRlbnRfdHh0T3JnYW5pemF0aW9uIikuYXV0b2NvbXBsZXRlKHsNCgkJCQkJCSdtaW5MZW5ndGgnOiAyLA0KCQkJCQkJJ2RlbGF5JzogMjAwLA0KCQkJCQkJJ3NvdXJjZSc6IGNidXJsLA0KCQkJCQkJJ3NlbGVjdCc6IGZ1bmN0aW9uKGV2ZW50LCB1aSkgew0KCQkJICAgICAgICAgICAgICAgIGlmICh1aS5pdGVtLmlkICE9ICcwJykgew0KCQkJICAgICAgICAgICAgICAgICAgICBTZXRPcmdhbml6YXRpb25TZWxlY3Rpb24odWkuaXRlbS5sYWJlbCk7DQoJCQkgICAgICAgICAgICAgICAgfQ0KCQkJICAgICAgICAgICAgICAgIHJldHVybiBmYWxzZTsNCgkJCQkJCX0NCgkJCQkJfSk7DQoNCgkJCQkJJCgiI2N0bDAwX1BhZ2VDb250ZW50X3R4dE9yZ2FuaXphdGlvbiIpLmZvY3VzKGZ1bmN0aW9uKCkgew0KCQkJCQkJaWYgKG9yZ2FuaXphdGlvblNlbGVjdGVkKSB7DQoJCQkgICAgICAgICAgICAgICAgJCh0aGlzKS5zZWxlY3QoKTsNCgkJCSAgICAgICAgICAgIH0NCgkJCSAgICAgICAgfSk7DQoNCgkJCQkJJCgiI2N0bDAwX1BhZ2VDb250ZW50X3R4dE9yZ2FuaXphdGlvbiIpLmtleWRvd24oZnVuY3Rpb24oKSB7DQoJCQkJCQlpZiAob3JnYW5pemF0aW9uU2VsZWN0ZWQgJiYgJCh0aGlzKS52YWwoKSA9PSAnJykgew0KCQkJICAgICAgICAgICAgICAgIENsZWFyT3JnYW5pemF0aW9uU2VsZWN0aW9uKGZhbHNlKTsNCgkJCSAgICAgICAgICAgIH0NCgkJCQkJfSk7DQoJCQkJfSk7DQoNCgkJCQlmdW5jdGlvbiBTZXRPcmdhbml6YXRpb25TZWxlY3Rpb24obGFiZWwpIHsNCgkJCQkJb3JnYW5pemF0aW9uU2VsZWN0ZWQgPSB0cnVlOw0KCQkJCQkkKCIjY3RsMDBfUGFnZUNvbnRlbnRfdHh0T3JnYW5pemF0aW9uIikudmFsKGxhYmVsKTsNCgkJCQl9DQoNCgkJCSAgICBmdW5jdGlvbiBDbGVhck9yZ2FuaXphdGlvblNlbGVjdGlvbihjbGVhcklucHV0KSB7DQoJCQkgICAgICAgIGlmIChjbGVhcklucHV0KXsNCgkJCQkJCSQoIiNjdGwwMF9QYWdlQ29udGVudF90eHRPcmdhbml6YXRpb24iKS52YWwoIiIpOw0KICAgICAgICAgICAgICAgICAgICB9DQoNCgkJCSAgICAgICAgJCgiI2N0bDAwX1BhZ2VDb250ZW50X3R4dE9yZ2FuaXphdGlvbiIpLmF0dHIoInN0eWxlIiwgImJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50OyIpOw0KCQkJICAgICAgICAkKCIjaW1nU2VsZWN0aW9uT0siKS5oaWRlKCk7DQoJCQkJCSQoIiNidG5TdWJtaXRPcmdhbml6YXRpb24iKS5oaWRlKCk7DQoJCQkJCW9yZ2FuaXphdGlvblNlbGVjdGVkID0gZmFsc2U7DQoJCQkgICAgfQ0KCQkJPC9zY3JpcHQ+ZAIHDw8WAh4LQ3VycmVudFBhdGgFGy9hZG1pbi9pbnZvaWNlL2RlZmF1bHQuYXNweGRkAgkPDxYCHwEFGy9hZG1pbi9pbnZvaWNlL2RlZmF1bHQuYXNweGRkAgoPDxYEHwEFGy9hZG1pbi9pbnZvaWNlL2RlZmF1bHQuYXNweB4LUXVlcnlTdHJpbmcysQMAAQAAAP////8BAAAAAAAAAAwCAAAATVN5c3RlbS5XZWIsIFZlcnNpb249Mi4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iMDNmNWY3ZjExZDUwYTNhBQEAAAAeU3lzdGVtLldlYi5IdHRwVmFsdWVDb2xsZWN0aW9uBgAAAAhSZWFkT25seQtLZXlDb21wYXJlcgVDb3VudARLZXlzBlZhbHVlcwdWZXJzaW9uAAMABgUAARZTeXN0ZW0uT3JkaW5hbENvbXBhcmVyCAgCAAAAAQkDAAAAAQAAAAkEAAAACQUAAAACAAAABAMAAAAWU3lzdGVtLk9yZGluYWxDb21wYXJlcgEAAAALX2lnbm9yZUNhc2UAAQERBAAAAAEAAAAGBgAAAAdpbnZvaWNlEAUAAAABAAAACQcAAAAEBwAAABxTeXN0ZW0uQ29sbGVjdGlvbnMuQXJyYXlMaXN0AwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24FAAAICAkIAAAAAQAAAAEAAAAQCAAAAAEAAAAGCQAAAAkzMDAwMTU0NDcLZGQCDA9kFgICAQ9kFhRmDxYEHwAF1AFleGVjIHVzcEludm9pY2VJdGVtU2VsZWN0TGlzdCAyMTQ4NywgTidkLCBtLCBzLCAnLCBERUZBVUxULCBOJzMwMDAxNTQ0NycsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQsIERFRkFVTFQ8YnIgLz5pbnZvaWNlPTMwMDAxNTQ0Nx4HVmlzaWJsZWhkAgIPZBYMZg8QDxYGHg1EYXRhVGV4dEZpZWxkBQVWYWx1ZR4ORGF0YVZhbHVlRmllbGQFA0tleR4LXyFEYXRhQm91bmRnZBAVBAlBbGwgVHlwZXMIRG9uYXRpb24PRHVlcy9NZW1iZXJzaGlwC1N0b3JlIE9yZGVyFQQJZCwgbSwgcywgAWQBbQFzFCsDBGdnZ2dkZAIBD2QWCmYPDxYEHgVXaWR0aBsAAAAAAMBiQAEAAAAeBF8hU0ICgAJkZAICDxYCHwAFqgE8c2NyaXB0IHR5cGU9J3RleHQvamF2YXNjcmlwdCc+WU1DYWxlbmRhcignY3RsMDBfUGFnZUNvbnRlbnRfZHBNaW5EYXRlX2hsRGF0ZVNob3cnLCdjdGwwMF9QYWdlQ29udGVudF9kcE1pbkRhdGVfdHh0RGF0ZUZpZWxkJywnZHBNaW5EYXRlJywneXl5eS9tbS9kZFN0YXJ0VGltZScpOzwvc2NyaXB0PmQCAw8PFggeDEVycm9yTWVzc2FnZQUfTWluIHRoaXMgZmllbGQgaXMgbm90IHJlcXVpcmVkLh4HRGlzcGxheQsqKlN5c3RlbS5XZWIuVUkuV2ViQ29udHJvbHMuVmFsaWRhdG9yRGlzcGxheQIeB0VuYWJsZWRoHwNoZGQCBA8PFgYfCQUoTWluaW11bSBEYXRlIGlzIG5vdCBhIHZhbGlkIGRhdGUgZm9ybWF0Lh8KCysEAh8LaGRkAgUPDxYIHg5WYWx1ZVRvQ29tcGFyZQUKMjAxNS8xMi8xMB8DaB8KCysEAh8LaGRkAgIPZBYKZg8PFgQfBxsAAAAAAMBiQAEAAAAfCAKAAmRkAgIPFgIfAAWoATxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz5ZTUNhbGVuZGFyKCdjdGwwMF9QYWdlQ29udGVudF9kcE1heERhdGVfaGxEYXRlU2hvdycsJ2N0bDAwX1BhZ2VDb250ZW50X2RwTWF4RGF0ZV90eHREYXRlRmllbGQnLCdkcE1heERhdGUnLCd5eXl5L21tL2RkRW5kVGltZScpOzwvc2NyaXB0PmQCAw8PFggfCQUfTWluIHRoaXMgZmllbGQgaXMgbm90IHJlcXVpcmVkLh8KCysEAh8LaB8DaGRkAgQPDxYGHwkFKE1heGltdW0gRGF0ZSBpcyBub3QgYSB2YWxpZCBkYXRlIGZvcm1hdC4fCgsrBAIfC2hkZAIFDw8WCB8MBQoyMDE1LzEyLzEwHwNoHwoLKwQCHwtoZGQCBA9kFgpmDw8WBB8HGwAAAAAAwGJAAQAAAB8IAoACZGQCAg8WAh8ABbYBPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPllNQ2FsZW5kYXIoJ2N0bDAwX1BhZ2VDb250ZW50X2RwTWluSW52b2ljZURhdGVfaGxEYXRlU2hvdycsJ2N0bDAwX1BhZ2VDb250ZW50X2RwTWluSW52b2ljZURhdGVfdHh0RGF0ZUZpZWxkJywnZHBNaW5JbnZvaWNlRGF0ZScsJ3l5eXkvbW0vZGQnKTs8L3NjcmlwdD5kAgMPDxYIHwkFH01pbiB0aGlzIGZpZWxkIGlzIG5vdCByZXF1aXJlZC4fCgsrBAIfC2gfA2hkZAIEDw8WBh8JBShNaW5pbXVtIERhdGUgaXMgbm90IGEgdmFsaWQgZGF0ZSBmb3JtYXQuHwoLKwQCHwtoZGQCBQ8PFggfDAUKMjAxNS8xMi8xMB8DaB8KCysEAh8LaGRkAgUPZBYKZg8PFgQfBxsAAAAAAMBiQAEAAAAfCAKAAmRkAgIPFgIfAAW2ATxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz5ZTUNhbGVuZGFyKCdjdGwwMF9QYWdlQ29udGVudF9kcE1heEludm9pY2VEYXRlX2hsRGF0ZVNob3cnLCdjdGwwMF9QYWdlQ29udGVudF9kcE1heEludm9pY2VEYXRlX3R4dERhdGVGaWVsZCcsJ2RwTWF4SW52b2ljZURhdGUnLCd5eXl5L21tL2RkJyk7PC9zY3JpcHQ+ZAIDDw8WCB8JBR9NaW4gdGhpcyBmaWVsZCBpcyBub3QgcmVxdWlyZWQuHwoLKwQCHwtoHwNoZGQCBA8PFgYfCQUoTWF4aW11bSBEYXRlIGlzIG5vdCBhIHZhbGlkIGRhdGUgZm9ybWF0Lh8KCysEAh8LaGRkAgUPDxYIHwwFCjIwMTUvMTIvMTAfA2gfCgsrBAIfC2hkZAIIDxAPFgYfBAULc3RySXRlbVR5cGUfBQUNc3RySXRlbVR5cGVJRB8GZ2QPFgkCAQICAgMCBAIFAgYCBwIIAgkWCRAFCkFkanVzdG1lbnQFEkdFTkVSQUxfQURKVVNUTUVOVGcQBQZDcmVkaXQFBkNSRURJVGcQBSBEaXNjb3VudCAoTWVtYmVyc2hpcCBQcm9tbyBDb2RlKQUTRElTQ09VTlRfTUVNQkVSU0hJUGcQBR5EaXNjb3VudCAoU2hpcHBpbmcgUHJvbW8gQ29kZSkFEURJU0NPVU5UX1NISVBQSU5HZxAFG0Rpc2NvdW50IChTdG9yZSBQcm9tbyBDb2RlKQUTRElTQ09VTlRfU1RPUkVfSVRFTWcQBQdJbnZvaWNlBRVNQVNURVJfSU5WT0lDRV9SRUNPUkRnEAUHUGF5bWVudAUHUEFZTUVOVGcQBQZSZWZ1bmQFBlJFRlVORGcQBQZSZXR1cm4FBlJFVFVSTmdkZAIEDxYEHwAF1QY8YSB0aXRsZT0iRXhwb3J0IEludm9pY2VzICYgVHJhbnNhY3Rpb25zIiBocmVmPSIjIiBvbmNsaWNrPSJyZXR1cm4gb3BlbkNzdkV4cG9ydCgwLCcvYWRtaW4vaW52b2ljZS9leHBvcnRfaW52b2ljZV90cnhzLmFzcCcsICdpbnZvaWNldHlwZT0mbG5hbWU9JnJlZm5vPSZ0cnh0eXBlPSZkYXRlbWluPSZkYXRlbWF4PSZvcmc9Jmludm9pY2U9MzAwMDE1NDQ3JnNldD0mZGF0ZWludm9pY2VtaW49JmRhdGVpbnZvaWNlbWF4PSZwYXltZW50b3B0aW9uPSZkZWxldGVkVHJ4T3B0aW9uPSZwcm9jZXNzb3Jjb25maWdpZD0maW5zdGFsbG1lbnR0cmFuc2FjdGlvbnM9JmRldGFpbD1mYWxzZScpOyI+PGkgY2xhc3M9ImZhIGZhLWRvd25sb2FkIG1yaWdodC01Ij48L2k+PGI+RXhwb3J0IEludm9pY2VzICYgVHJhbnNhY3Rpb25zPC9iPjwvYT4gKDxhIHRpdGxlPSJFeHBvcnQgSW52b2ljZXMgJiBUcmFuc2FjdGlvbnMiIGhyZWY9IiMiIG9uY2xpY2s9InJldHVybiBvcGVuQ3N2RXhwb3J0KDEsICcvYWRtaW4vaW52b2ljZS9leHBvcnRfaW52b2ljZV90cnhzLmFzcCcsICdpbnZvaWNldHlwZT0mbG5hbWU9JnJlZm5vPSZ0cnh0eXBlPSZkYXRlbWluPSZkYXRlbWF4PSZvcmc9Jmludm9pY2U9MzAwMDE1NDQ3JnNldD0mZGF0ZWludm9pY2VtaW49JmRhdGVpbnZvaWNlbWF4PSZwYXltZW50b3B0aW9uPSZkZWxldGVkVHJ4T3B0aW9uPSZwcm9jZXNzb3Jjb25maWdpZD0maW5zdGFsbG1lbnR0cmFuc2FjdGlvbnM9JmRldGFpbD1mYWxzZScpOyI+VW5pY29kZTwvYT4pJm5ic3A7PHNjcmlwdCB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiPmdldEJhY2tlbmRIZWxwTGluaygnSU5WT0lDRV9UUlhfTUdSX0VYUE9SVCcpPC9zY3JpcHQ+HwNnZAIFDxYEHwAF6QY8YSB0aXRsZT0iRXhwb3J0IEludm9pY2UgSXRlbXMgJiBUcmFuc2FjdGlvbnMiIGhyZWY9IiMiIG9uY2xpY2s9InJldHVybiBvcGVuQ3N2RXhwb3J0KDAsJy9hZG1pbi9pbnZvaWNlL2V4cG9ydF9pbnZvaWNlX3RyeHMuYXNwJywgJ2ludm9pY2V0eXBlPSZsbmFtZT0mcmVmbm89JnRyeHR5cGU9JmRhdGVtaW49JmRhdGVtYXg9Jm9yZz0maW52b2ljZT0zMDAwMTU0NDcmc2V0PSZkYXRlaW52b2ljZW1pbj0mZGF0ZWludm9pY2VtYXg9JnBheW1lbnRvcHRpb249JmRlbGV0ZWRUcnhPcHRpb249JnByb2Nlc3NvcmNvbmZpZ2lkPSZpbnN0YWxsbWVudHRyYW5zYWN0aW9ucz0mZGV0YWlsPXRydWUnKTsiPjxpIGNsYXNzPSJmYSBmYS1kb3dubG9hZCBtcmlnaHQtNSI+PC9pPjxiPkV4cG9ydCBJbnZvaWNlIEl0ZW1zICYgVHJhbnNhY3Rpb25zPC9iPjwvYT4gKDxhIHRpdGxlPSJFeHBvcnQgSW52b2ljZSBJdGVtcyAmIFRyYW5zYWN0aW9ucyIgaHJlZj0iIyIgb25jbGljaz0icmV0dXJuIG9wZW5Dc3ZFeHBvcnQoMSwgJy9hZG1pbi9pbnZvaWNlL2V4cG9ydF9pbnZvaWNlX3RyeHMuYXNwJywgJ2ludm9pY2V0eXBlPSZsbmFtZT0mcmVmbm89JnRyeHR5cGU9JmRhdGVtaW49JmRhdGVtYXg9Jm9yZz0maW52b2ljZT0zMDAwMTU0NDcmc2V0PSZkYXRlaW52b2ljZW1pbj0mZGF0ZWludm9pY2VtYXg9JnBheW1lbnRvcHRpb249JmRlbGV0ZWRUcnhPcHRpb249JnByb2Nlc3NvcmNvbmZpZ2lkPSZpbnN0YWxsbWVudHRyYW5zYWN0aW9ucz0mZGV0YWlsPXRydWUnKTsiPlVuaWNvZGU8L2E+KSZuYnNwOzxzY3JpcHQgdHlwZT0idGV4dC9qYXZhc2NyaXB0Ij5nZXRCYWNrZW5kSGVscExpbmsoJ0lOVk9JQ0VfVFJYX01HUl9FWFBPUlRfREVUQUlMJyk8L3NjcmlwdD4fA2dkAgYPFgQfAAXfBjxhIHRpdGxlPSJFeHBvcnQgQWdpbmcgb2YgVHJhbnNhY3Rpb25zIiBocmVmPSIjIiBvbmNsaWNrPSJyZXR1cm4gb3BlbkNzdkV4cG9ydCgwLCcvYWRtaW4vaW52b2ljZS9leHBvcnRfaW52b2ljZV90cnhzLmFzcCcsICdpbnZvaWNldHlwZT0mbG5hbWU9JnJlZm5vPSZ0cnh0eXBlPSZkYXRlbWluPSZkYXRlbWF4PSZvcmc9Jmludm9pY2U9MzAwMDE1NDQ3JnNldD0mZGF0ZWludm9pY2VtaW49JmRhdGVpbnZvaWNlbWF4PSZwYXltZW50b3B0aW9uPSZkZWxldGVkVHJ4T3B0aW9uPSZwcm9jZXNzb3Jjb25maWdpZD0maW5zdGFsbG1lbnR0cmFuc2FjdGlvbnM9JmFnaW5nPTEmZGV0YWlsPWZhbHNlJyk7Ij48aSBjbGFzcz0iZmEgZmEtZG93bmxvYWQgbXJpZ2h0LTUiPjwvaT48Yj5FeHBvcnQgQWdpbmcgb2YgVHJhbnNhY3Rpb25zPC9iPjwvYT4gKDxhIHRpdGxlPSJFeHBvcnQgQWdpbmcgb2YgVHJhbnNhY3Rpb25zIiBocmVmPSIjIiBvbmNsaWNrPSJyZXR1cm4gb3BlbkNzdkV4cG9ydCgxLCAnL2FkbWluL2ludm9pY2UvZXhwb3J0X2ludm9pY2VfdHJ4cy5hc3AnLCAnaW52b2ljZXR5cGU9JmxuYW1lPSZyZWZubz0mdHJ4dHlwZT0mZGF0ZW1pbj0mZGF0ZW1heD0mb3JnPSZpbnZvaWNlPTMwMDAxNTQ0NyZzZXQ9JmRhdGVpbnZvaWNlbWluPSZkYXRlaW52b2ljZW1heD0mcGF5bWVudG9wdGlvbj0mZGVsZXRlZFRyeE9wdGlvbj0mcHJvY2Vzc29yY29uZmlnaWQ9Jmluc3RhbGxtZW50dHJhbnNhY3Rpb25zPSZhZ2luZz0xJmRldGFpbD1mYWxzZScpOyI+VW5pY29kZTwvYT4pJm5ic3A7PHNjcmlwdCB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiPmdldEJhY2tlbmRIZWxwTGluaygnSU5WT0lDRV9UUlhfTUdSX0VYUE9SVCcpPC9zY3JpcHQ+HwNnZAIIDzwrAA0CAA8WBB8GZx4LXyFJdGVtQ291bnQCAWQBEBYBAgUWATwrAAUBABYCHwNoFgFmFgJmD2QWBgIBD2QWFGYPZBYIAgEPDxYCHgtOYXZpZ2F0ZVVybAWVAUphdmFTY3JpcHQ6IG9wZW5Qb3B1cCgnL21lbWJlcnMvaW52b2ljZV92aWV3LmFzcD9pZD0wMmI5YTQ0Ny00YzE4LTRiODktOTI3Mi04YmJmNzVmZDg1NjMnLCdJbnZvaWNlVmlldycsJ21lbnViYXIsc3RhdHVzLHNjcm9sbGJhcnMsdG9vbGJhcicsNzAwLDYwMCk7ZGQCAw8PFgIfA2hkZAIFDw8WAh8OBTovYWRtaW4vaW52b2ljZS9kZWZhdWx0LmFzcHg/aW52b2ljZT0zMDAwMTU0NDcmc2hvd2Zvcm09YWRqZGQCBw8PFgIfDgWhAS9hZG1pbi9pbnZvaWNlL0ludm9pY2VQYXltZW50LmFzcHg/aWQ9MDJiOWE0NDctNGMxOC00Yjg5LTkyNzItOGJiZjc1ZmQ4NTYzJkZpbmFsVVJMPSU3ZSUyZmFkbWluJTJmaW52b2ljZSUyZmRlZmF1bHQuYXNweCUzZnN1Ym1pdHRlZCUzZHRydWUlMjZpbnZvaWNlJTNkMzAwMDE1NDQ3ZGQCAQ9kFgICAQ8PFgYfAAUJMzAwMDE1NDQ3HgdUb29sVGlwBR1WaWV3IER1ZXMgVHJhbnNhY3Rpb24gRGV0YWlscx8OBUQvYWRtaW4vaW52b2ljZS9maW5kLmFzcD9pbnZvaWNlPTAyYjlhNDQ3LTRjMTgtNGI4OS05MjcyLThiYmY3NWZkODU2M2RkAgIPDxYCHwAFD0R1ZXMvTWVtYmVyc2hpcGRkAgMPDxYCHwAFClNtYWwsIERlb25kZAIEDw8WAh8ABRBPa3RmZXN0IChQdHkpTHRkZGQCBQ8PFgIfAAUbW0N1cnJlbnQgRGVmYXVsdCBQcm9jZXNzb3JdZGQCBg8PFgIfAAUHSW52b2ljZWRkAgcPDxYCHwAFFjIwMTYvMDEvMDEgMTI6MDA6MDAgQU1kZAIIDw8WAh8ABRYyMDE1LzEyLzA4IDAzOjE5OjIzIEFNZGQCCQ8PFgIfAAUIMzYwLjAwMDZkZAICDw8WAh8DaGRkAgMPDxYCHwNoZBYCZg8PFgQeCUZvbnRfU2l6ZSgqIlN5c3RlbS5XZWIuVUkuV2ViQ29udHJvbHMuRm9udFVuaXQDOXB0HwgCgAhkFgJmDw8WBB4IQ3NzQ2xhc3MFDHBnTmF2aWdhdGlvbh8IAgJkZAIKD2QWCmYPDxYGHwAFCjIwMTUvMTIvMTAfBxwfCAKAAmRkAgIPFgIfAAW2ATxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz5ZTUNhbGVuZGFyKCdjdGwwMF9QYWdlQ29udGVudF9kcEFkanVzdG1lbnREYXRlX2hsRGF0ZVNob3cnLCdjdGwwMF9QYWdlQ29udGVudF9kcEFkanVzdG1lbnREYXRlX3R4dERhdGVGaWVsZCcsJ2RwQWRqdXN0bWVudERhdGUnLCd5eXl5L21tL2RkJyk7PC9zY3JpcHQ+ZAIDDw8WBB8JBSJQbGVhc2UgZW50ZXIgYW4gJ0FkanVzdG1lbnQgRGF0ZScuHwoLKwQAZGQCBA8PFgQfCQUuUGxlYXNlIGVudGVyIHZhbGlkIGRhdGUgZm9yICdBZGp1c3RtZW50IERhdGUnLh8KCysEAGRkAgUPDxYGHwoLKwQAHwwFCjIwMTUvMTIvMTAfA2hkZAIODxAPFgYfBAULc3RySXRlbVR5cGUfBQUNc3RySXRlbVR5cGVJRB8GZxYCHghvbmNoYW5nZQWAAWphdmFzY3JpcHQ6IHJldHVybiBzaG93SGlkZVJlZnVuZENyZWRpdENoZWNrYm94KCdjdGwwMF9QYWdlQ29udGVudF9kZGxBZGp1c3RtZW50VHlwZScsICdjdGwwMF9QYWdlQ29udGVudF9jYkNyZWF0ZVJlZnVuZENyZWRpdCcpDxYHAgECAgIDAgQCBQIGAgcWBxAFCkFkanVzdG1lbnQFEkdFTkVSQUxfQURKVVNUTUVOVGcQBQZDcmVkaXQFBkNSRURJVGcQBSBEaXNjb3VudCAoTWVtYmVyc2hpcCBQcm9tbyBDb2RlKQUTRElTQ09VTlRfTUVNQkVSU0hJUGcQBR5EaXNjb3VudCAoU2hpcHBpbmcgUHJvbW8gQ29kZSkFEURJU0NPVU5UX1NISVBQSU5HZxAFG0Rpc2NvdW50IChTdG9yZSBQcm9tbyBDb2RlKQUTRElTQ09VTlRfU1RPUkVfSVRFTWcQBQZSZWZ1bmQFBlJFRlVORGcQBQZSZXR1cm4FBlJFVFVSTmdkZAIPDxAPZBYCHgdvbmNsaWNrBVVqYXZhc2NyaXB0OiBzaG93SGlkZVJlZnVuZENyZWRpdEdMQ29kZUlucHV0KCdjdGwwMF9QYWdlQ29udGVudF9jYkNyZWF0ZVJlZnVuZENyZWRpdCcpZGRkAhEPEA8WBh8FBQNLZXkfBAUFVmFsdWUfBmdkEBUBEVNBSUJBIE1lbWJlciBPbmx5FQEIMzQyNjk0NzcUKwMBZ2RkGAIFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYBBSZjdGwwMCRQYWdlQ29udGVudCRjYkNyZWF0ZVJlZnVuZENyZWRpdAUYY3RsMDAkUGFnZUNvbnRlbnQkZ3ZNYWluDzwrAAoBCAIBZOrKjDIVrpGD69/MhKkUJS4FRmuM">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=xTcH6fGIYhSSZxlmeDkanpNiU_Snb_kYvWIj-4JV8MEGrd6XYz9UqieUwwKs2QDeAh-Cqp3Tu1ejabgVOrInbA1XhIA1&amp;t=635588435086469712" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+function YMCalendar(ButtonId, TextBoxId, DialogId, DateFormat) {
+                                YAHOO.namespace('container');
+                                //YAHOO.util.Event.onDOMReady(function() {
+
+                                    var Event = YAHOO.util.Event,
+                                    Dom = YAHOO.util.Dom,
+                                    dialog,
+                                    calendar;
+
+                                    var showBtn = Dom.get(ButtonId);
+
+                                    Event.on(showBtn, 'click', function() {
+
+                                        if (!dialog) {
+
+                                            Event.on(document, 'click', function(e) {
+                                                var el = Event.getTarget(e);
+                                                var dialogEl = dialog.element;
+                                                if (el != dialogEl && !Dom.isAncestor(dialogEl, el) && el != showBtn && !Dom.isAncestor(showBtn, el)) {
+                                                    dialog.hide();
+                                                }
+                                            });
+
+                                            function resetHandler() {
+                                                var selDates = calendar.getSelectedDates();
+                                                var resetDate;
+
+                                                if (selDates.length > 0) {
+                                                    resetDate = selDates[0];
+                                                } else {
+                                                    resetDate = calendar.today;
+                                                }
+
+                                                calendar.cfg.setProperty('pagedate', resetDate);
+                                                calendar.render();
+                                            }
+
+                                            function closeHandler() {
+                                                Dom.setStyle('+DialogId+', 'display', 'none'); 
+                                                dialog.hide();
+                                            }
+
+                                            dialog = new YAHOO.widget.Dialog(DialogId, {
+                                                visible: false,
+                                                zindex: 20000,
+                                                context: [TextBoxId, 'tl', 'bl'],
+                                                draggable: false,
+                                                underlay: 'shadow',
+                                                close: false
+                                            });
+                                            Dom.setStyle('DialogId', 'display', 'block'); 
+                                            dialog.setBody('<div class=yui-skin-sam><div id='+DialogId+'><div class=hd><div class=bd><div id=cal></div></div></div></div></div>');
+                                            dialog.render(document.body);
+
+                                            dialog.showEvent.subscribe(function() {
+                                                if (YAHOO.env.ua.ie) {
+                                                    dialog.fireEvent('changeContent');
+                                                }
+                                            });
+                                        }
+
+                                        if (!calendar) {
+
+                                            calendar = new YAHOO.widget.Calendar('cal', {
+                                                iframe: false,          // Turn iframe off, since container has iframe support.
+                                                hide_blank_weeks: true  // Enable, to demonstrate how we handle changing height, using changeContent
+                                            });
+                                            calendar.render();
+
+                                            calendar.selectEvent.subscribe(function() {
+                                                if (calendar.getSelectedDates().length > 0) {
+
+                                                    var selDate = calendar.getSelectedDates()[0];
+                                                   Dom.get(TextBoxId).value = YMFormatDate(selDate, DateFormat);
+                                                   $('#' + TextBoxId).trigger('change');
+                                                } else {
+                                                    Dom.get(TextBoxId).value = '';
+                                                }
+                                                Dom.setStyle('+DialogId+', 'display', 'none'); 
+                                                dialog.hide();
+                                            });
+
+                                            calendar.renderEvent.subscribe(function() {
+                                                dialog.fireEvent('changeContent');
+                                            });
+
+                                        }
+
+                                        var seldate = calendar.getSelectedDates();
+
+                                        if (seldate.length > 0) {
+                                            calendar.cfg.setProperty('pagedate', seldate[0]);
+                                            calendar.render();
+                                        }
+
+                                        dialog.show();
+                                    });
+							//	});
+                            }
+
+                            function YMFormatDate(myDate, YMDateFormat) {
+                                var formattedDate = YMDateFormat;
+
+                                var mDay = myDate.getDate();
+                                if (mDay < 10)
+                                {
+                                    mDay = '0' + mDay.toString();
+                                }
+                                var mMonth =  myDate.getMonth() + 1;
+                                if (mMonth < 10)
+                                {
+                                    mMonth = '0' + mMonth.toString();
+                                }
+                               
+                                var mYear = myDate.getFullYear();
+
+                                formattedDate = formattedDate.replace('mm', mMonth.toString());
+                                formattedDate = formattedDate.replace('dd', mDay.toString());
+                                formattedDate = formattedDate.replace('yyyy', mYear.toString());
+								formattedDate = formattedDate.replace('StartTime', ' 00:00:00');
+								formattedDate = formattedDate.replace('EndTime', ' 23:59:59');
+                                return formattedDate;
+                            }//]]>
+</script>
+
+<script src="/WebResource.axd?d=qCYKztnHILB6Tjq03qmQ16uQLekhy0XhP6mtdB_ddatsElmk9hm87HKUikhgpKDsxyNLnj8LvSP9YvB-PrelOSejVcQ1&amp;t=635588435086469712" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="D4F5E518">
+</div>
+						<div>
+							
+
+<script type="text/javascript" src="/global_inc/js/ajax_functions.js"></script>
+<script type="text/javascript">
+		function showHideRefundCreditCheckbox(DropDownId, CheckboxId)
+		{
+    	var ddl = document.getElementById(DropDownId);
+			if (ddl.options[ddl.selectedIndex].value == 'REFUND')
+			{
+    		showRefundCreditCheckbox();
+    		showHideRefundCreditGLCodeInput(CheckboxId);
+    	}
+			else
+			{
+    		hideRefundCreditCheckbox();
+    	}
+    	return false;
+    }
+
+		function showRefundCreditCheckbox()
+		{
+    	divRefundCreditOption.style.display = '';
+    	return false;
+    }
+
+		function hideRefundCreditCheckbox()
+		{
+    	divRefundCreditOption.style.display = 'none';
+    	trRefundCreditGLCode.style.display = 'none';
+    	return false;
+    }
+
+		function showHideRefundCreditGLCodeInput(CheckboxId)
+		{
+    	var cb = document.getElementById(CheckboxId);
+			if (cb.checked == true)
+			{
+    		trRefundCreditGLCode.style.display = '';
+    	}
+			else
+			{
+    		trRefundCreditGLCode.style.display = 'none';
+    	}
+    }
+
+		function bindOnChangeApplyAdjTo(rblApplyAdjToID, ddlLineItemsID)
+		{
+        setApplyAdjToState(rblApplyAdjToID, ddlLineItemsID);
+			$('#' + rblApplyAdjToID).change(function ()
+			{
+            setApplyAdjToState(rblApplyAdjToID, ddlLineItemsID);
+        });
+    }
+
+		function setApplyAdjToState(rblApplyAdjToID, ddlLineItemsID)
+		{
+			if ($('#' + rblApplyAdjToID).find("input:checked").val() == "1")
+			{
+            $('#' + ddlLineItemsID).show();
+        }
+			else
+			{
+            $('#' + ddlLineItemsID).hide();
+        }
+    }
+</script>
+
+<style type="text/css">
+		#InvoiceFormsPanelBody
+		{
+			background: White;
+		}
+</style>
+
+	<div id="CalPopUpDiv" class="Style1_cpContainer"></div>
+<h2>Invoice &amp; Transaction Manager</h2>
+	<div style="width: 100%">
+
+<p></p>
+<a id="aInvoiceImport" href="/admin/Import/Default.aspx?type=Invoice"><i class="fa fa-upload mright-5" title="Import Inovice Payments"></i><b>Import Invoice Payments</b></a>
+<p></p>
+
+
+
+<div id="ctl00_PageContent_divSearchTable" class="headerBox">
+<table>
+<tbody><tr>
+    <td>Commerce Type:</td>
+					<td>
+						<select name="ctl00$PageContent$ddlInvoiceType" id="ctl00_PageContent_ddlInvoiceType">
+	<option selected="selected" value="d, m, s, ">All Types</option>
+	<option value="d">Donation</option>
+	<option value="m">Dues/Membership</option>
+	<option value="s">Store Order</option>
+
+</select>
+					</td>
+    <td>Date Range:</td>
+    <td nowrap="">
+						
+<style type="text/css">
+/*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/assets/skins/sam/button.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/assets/skins/sam/container.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/button-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/calendar-min.js"></script>
+
+<script type="text/javascript">
+	//YAHOO.util.Event.onDOMReady
+</script>
+
+<style type="text/css"> 
+    /* Clear calendar's float, using dialog inbuilt form element */
+    #container .bd form {
+        clear:left;
+    }
+ 
+    /* Have calendar squeeze upto bd bounding box */
+    #container .bd {
+        padding:0;
+    }
+ 
+    #container .hd {
+        text-align:left;
+    }
+ 
+    /* Center buttons in the footer */
+    #container .ft .button-group {
+        text-align:center;
+    }
+ 
+    /* Prevent border-collapse:collapse from bleeding through in IE6, IE7 */
+ 
+    /* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+    #cal {
+        border:none;
+        padding:1em;
+    }
+
+ 	.calendarButton:hover
+	{
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+</style>
+<input name="ctl00$PageContent$dpMinDate$txtDateField" type="text" maxlength="50" id="ctl00_PageContent_dpMinDate_txtDateField" class="customDatePickerTextBox" searchtype="&lt;%=SearchType%&gt;" style="width:150px;">
+<a id="ctl00_PageContent_dpMinDate_hlDateShow" title="Show Calendar" class="calendarButton">
+	<i class="fa fa-calendar" style="font-size: 14px; cursor: pointer;"></i>
+</a>
+<script type="text/javascript">YMCalendar('ctl00_PageContent_dpMinDate_hlDateShow','ctl00_PageContent_dpMinDate_txtDateField','dpMinDate','yyyy/mm/ddStartTime');</script>
+
+
+
+
+<script type="text/javascript">
+	$("#ctl00_PageContent_dpMinDate_txtDateField").on('input', function (e)
+	{
+		
+	});
+	$("#ctl00_PageContent_dpMinDate_txtDateField").on('change', function (e)
+	{
+		
+	});
+</script>
+						
+<style type="text/css">
+/*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/assets/skins/sam/button.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/assets/skins/sam/container.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/button-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/calendar-min.js"></script>
+
+<script type="text/javascript">
+	//YAHOO.util.Event.onDOMReady
+</script>
+
+<style type="text/css"> 
+    /* Clear calendar's float, using dialog inbuilt form element */
+    #container .bd form {
+        clear:left;
+    }
+ 
+    /* Have calendar squeeze upto bd bounding box */
+    #container .bd {
+        padding:0;
+    }
+ 
+    #container .hd {
+        text-align:left;
+    }
+ 
+    /* Center buttons in the footer */
+    #container .ft .button-group {
+        text-align:center;
+    }
+ 
+    /* Prevent border-collapse:collapse from bleeding through in IE6, IE7 */
+ 
+    /* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+    #cal {
+        border:none;
+        padding:1em;
+    }
+
+ 	.calendarButton:hover
+	{
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+</style>
+<input name="ctl00$PageContent$dpMaxDate$txtDateField" type="text" maxlength="50" id="ctl00_PageContent_dpMaxDate_txtDateField" class="customDatePickerTextBox" searchtype="&lt;%=SearchType%&gt;" style="width:150px;">
+<a id="ctl00_PageContent_dpMaxDate_hlDateShow" title="Show Calendar" class="calendarButton">
+	<i class="fa fa-calendar" style="font-size: 14px; cursor: pointer;"></i>
+</a>
+<script type="text/javascript">YMCalendar('ctl00_PageContent_dpMaxDate_hlDateShow','ctl00_PageContent_dpMaxDate_txtDateField','dpMaxDate','yyyy/mm/ddEndTime');</script>
+
+
+
+
+<script type="text/javascript">
+	$("#ctl00_PageContent_dpMaxDate_txtDateField").on('input', function (e)
+	{
+		
+	});
+	$("#ctl00_PageContent_dpMaxDate_txtDateField").on('change', function (e)
+	{
+		
+	});
+</script>
+    </td>
+</tr>
+<tr>
+    <td>Name (person):</td>
+    <td><input name="ctl00$PageContent$txtLastName" type="text" maxlength="100" id="ctl00_PageContent_txtLastName" style="width:205px;"></td>
+    <td>Invoice Date Range:</td>
+    <td nowrap="">
+						
+<style type="text/css">
+/*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/assets/skins/sam/button.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/assets/skins/sam/container.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/button-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/calendar-min.js"></script>
+
+<script type="text/javascript">
+	//YAHOO.util.Event.onDOMReady
+</script>
+
+<style type="text/css"> 
+    /* Clear calendar's float, using dialog inbuilt form element */
+    #container .bd form {
+        clear:left;
+    }
+ 
+    /* Have calendar squeeze upto bd bounding box */
+    #container .bd {
+        padding:0;
+    }
+ 
+    #container .hd {
+        text-align:left;
+    }
+ 
+    /* Center buttons in the footer */
+    #container .ft .button-group {
+        text-align:center;
+    }
+ 
+    /* Prevent border-collapse:collapse from bleeding through in IE6, IE7 */
+ 
+    /* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+    #cal {
+        border:none;
+        padding:1em;
+    }
+
+ 	.calendarButton:hover
+	{
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+</style>
+<input name="ctl00$PageContent$dpMinInvoiceDate$txtDateField" type="text" maxlength="50" id="ctl00_PageContent_dpMinInvoiceDate_txtDateField" class="customDatePickerTextBox" searchtype="&lt;%=SearchType%&gt;" style="width:150px;">
+<a id="ctl00_PageContent_dpMinInvoiceDate_hlDateShow" title="Show Calendar" class="calendarButton">
+	<i class="fa fa-calendar" style="font-size: 14px; cursor: pointer;"></i>
+</a>
+<script type="text/javascript">YMCalendar('ctl00_PageContent_dpMinInvoiceDate_hlDateShow','ctl00_PageContent_dpMinInvoiceDate_txtDateField','dpMinInvoiceDate','yyyy/mm/dd');</script>
+
+
+
+
+<script type="text/javascript">
+	$("#ctl00_PageContent_dpMinInvoiceDate_txtDateField").on('input', function (e)
+	{
+		
+	});
+	$("#ctl00_PageContent_dpMinInvoiceDate_txtDateField").on('change', function (e)
+	{
+		
+	});
+</script>
+						
+<style type="text/css">
+/*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/assets/skins/sam/button.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/assets/skins/sam/container.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/button-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/calendar-min.js"></script>
+
+<script type="text/javascript">
+	//YAHOO.util.Event.onDOMReady
+</script>
+
+<style type="text/css"> 
+    /* Clear calendar's float, using dialog inbuilt form element */
+    #container .bd form {
+        clear:left;
+    }
+ 
+    /* Have calendar squeeze upto bd bounding box */
+    #container .bd {
+        padding:0;
+    }
+ 
+    #container .hd {
+        text-align:left;
+    }
+ 
+    /* Center buttons in the footer */
+    #container .ft .button-group {
+        text-align:center;
+    }
+ 
+    /* Prevent border-collapse:collapse from bleeding through in IE6, IE7 */
+ 
+    /* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+    #cal {
+        border:none;
+        padding:1em;
+    }
+
+ 	.calendarButton:hover
+	{
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+</style>
+<input name="ctl00$PageContent$dpMaxInvoiceDate$txtDateField" type="text" maxlength="50" id="ctl00_PageContent_dpMaxInvoiceDate_txtDateField" class="customDatePickerTextBox" searchtype="&lt;%=SearchType%&gt;" style="width:150px;">
+<a id="ctl00_PageContent_dpMaxInvoiceDate_hlDateShow" title="Show Calendar" class="calendarButton">
+	<i class="fa fa-calendar" style="font-size: 14px; cursor: pointer;"></i>
+</a>
+<script type="text/javascript">YMCalendar('ctl00_PageContent_dpMaxInvoiceDate_hlDateShow','ctl00_PageContent_dpMaxInvoiceDate_txtDateField','dpMaxInvoiceDate','yyyy/mm/dd');</script>
+
+
+
+
+<script type="text/javascript">
+	$("#ctl00_PageContent_dpMaxInvoiceDate_txtDateField").on('input', function (e)
+	{
+		
+	});
+	$("#ctl00_PageContent_dpMaxInvoiceDate_txtDateField").on('change', function (e)
+	{
+		
+	});
+</script>
+    </td>
+</tr>
+<tr>
+    <td>Check/Ref. No.:</td>
+    <td><input name="ctl00$PageContent$txtRefNo" type="text" maxlength="50" id="ctl00_PageContent_txtRefNo" style="width:150px;"></td>
+    <td>Organization:</td>
+    <td><input name="ctl00$PageContent$txtOrganization" type="text" maxlength="100" id="ctl00_PageContent_txtOrganization" style="width:205px;" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"></td>
+</tr>
+<tr>
+    <td>Transaction Type:</td>
+					<td>
+						<select name="ctl00$PageContent$ddlItemType" id="ctl00_PageContent_ddlItemType">
+	<option selected="selected" value="">All Types</option>
+	<option value="GENERAL_ADJUSTMENT">Adjustment</option>
+	<option value="CREDIT">Credit</option>
+	<option value="DISCOUNT_MEMBERSHIP">Discount (Membership Promo Code)</option>
+	<option value="DISCOUNT_SHIPPING">Discount (Shipping Promo Code)</option>
+	<option value="DISCOUNT_STORE_ITEM">Discount (Store Promo Code)</option>
+	<option value="MASTER_INVOICE_RECORD">Invoice</option>
+	<option value="PAYMENT">Payment</option>
+	<option value="REFUND">Refund</option>
+	<option value="RETURN">Return</option>
+
+</select></td>
+    <td>Invoice Number:</td>
+    <td>
+        <input name="ctl00$PageContent$txtInvoiceNumber" type="text" value="300015447" maxlength="15" id="ctl00_PageContent_txtInvoiceNumber" class="numericOnly" style="width:150px;">
+        &nbsp;<span>(Left Wildcard)</span>
+    </td>
+</tr>
+<tr>
+    <td style="vertical-align: top; padding-top: 15px">Payment Option:</td>
+    <td style="vertical-align: top;">
+		<select name="ctl00$PageContent$ddlPaymentOption" id="ctl00_PageContent_ddlPaymentOption">
+	<option selected="selected" value="">Any Payment Option</option>
+	<option value="2">Bill Me</option>
+	<option value="8">PayPal</option>
+	<option value="1">Credit Card</option>
+	<option value="32">ACH/E-Check</option>
+	<option value="16">Check/Money Order</option>
+	<option value="128">Bill to Master</option>
+	<option value="64">Cash</option>
+
+</select>
+    </td>
+    <td style="vertical-align: top; padding-top: 12px">
+	    <label>Deleted Transactions:</label>
+    </td>
+    <td>
+	    <span id="ctl00_PageContent_intDeletedTrxOption"><input id="ctl00_PageContent_intDeletedTrxOption_0" type="radio" name="ctl00$PageContent$intDeletedTrxOption" value="0"><label for="ctl00_PageContent_intDeletedTrxOption_0">Omit Deleted Transactions</label><br><input id="ctl00_PageContent_intDeletedTrxOption_1" type="radio" name="ctl00$PageContent$intDeletedTrxOption" value="1"><label for="ctl00_PageContent_intDeletedTrxOption_1">Show Only Deleted Transactions</label><br><input id="ctl00_PageContent_intDeletedTrxOption_2" type="radio" name="ctl00$PageContent$intDeletedTrxOption" value="" checked="checked"><label for="ctl00_PageContent_intDeletedTrxOption_2">Doesn't Matter</label></span>
+    </td>
+</tr>
+<tr>
+				
+					<td style="vertical-align: top; padding-top: 15px;" colspan="2">&nbsp;</td>
+				
+					<td style="vertical-align: top; padding-top: 12px;">
+						<label>Installment Transactions:</label>
+					</td>
+					<td>
+						<span id="ctl00_PageContent_intInstallmentTransactions"><input id="ctl00_PageContent_intInstallmentTransactions_0" type="radio" name="ctl00$PageContent$intInstallmentTransactions" value="0"><label for="ctl00_PageContent_intInstallmentTransactions_0">Omit Dues Installment Transactions</label><br><input id="ctl00_PageContent_intInstallmentTransactions_1" type="radio" name="ctl00$PageContent$intInstallmentTransactions" value="1"><label for="ctl00_PageContent_intInstallmentTransactions_1">Show Only Dues Installment Transactions</label><br><input id="ctl00_PageContent_intInstallmentTransactions_2" type="radio" name="ctl00$PageContent$intInstallmentTransactions" value="" checked="checked"><label for="ctl00_PageContent_intInstallmentTransactions_2">Doesn't Matter</label></span>
+					</td>
+</tr>
+			</tbody></table>
+			<br>
+<input type="submit" name="ctl00$PageContent$btnSearch" value="Search" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PageContent$btnSearch&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="ctl00_PageContent_btnSearch" class="btn btn-primary">
+</div>
+
+<p>
+			<a title="Export Invoices &amp; Transactions" href="#" onclick="return openCsvExport(0,'/admin/invoice/export_invoice_trxs.asp', 'invoicetype=&amp;lname=&amp;refno=&amp;trxtype=&amp;datemin=&amp;datemax=&amp;org=&amp;invoice=300015447&amp;set=&amp;dateinvoicemin=&amp;dateinvoicemax=&amp;paymentoption=&amp;deletedTrxOption=&amp;processorconfigid=&amp;installmenttransactions=&amp;detail=false');"><i class="fa fa-download mright-5"></i><b>Export Invoices &amp; Transactions</b></a> (<a title="Export Invoices &amp; Transactions" href="#" onclick="return openCsvExport(1, '/admin/invoice/export_invoice_trxs.asp', 'invoicetype=&amp;lname=&amp;refno=&amp;trxtype=&amp;datemin=&amp;datemax=&amp;org=&amp;invoice=300015447&amp;set=&amp;dateinvoicemin=&amp;dateinvoicemax=&amp;paymentoption=&amp;deletedTrxOption=&amp;processorconfigid=&amp;installmenttransactions=&amp;detail=false');">Unicode</a>)&nbsp;<script type="text/javascript">getBackendHelpLink('INVOICE_TRX_MGR_EXPORT')</script><a id="HelpLink_INVOICE_TRX_MGR_EXPORT" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_TRX_MGR_EXPORT', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+			&nbsp;&nbsp;
+			<a title="Export Invoice Items &amp; Transactions" href="#" onclick="return openCsvExport(0,'/admin/invoice/export_invoice_trxs.asp', 'invoicetype=&amp;lname=&amp;refno=&amp;trxtype=&amp;datemin=&amp;datemax=&amp;org=&amp;invoice=300015447&amp;set=&amp;dateinvoicemin=&amp;dateinvoicemax=&amp;paymentoption=&amp;deletedTrxOption=&amp;processorconfigid=&amp;installmenttransactions=&amp;detail=true');"><i class="fa fa-download mright-5"></i><b>Export Invoice Items &amp; Transactions</b></a> (<a title="Export Invoice Items &amp; Transactions" href="#" onclick="return openCsvExport(1, '/admin/invoice/export_invoice_trxs.asp', 'invoicetype=&amp;lname=&amp;refno=&amp;trxtype=&amp;datemin=&amp;datemax=&amp;org=&amp;invoice=300015447&amp;set=&amp;dateinvoicemin=&amp;dateinvoicemax=&amp;paymentoption=&amp;deletedTrxOption=&amp;processorconfigid=&amp;installmenttransactions=&amp;detail=true');">Unicode</a>)&nbsp;<script type="text/javascript">getBackendHelpLink('INVOICE_TRX_MGR_EXPORT_DETAIL')</script><a id="HelpLink_INVOICE_TRX_MGR_EXPORT_DETAIL" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_TRX_MGR_EXPORT_DETAIL', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+&nbsp;&nbsp;
+			<a title="Export Aging of Transactions" href="#" onclick="return openCsvExport(0,'/admin/invoice/export_invoice_trxs.asp', 'invoicetype=&amp;lname=&amp;refno=&amp;trxtype=&amp;datemin=&amp;datemax=&amp;org=&amp;invoice=300015447&amp;set=&amp;dateinvoicemin=&amp;dateinvoicemax=&amp;paymentoption=&amp;deletedTrxOption=&amp;processorconfigid=&amp;installmenttransactions=&amp;aging=1&amp;detail=false');"><i class="fa fa-download mright-5"></i><b>Export Aging of Transactions</b></a> (<a title="Export Aging of Transactions" href="#" onclick="return openCsvExport(1, '/admin/invoice/export_invoice_trxs.asp', 'invoicetype=&amp;lname=&amp;refno=&amp;trxtype=&amp;datemin=&amp;datemax=&amp;org=&amp;invoice=300015447&amp;set=&amp;dateinvoicemin=&amp;dateinvoicemax=&amp;paymentoption=&amp;deletedTrxOption=&amp;processorconfigid=&amp;installmenttransactions=&amp;aging=1&amp;detail=false');">Unicode</a>)&nbsp;<script type="text/javascript">getBackendHelpLink('INVOICE_TRX_MGR_EXPORT')</script><a id="HelpLink_INVOICE_TRX_MGR_EXPORT" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_TRX_MGR_EXPORT', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+			
+		</p>
+<div>
+	<table class="datagrid1" cellspacing="0" cellpadding="4" border="0" id="ctl00_PageContent_gvMain" style="width:100%;border-collapse:collapse;">
+		<tbody><tr class="header">
+			<td>Options</td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$intInvoiceNo')">Invoice Number</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$strTrxDesc')">Invoice Type</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$strFullName')">Name on Invoice</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$strOrganization')">Organization</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$strItemDesc')">Type</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$datInvoiceDate')">Invoice Date</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$datDate')">Date Created</a></td><td><a href="javascript:__doPostBack('ctl00$PageContent$gvMain','Sort$dblLineTotal')">Amount</a></td>
+		</tr><tr class="item">
+			<td style="white-space:nowrap;">
+						<span style="font-size: 14px;">
+							<a id="ctl00_PageContent_gvMain_ctl02_hlViewPrintInvoice" title="View/Print Invoice" href="JavaScript:%20openPopup('/members/invoice_view.asp?id=02b9a447-4c18-4b89-9272-8bbf75fd8563','InvoiceView','menubar,status,scrollbars,toolbar',700,600);"><i class="fa fa-file-text-o"></i></a>
+							
+							<a id="ctl00_PageContent_gvMain_ctl02_hlMakeAdjustment" title="Make an Adjustment" href="/admin/invoice/default.aspx?invoice=300015447&amp;showform=adj"><i class="fa fa-plus-square"></i></a>
+							<a id="ctl00_PageContent_gvMain_ctl02_hlMakePayment" title="Record/Process a Payment" href="/admin/invoice/InvoicePayment.aspx?id=02b9a447-4c18-4b89-9272-8bbf75fd8563&amp;FinalURL=%7e%2fadmin%2finvoice%2fdefault.aspx%3fsubmitted%3dtrue%26invoice%3d300015447"><i class="fa fa-credit-card"></i></a>
+							
+						</span>
+                    </td><td>
+                        <a id="ctl00_PageContent_gvMain_ctl02_hlDetailView" title="View Dues Transaction Details" href="/admin/invoice/find.asp?invoice=02b9a447-4c18-4b89-9272-8bbf75fd8563">300015447</a>
+                    </td><td>Dues/Membership</td><td>Smal, Deon</td><td>Oktfest (Pty)Ltd</td><td>Invoice</td><td>2016/01/01 12:00:00 AM</td><td>2015/12/08 03:19:23 AM</td><td>360.0006</td>
+		</tr>
+	</tbody></table>
+</div>
+</div>
+    
+	<!-- Adjustment Form Dialog -->
+	<div id="AdjustmentFormDialog" class="modal fade in" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-backdrop fade in"></div>
+		<div class="modal-dialog" style="margin-top: 25px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="btnCloseInvoiceFormsDialog" data-dismiss="modal" data-target="#AdjustmentFormDialog" class="close" type="button">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 id="AdjustmentFormTitle" class="modal-title">Make an Adjustment</h4>
+				</div>
+				<div id="AdjustmentFormDetail" class="modal-body" style="padding-top: 0;">
+					<div id="ctl00_PageContent_vsAdjustmentForm" class="infoBox" style="color:Red;margin-top:0px;display:none;">
+
+</div>
+			
+					<table class="formtable1" width="100%" cellspacing="0" style="margin: 0;">
+			<tbody><tr>
+	            <th width="40%">Adjustment Date</th>
+							<td width="60%">
+								
+<style type="text/css">
+/*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/assets/skins/sam/button.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/assets/skins/sam/container.css">
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/datasource/datasource-min.js"></script> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/button/button-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/container/container-min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.9.0/build/calendar/calendar-min.js"></script>
+
+<script type="text/javascript">
+	//YAHOO.util.Event.onDOMReady
+</script>
+
+<style type="text/css"> 
+    /* Clear calendar's float, using dialog inbuilt form element */
+    #container .bd form {
+        clear:left;
+    }
+ 
+    /* Have calendar squeeze upto bd bounding box */
+    #container .bd {
+        padding:0;
+    }
+ 
+    #container .hd {
+        text-align:left;
+    }
+ 
+    /* Center buttons in the footer */
+    #container .ft .button-group {
+        text-align:center;
+    }
+ 
+    /* Prevent border-collapse:collapse from bleeding through in IE6, IE7 */
+ 
+    /* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+    #cal {
+        border:none;
+        padding:1em;
+    }
+
+ 	.calendarButton:hover
+	{
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+</style>
+<input name="ctl00$PageContent$dpAdjustmentDate$txtDateField" type="text" value="2015/12/10" maxlength="50" id="ctl00_PageContent_dpAdjustmentDate_txtDateField" class="customDatePickerTextBox" searchtype="&lt;%=SearchType%&gt;">
+<a id="ctl00_PageContent_dpAdjustmentDate_hlDateShow" title="Show Calendar" class="calendarButton">
+	<i class="fa fa-calendar" style="font-size: 14px; cursor: pointer;"></i>
+</a>
+<script type="text/javascript">YMCalendar('ctl00_PageContent_dpAdjustmentDate_hlDateShow','ctl00_PageContent_dpAdjustmentDate_txtDateField','dpAdjustmentDate','yyyy/mm/dd');</script>
+
+
+
+
+<script type="text/javascript">
+	$("#ctl00_PageContent_dpAdjustmentDate_txtDateField").on('input', function (e)
+	{
+		
+	});
+	$("#ctl00_PageContent_dpAdjustmentDate_txtDateField").on('change', function (e)
+	{
+		
+	});
+</script>
+							</td>
+	        </tr>
+			<tr>
+			    <th width="35%">Invoice Number</th>
+							<td width="65%">
+								<div id="intInvoiceNo1"></div>
+							</td>
+			</tr>
+			<tr>
+	            <th>Balance Due</th>
+							<td>
+								<div id="dblOutstandingBalance1"></div>
+							</td>
+	        </tr>
+			<tr>
+							<th>Adjustment Amount
+								<script type="text/javascript">getBackendHelpLink('INVOICE_ADJUSTMENT_AMT')</script><a id="HelpLink_INVOICE_ADJUSTMENT_AMT" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_ADJUSTMENT_AMT', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+							</th>
+							<td>
+								<input name="ctl00$PageContent$txtAmountAdjustment" type="text" maxlength="15" id="ctl00_PageContent_txtAmountAdjustment" style="width:75px;">
+			    
+			    <span id="ctl00_PageContent_revAmountAdjustment" style="color:Red;display:none;"></span>
+			    </td>
+			</tr>
+			<tr>
+							<th>List Adjustment As a
+								<script type="text/javascript">getBackendHelpLink('INVOICE_ADJUSTMENT_TYPE')</script><a id="HelpLink_INVOICE_ADJUSTMENT_TYPE" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_ADJUSTMENT_TYPE', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+							</th>
+							<td>
+								<select name="ctl00$PageContent$ddlAdjustmentType" id="ctl00_PageContent_ddlAdjustmentType" onchange="javascript: return showHideRefundCreditCheckbox('ctl00_PageContent_ddlAdjustmentType', 'ctl00_PageContent_cbCreateRefundCredit')">
+	<option selected="selected" value=""></option>
+	<option value="GENERAL_ADJUSTMENT">Adjustment</option>
+	<option value="CREDIT">Credit</option>
+	<option value="DISCOUNT_MEMBERSHIP">Discount (Membership Promo Code)</option>
+	<option value="DISCOUNT_SHIPPING">Discount (Shipping Promo Code)</option>
+	<option value="DISCOUNT_STORE_ITEM">Discount (Store Promo Code)</option>
+	<option value="REFUND">Refund</option>
+	<option value="RETURN">Return</option>
+
+</select>
+					<div id="divRefundCreditOption" style="padding-top: 5px; display: none">
+									<input id="ctl00_PageContent_cbCreateRefundCredit" type="checkbox" name="ctl00$PageContent$cbCreateRefundCredit" checked="checked" onclick="javascript: showHideRefundCreditGLCodeInput('ctl00_PageContent_cbCreateRefundCredit');">
+									Create a corresponding Credit adjustment
+					</div>
+                    </td>
+			</tr>
+            <tr>
+                <th>Apply Adjustment To</th>
+                <td>
+                    <span id="ctl00_PageContent_rblApplyAdjTo"><input id="ctl00_PageContent_rblApplyAdjTo_0" type="radio" name="ctl00$PageContent$rblApplyAdjTo" value="0" checked="checked"><label for="ctl00_PageContent_rblApplyAdjTo_0">Entire Invoice</label><input id="ctl00_PageContent_rblApplyAdjTo_1" type="radio" name="ctl00$PageContent$rblApplyAdjTo" value="1"><label for="ctl00_PageContent_rblApplyAdjTo_1">Single Line Item</label></span>
+                    <br>
+								<select name="ctl00$PageContent$ddlAdjustableLineItems" id="ctl00_PageContent_ddlAdjustableLineItems" style="display: none; max-width: 400px">
+	<option value="34269477">SAIBA Member Only</option>
+
+</select>
+					
+                </td>
+            </tr>
+			<tr id="ctl00_PageContent_trTaxVATOption">
+	<th>Include Adjustment for Tax/VAT
+								<script type="text/javascript">getBackendHelpLink('INVOICE_ADJUSTMENT_TAX')</script><a id="HelpLink_INVOICE_ADJUSTMENT_TAX" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_ADJUSTMENT_TAX', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+							</th>
+	<td>
+			    <span id="ctl00_PageContent_rblTaxVATOption"><input id="ctl00_PageContent_rblTaxVATOption_0" type="radio" name="ctl00$PageContent$rblTaxVATOption" value="1" checked="checked"><label for="ctl00_PageContent_rblTaxVATOption_0">Yes</label><input id="ctl00_PageContent_rblTaxVATOption_1" type="radio" name="ctl00$PageContent$rblTaxVATOption" value="0"><label for="ctl00_PageContent_rblTaxVATOption_1">No</label></span>
+			    </td>
+</tr>
+
+			<tr>
+			    <th>GL Code/Item Name</th>
+			    <td>
+			        <div id="GLDropDown">
+                        <div id="ddlGLCode_Select" style="white-space: nowrap"><select name="ddlGLCode" id="ddlGLCode"><option value=""></option>
+<option text="4HZAED">4HZAED</option><option text="Sponsorships">Sponsorships</option></select><a href="#" onclick="return ddlGLCode_insertdropdown_AddNew();"><i class="fa fa-plus mleft-5" title="Add New"></i></a></div>
+<div id="ddlGLCode_Text" style="white-space: nowrap; display: none; "><input type="text" name="ddlGLCodeOther" size="25" maxlength="100" value="" onkeydown="return (event.keyCode!=13);"><a href="#" onclick="return ddlGLCode_insertdropdown_Save();"><i class="fa fa-save mleft-5 larger"></i></a><a href="#" onclick="return ddlGLCode_insertdropdown_Cancel();" class="text-danger"><i class="fa fa-ban mleft-5 larger" title="Cancel"></i></a><div id="ddlGLCode_Error" style="display:none"></div></div>
+<script language="JavaScript">
+<!--
+//function to show input of new invoicing frequency
+function ddlGLCode_insertdropdown_AddNew(){
+	$('#ddlGLCode_Select').hide();	$('#ddlGLCode_Text').show();	return false;
+}
+//function to hide input of new invoicing frequency
+function ddlGLCode_insertdropdown_Cancel(){
+	$('#ddlGLCode_Select').show();	$('#ddlGLCode_Text').hide();	//if they cancel, clear out anything they entered
+	$('input[name="ddlGLCodeOther"]').val('');	return false;
+}
+//function save newly added item
+function ddlGLCode_insertdropdown_Save(){
+ddlGLCode_saveItem( $('#ddlGLCode_Select select').get(0).id );	return false;
+}
+function ddlGLCode_saveItem(controlId)
+            {
+            $('#ddlGLCode_Error').hide();
+            var inputVal = $('input[name="ddlGLCodeOther"]').val();
+            if (0 === inputVal.length || !inputVal.trim())
+            {
+                ShowAlert('GL Code is Required.');
+                return false;
+            }
+
+			function htmlEncode(value) {
+			   return $('<div/>').text(value).html();
+			}
+
+            $.ajax({
+            type: "POST",
+            url: "/global_engine/ajax/GLCodeService.asmx/SaveNewCode",
+            data: JSON.stringify({ "codeName": $('input[name="ddlGLCodeOther"]').val(), "codeType": 'glcode' }),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                if (!result.d.IsError) {
+                    var o = new Option(result.d.ObjectValue, result.d.ObjectId);
+                    
+                    $(o).html(htmlEncode(result.d.ObjectValue));
+                    
+					$('#'+controlId).append(o);
+                    $('#'+controlId).html($('#'+controlId+' option').sort(function(x, y) {
+                        return $(x).val() < $(y).val() ? -1 : 1;
+                    }));
+                    var elem = $('#'+controlId).get(0);
+                    var tmpAry = [];
+                    var newSelectedIndex = 0;
+                    
+                    for (var i = 0; i < elem.options.length; i++) {
+                        
+                        if(elem.options[i].value == result.d.ObjectId) newSelectedIndex = i;
+
+                    }
+                    elem.selectedIndex = newSelectedIndex;
+                     $('#ddlGLCode_Select').show();
+                     $('#ddlGLCode_Text').hide();
+                     //clear out anything they entered
+                     $('input[name="ddlGLCodeOther"]').val('');
+                }
+                else
+                {
+                  $('#ddlGLCode_Error').show();
+                  $('#ddlGLCode_Error').empty().append(result.d.ErrorText);
+                  return false;
+                }
+            },
+            error: function () {
+                ShowAlert("Error adding new code.");
+                }
+                }); return true;
+            }YAHOO.namespace("container2");function ShowAlert(strMessage) {
+			
+             var strText = '';
+            strText = '<div align=\"left\">' + strMessage + '</div>';
+			YAHOO.container2.dialog = new YAHOO.widget.SimpleDialog("dialog", {
+				text: strText,
+				iframe: false,
+				visible: true,
+				close: true,
+				draggable: true,
+				modal: false,
+				underlay: 'shadow',
+				width: '270px',
+				x: 640,
+				y:445
+			});
+
+			YAHOO.container2.dialog.setHeader("ATTENTION");
+			YAHOO.container2.dialog.cfg.setProperty("icon", YAHOO.widget.SimpleDialog.ICON_WARN);
+            YAHOO.container2.dialog.cfg.queueProperty("buttons", [
+		    { text:"Ok", handler:function() {
+			this.hide();
+		    }, isDefault:true }
+	        ]);
+			YAHOO.container2.dialog.render("PageBase_RaiseAlert");
+			YAHOO.container2.dialog.show();
+
+			
+		}//default to select list; hide text box
+$('#ddlGLCode_Select').show();$('#ddlGLCode_Text').hide();//-->
+</script>
+
+                    </div>
+                    </td>
+			</tr>
+			<tr id="trRefundCreditGLCode">
+			    <th>GL Code/Item Name (Credit)</th>
+			    <td>
+			        <div id="GLDropDownRefundCredit">
+                        <div id="ddlGLCodeRefundCredit_Select" style="white-space: nowrap"><select name="ddlGLCodeRefundCredit" id="ddlGLCodeRefundCredit"><option value=""></option>
+<option text="4HZAED">4HZAED</option><option text="Sponsorships">Sponsorships</option></select><a href="#" onclick="return ddlGLCodeRefundCredit_insertdropdown_AddNew();"><i class="fa fa-plus mleft-5" title="Add New"></i></a></div>
+<div id="ddlGLCodeRefundCredit_Text" style="white-space: nowrap; display: none; "><input type="text" name="ddlGLCodeRefundCreditOther" size="25" maxlength="100" value="" onkeydown="return (event.keyCode!=13);"><a href="#" onclick="return ddlGLCodeRefundCredit_insertdropdown_Save();"><i class="fa fa-save mleft-5 larger"></i></a><a href="#" onclick="return ddlGLCodeRefundCredit_insertdropdown_Cancel();" class="text-danger"><i class="fa fa-ban mleft-5 larger" title="Cancel"></i></a><div id="ddlGLCodeRefundCredit_Error" style="display:none"></div></div>
+<script language="JavaScript">
+<!--
+//function to show input of new invoicing frequency
+function ddlGLCodeRefundCredit_insertdropdown_AddNew(){
+	$('#ddlGLCodeRefundCredit_Select').hide();	$('#ddlGLCodeRefundCredit_Text').show();	return false;
+}
+//function to hide input of new invoicing frequency
+function ddlGLCodeRefundCredit_insertdropdown_Cancel(){
+	$('#ddlGLCodeRefundCredit_Select').show();	$('#ddlGLCodeRefundCredit_Text').hide();	//if they cancel, clear out anything they entered
+	$('input[name="ddlGLCodeRefundCreditOther"]').val('');	return false;
+}
+//function save newly added item
+function ddlGLCodeRefundCredit_insertdropdown_Save(){
+ddlGLCodeRefundCredit_saveItem( $('#ddlGLCodeRefundCredit_Select select').get(0).id );	return false;
+}
+function ddlGLCodeRefundCredit_saveItem(controlId)
+            {
+            $('#ddlGLCodeRefundCredit_Error').hide();
+            var inputVal = $('input[name="ddlGLCodeRefundCreditOther"]').val();
+            if (0 === inputVal.length || !inputVal.trim())
+            {
+                ShowAlert('GL Code is Required.');
+                return false;
+            }
+
+			function htmlEncode(value) {
+			   return $('<div/>').text(value).html();
+			}
+
+            $.ajax({
+            type: "POST",
+            url: "/global_engine/ajax/GLCodeService.asmx/SaveNewCode",
+            data: JSON.stringify({ "codeName": $('input[name="ddlGLCodeRefundCreditOther"]').val(), "codeType": 'glcode' }),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                if (!result.d.IsError) {
+                    var o = new Option(result.d.ObjectValue, result.d.ObjectId);
+                    
+                    $(o).html(htmlEncode(result.d.ObjectValue));
+                    
+					$('#'+controlId).append(o);
+                    $('#'+controlId).html($('#'+controlId+' option').sort(function(x, y) {
+                        return $(x).val() < $(y).val() ? -1 : 1;
+                    }));
+                    var elem = $('#'+controlId).get(0);
+                    var tmpAry = [];
+                    var newSelectedIndex = 0;
+                    
+                    for (var i = 0; i < elem.options.length; i++) {
+                        
+                        if(elem.options[i].value == result.d.ObjectId) newSelectedIndex = i;
+
+                    }
+                    elem.selectedIndex = newSelectedIndex;
+                     $('#ddlGLCodeRefundCredit_Select').show();
+                     $('#ddlGLCodeRefundCredit_Text').hide();
+                     //clear out anything they entered
+                     $('input[name="ddlGLCodeRefundCreditOther"]').val('');
+                }
+                else
+                {
+                  $('#ddlGLCodeRefundCredit_Error').show();
+                  $('#ddlGLCodeRefundCredit_Error').empty().append(result.d.ErrorText);
+                  return false;
+                }
+            },
+            error: function () {
+                ShowAlert("Error adding new code.");
+                }
+                }); return true;
+            }YAHOO.namespace("container2");function ShowAlert(strMessage) {
+			
+             var strText = '';
+            strText = '<div align=\"left\">' + strMessage + '</div>';
+			YAHOO.container2.dialog = new YAHOO.widget.SimpleDialog("dialog", {
+				text: strText,
+				iframe: false,
+				visible: true,
+				close: true,
+				draggable: true,
+				modal: false,
+				underlay: 'shadow',
+				width: '270px',
+				x: 640,
+				y:445
+			});
+
+			YAHOO.container2.dialog.setHeader("ATTENTION");
+			YAHOO.container2.dialog.cfg.setProperty("icon", YAHOO.widget.SimpleDialog.ICON_WARN);
+            YAHOO.container2.dialog.cfg.queueProperty("buttons", [
+		    { text:"Ok", handler:function() {
+			this.hide();
+		    }, isDefault:true }
+	        ]);
+			YAHOO.container2.dialog.render("PageBase_RaiseAlert");
+			YAHOO.container2.dialog.show();
+
+			
+		}//default to select list; hide text box
+$('#ddlGLCodeRefundCredit_Select').show();$('#ddlGLCodeRefundCredit_Text').hide();//-->
+</script>
+
+                    </div>
+                    </td>
+			</tr>
+			<tr>
+				<th>QuickBooks Class</th>
+				<td>
+                    <div id="strQBClass_Select" style="white-space: nowrap"><select name="strQBClass" id="strQBClass"><option value=""></option>
+<option text="Sponsorships">Sponsorships</option></select><a href="#" onclick="return strQBClass_insertdropdown_AddNew();"><i class="fa fa-plus mleft-5" title="Add New"></i></a></div>
+<div id="strQBClass_Text" style="white-space: nowrap; display: none; "><input type="text" name="strQBClassOther" size="25" maxlength="100" value="" onkeydown="return (event.keyCode!=13);"><a href="#" onclick="return strQBClass_insertdropdown_Save();"><i class="fa fa-save mleft-5 larger"></i></a><a href="#" onclick="return strQBClass_insertdropdown_Cancel();" class="text-danger"><i class="fa fa-ban mleft-5 larger" title="Cancel"></i></a><div id="strQBClass_Error" style="display:none"></div></div>
+<script language="JavaScript">
+<!--
+//function to show input of new invoicing frequency
+function strQBClass_insertdropdown_AddNew(){
+	$('#strQBClass_Select').hide();	$('#strQBClass_Text').show();	return false;
+}
+//function to hide input of new invoicing frequency
+function strQBClass_insertdropdown_Cancel(){
+	$('#strQBClass_Select').show();	$('#strQBClass_Text').hide();	//if they cancel, clear out anything they entered
+	$('input[name="strQBClassOther"]').val('');	return false;
+}
+//function save newly added item
+function strQBClass_insertdropdown_Save(){
+strQBClass_saveItem( $('#strQBClass_Select select').get(0).id );	return false;
+}
+function strQBClass_saveItem(controlId)
+            {
+            $('#strQBClass_Error').hide();
+            var inputVal = $('input[name="strQBClassOther"]').val();
+            if (0 === inputVal.length || !inputVal.trim())
+            {
+                ShowAlert('QB Class is Required.');
+                return false;
+            }
+
+			function htmlEncode(value) {
+			   return $('<div/>').text(value).html();
+			}
+
+            $.ajax({
+            type: "POST",
+            url: "/global_engine/ajax/GLCodeService.asmx/SaveNewCode",
+            data: JSON.stringify({ "codeName": $('input[name="strQBClassOther"]').val(), "codeType": 'qbclass' }),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                if (!result.d.IsError) {
+                    var o = new Option(result.d.ObjectValue, result.d.ObjectId);
+                    
+                    $(o).html(htmlEncode(result.d.ObjectValue));
+                    
+					$('#'+controlId).append(o);
+                    $('#'+controlId).html($('#'+controlId+' option').sort(function(x, y) {
+                        return $(x).val() < $(y).val() ? -1 : 1;
+                    }));
+                    var elem = $('#'+controlId).get(0);
+                    var tmpAry = [];
+                    var newSelectedIndex = 0;
+                    
+                    for (var i = 0; i < elem.options.length; i++) {
+                        
+                        if(elem.options[i].value == result.d.ObjectId) newSelectedIndex = i;
+
+                    }
+                    elem.selectedIndex = newSelectedIndex;
+                     $('#strQBClass_Select').show();
+                     $('#strQBClass_Text').hide();
+                     //clear out anything they entered
+                     $('input[name="strQBClassOther"]').val('');
+                }
+                else
+                {
+                  $('#strQBClass_Error').show();
+                  $('#strQBClass_Error').empty().append(result.d.ErrorText);
+                  return false;
+                }
+            },
+            error: function () {
+                ShowAlert("Error adding new code.");
+                }
+                }); return true;
+            }YAHOO.namespace("container2");function ShowAlert(strMessage) {
+			
+             var strText = '';
+            strText = '<div align=\"left\">' + strMessage + '</div>';
+			YAHOO.container2.dialog = new YAHOO.widget.SimpleDialog("dialog", {
+				text: strText,
+				iframe: false,
+				visible: true,
+				close: true,
+				draggable: true,
+				modal: false,
+				underlay: 'shadow',
+				width: '270px',
+				x: 640,
+				y:445
+			});
+
+			YAHOO.container2.dialog.setHeader("ATTENTION");
+			YAHOO.container2.dialog.cfg.setProperty("icon", YAHOO.widget.SimpleDialog.ICON_WARN);
+            YAHOO.container2.dialog.cfg.queueProperty("buttons", [
+		    { text:"Ok", handler:function() {
+			this.hide();
+		    }, isDefault:true }
+	        ]);
+			YAHOO.container2.dialog.render("PageBase_RaiseAlert");
+			YAHOO.container2.dialog.show();
+
+			
+		}//default to select list; hide text box
+$('#strQBClass_Select').show();$('#strQBClass_Text').hide();//-->
+</script>
+
+				</td>
+			</tr>
+			<tr>
+			    <td class="break" colspan="2"></td>
+			</tr>
+			<tr>
+							<td class="head" colspan="2">Notes (visible on invoice)
+								<script type="text/javascript">getBackendHelpLink('INVOICE_ADJ_NOTES')</script><a id="HelpLink_INVOICE_ADJ_NOTES" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_ADJ_NOTES', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+							</td>
+			</tr>
+			<tr>
+							<td colspan="2">
+								<textarea name="ctl00$PageContent$strNotesAdjustment" rows="2" cols="20" id="ctl00_PageContent_strNotesAdjustment" style="height:75px;width:100%;"></textarea>
+			    </td>
+			</tr>
+			<tr>
+			    <td class="break" colspan="2"></td>
+			</tr>
+			<tr>
+							<td class="head" colspan="2">Internal Notes
+								<script type="text/javascript">getBackendHelpLink('INVOICE_ADJ_NOTES_INTERNAL')</script><a id="HelpLink_INVOICE_ADJ_NOTES_INTERNAL" href="#" title="Help is available" onclick="return HelpLink_OnClick('INVOICE_ADJ_NOTES_INTERNAL', undefined)"><i class="fa fa-question-circle" style="font-size: 14px;"></i></a>
+							</td>
+			</tr>
+			<tr>
+							<td colspan="2">
+								<textarea name="ctl00$PageContent$strNotesInternalAdjustment" rows="2" cols="20" id="ctl00_PageContent_strNotesInternalAdjustment" style="height:75px;width:100%;"></textarea>
+							</td>
+			</tr>
+			</tbody></table>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" name="ctl00$PageContent$btnSubmitAdjustment" value="Save" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PageContent$btnSubmitAdjustment&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="ctl00_PageContent_btnSubmitAdjustment" class="btn btn-primary">
+			
+					<button class="btn btn-default" type="button" data-dismiss="modal" data-target="#AdjustmentFormDialog">Cancel</button>
+				</div>
+			</div>
+		</div>
+        </div>
+        
+	<!-- Item Detail Dialog -->
+	<div id="ItemDetailDialog" class="modal fade in" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-backdrop fade in"></div>
+		<div class="modal-dialog" style="margin-top: 25px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="btnCloseItemDetailDialog" data-dismiss="modal" data-target="#ItemDetailDialog" class="close" type="button">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 id="hItemDetailDialogTitle" class="modal-title">Invoice Transaction Details</h4>
+        </div>
+				<div id="itemDetailPanel" class="modal-body" style="padding-top: 0;"></div>
+				<div class="modal-footer" style="margin-top: 0;">
+					<button class="btn btn-default" type="button" data-dismiss="modal" data-target="#ItemDetailDialog">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+			
+			<input name="ctl00$PageContent$InvoiceNumber" type="hidden" id="ctl00_PageContent_InvoiceNumber">
+			<input name="ctl00$PageContent$InvoiceGUID" type="hidden" id="ctl00_PageContent_InvoiceGUID">
+			<input name="ctl00$PageContent$OutstandingBalance" type="hidden" id="ctl00_PageContent_OutstandingBalance">
+			<input name="ctl00$PageContent$TaxVATRate" type="hidden" id="ctl00_PageContent_TaxVATRate">
+			<input name="ctl00$PageContent$TrxType" type="hidden" id="ctl00_PageContent_TrxType">
+			
+            
+            
+<script type="text/javascript">
+		$(document).ready(function ()
+		{
+    
+    });
+
+		function ShowAdjustmentForm(FieldName, FieldNameInvoiceNumber, FieldNameOustandingBalance, InvoiceGUID, InvoiceNumber, OutstandingBalance, OutstandingBalanceFormatted, FieldName_TaxVATRate, TaxVATRate)
+		{
+	document.getElementById(FieldName).value = InvoiceGUID;
+	document.getElementById(FieldNameInvoiceNumber).value = InvoiceNumber;
+	document.getElementById(FieldNameOustandingBalance).value = OutstandingBalance;
+	document.getElementById('intInvoiceNo1').innerHTML = InvoiceNumber;
+	document.getElementById('dblOutstandingBalance1').innerHTML = OutstandingBalanceFormatted;
+	document.getElementById(FieldName_TaxVATRate).value = TaxVATRate;
+
+		$('#AdjustmentFormDialog').modal('show');
+}
+
+		function showItemDetail(InvoiceGUID, ItemID)
+		{
+	var xmlhttp = null;
+			if (window.XMLHttpRequest)
+			{	//code for Mozilla, etc.
+		xmlhttp = new XMLHttpRequest();
+			} else if (window.ActiveXObject)
+			{	//code for IE
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	var itemDetailPanel = document.getElementById('itemDetailPanel');
+
+			if (xmlhttp)
+			{	//wire up the event to handle the response on successful load
+				xmlhttp.onreadystatechange = function ()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && xmlhttp.responseText != '')
+					{
+				itemDetailPanel.innerHTML = xmlhttp.responseText;
+
+					$('#ItemDetailDialog').modal('show');
+			}
+		}
+
+		xmlhttp.open("GET", '/admin/invoice/get_invoice_item.asp?invoice=' + InvoiceGUID + '&id=' + ItemID + '&ts=' + getCurrentTime(), true);
+		xmlhttp.send(null);
+	}
+}
+
+		function toggleGLCodeEntry(inputType, inputName, Suffix)
+		{
+			if (inputType == 'text')
+			{
+		document.getElementById(inputName).selectedIndex = 0;
+		document.getElementById("GLDropDown" + Suffix).style.display = 'none';
+		document.getElementById("GLTextBox" + Suffix).style.display = '';
+		document.getElementById(inputName).text = '';
+	}
+			else
+			{
+		document.getElementById(inputName).value = '';
+		document.getElementById("GLDropDown" + Suffix).style.display = '';
+		document.getElementById("GLTextBox" + Suffix).style.display = 'none';
+	}
+	return false;
+}
+</script>
+
+
+
+
+						</div>
+					
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("ctl00_PageContent_vsAdjustmentForm"));
+var Page_Validators =  new Array(document.getElementById("ctl00_PageContent_revAmountAdjustment"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var ctl00_PageContent_revAmountAdjustment = document.all ? document.all["ctl00_PageContent_revAmountAdjustment"] : document.getElementById("ctl00_PageContent_revAmountAdjustment");
+ctl00_PageContent_revAmountAdjustment.controltovalidate = "ctl00_PageContent_txtAmountAdjustment";
+ctl00_PageContent_revAmountAdjustment.errormessage = "Please enter a valid \'Adjustment Amount\'.";
+ctl00_PageContent_revAmountAdjustment.display = "None";
+ctl00_PageContent_revAmountAdjustment.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+ctl00_PageContent_revAmountAdjustment.validationexpression = "\\-?[0-9]*\\.?[0-9]+";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        //]]>
+</script>
+</form>
+					
+					
+					
+				</div>
+				<div class="clear clearfix"></div>
+			</div>
+		</div>
+		
+		<div class="clear clearfix"></div>
+		<!-- footer -->
+		<div class="footer">
+			<p class="text-left mleft-25">
+				CONFIDENTIAL: FOR INTERNAL CLIENT REVIEW AND USE ONLY. <a href="/legal.asp">Legal/Privacy</a>
+				<br>Copyright © 1998-2015  YourMembership.com©, Inc.  All Rights Reserved.
+				<br>9620 Executive Center Dr. N #200 | St Petersburg, FL 33702 | USA
+			</p>
+		</div>
+
+		<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="PageBase_RaiseAlert" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close" type="button">
+                            <span aria-hidden="true">x</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 id="myModalLabel" class="modal-title">Attention</h4>
+                    </div>
+                    <div class="modal-body" id="RaiseAlertContent"></div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div id="jsPageAlert"></div>
+
+		<!-- Popup for pulse.js inactivity alert -->
+		<div aria-hidden="true" aria-labelledby="lblPulseAlertLabel" role="dialog" tabindex="-1" id="divPulseAlert" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 id="lblPulseAlertLabel" class="modal-title">Attention</h4>
+                    </div>
+                    <div class="modal-body" id="divPulseAlertContent">
+						It appears that you have been inactive for an extended period of time.
+						<br><br>
+						Would you like to continue your browsing session?
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button data-dismiss="modal" class="btn btn-primary" type="button" onclick="ReenablePulse();">Yes, continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="yui-skin-sam">
+			<div class="yui-panel-container yui-overlay-hidden" id="ContextualHelp_c" style="visibility: hidden; z-index: 20000; "><div id="ContextualHelp" style="visibility: inherit; width: 400px; " class="yui-module yui-overlay yui-panel"><a class="container-close" href="#">Close</a>
+				<div id="ContextualHelpHead" class="hd" style="cursor: move; "></div>
+				<div id="ContextualHelpBody" class="bd"></div>
+			</div></div>
+		</div>
+
+		
+	
+
+<ul class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 1; top: 0px; left: 0px; display: none; "></ul></body></html>

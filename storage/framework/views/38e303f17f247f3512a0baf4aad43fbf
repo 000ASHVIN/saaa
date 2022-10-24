@@ -1,0 +1,39 @@
+<?php
+    $level++;
+    $folder = $category['model'];
+?>
+
+<div class="accordion" id="accordionExample" style="<?php if($level!=1): ?> margin-left:10px; <?php endif; ?>">
+    <div class="card" style="overflow: hidden;">
+        <div class="card-header" id="headingOne">
+            <button class="custom_filter btn btn-link panel-heading accordion-toggle <?php echo e($level == 1 ? '' : 'collapsed in'); ?>" type="button" data-toggle="collapse" data-target="#<?php echo e($category['id']); ?>" aria-expanded="true" aria-controls="collapseOne" data-filter="<?php echo e($category['slugs']); ?>">
+            <?php echo e($category['name']); ?> <?php echo e(count($category['question_ids'])?'('.count($category['question_ids']).')':''); ?>
+
+            </button>
+        </div> 
+
+        <div id="<?php echo e($category['id']); ?>" class="collapse <?php echo e($level == 1 ? 'show in' : ''); ?>" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <ul class="nav mix-filter" style="text-transform: capitalize;">
+                    <?php if(count($category['categories'])): ?>
+                        <?php foreach($category['categories'] as $cat): ?>
+                            <?php if(!count($cat['categories'])): ?>
+                                <li style="background-color: #ffffff!important; margin-top: 10px; margin-bottom: 10px" >
+                                    <a style="color: #173175" id="faqs_tags" href="#" class="custom_filter" data-filter="<?php echo e($cat['model']->slug); ?>"><?php echo e($cat['model']->title); ?> (<?php echo e($cat['model']->faqs->count()); ?>)</a>
+                                </li>
+                            <?php else: ?>
+                                <?php
+                                    $category = $cat;
+                                ?>
+                                <?php echo $__env->make('faq.accordian', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                            <?php endif; ?>
+                                
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li data-filter="#" class="active"><a href="#">No Tags</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

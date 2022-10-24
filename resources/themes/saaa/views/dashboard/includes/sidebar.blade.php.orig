@@ -1,0 +1,47 @@
+<div class="col-lg-3 col-md-3 col-sm-4">
+    <div class="thumbnail profile-pic text-center">
+        @if($user->avatar)
+            <img src="/uploads/uploads/{{$user->avatar}}" alt="{{ $user->first_name }}">
+        @else
+            <img src="/assets/frontend/images/default_avatar.jpg" alt="{{ $user->first_name }}">
+        @endif
+            {{--Uncomment this div.edit to show the edit icon on the profile picture when hover image.--}}
+            <div class="edit"><a href="{{ '/dashboard/edit/avatar' }}"><i class="fa fa-pencil fa-lg"></i></a></div>
+
+        {{--Uncomment this div.edit to show the edit icon on the profile picture when hover image.--}}
+        <div class="edit"><a href="{{ '/dashboard/edit/avatar' }}"><i class="fa fa-pencil fa-lg"></i></a></div>
+        {{--<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">{{ $user->subscription->plan->name }}</h3>--}}
+    </div>
+
+    <div class="border-box text-center">
+        <h2 class="size-18 margin-top-10 margin-bottom-0">{{ $user->first_name }} {{ $user->last_name }}</h2>
+        <small class="margin-bottom-10">Member Since {{ $user->created_at->diffForHumans() }}</small>
+    </div>
+
+    {{-- <div class="margin-bottom-30">
+        <label>{{ $user->subscription->plan->name }}</label>
+        <div class="progress progress-xxs">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="width: 88%; min-width: 2em;"></div>
+        </div>
+    </div> --}}
+
+    <div class="margin-top-20"></div>
+    <ul class="nav nav-tabs nav-stacked nav-alternate">
+        <li class="{{ isActive('dashboard') }}"><a href="{!! route('dashboard') !!}">My Dashboard</a></li>
+<<<<<<< HEAD
+        <li class="{{ isActive(['dashboard.events','dashboard.tickets.links-and-resources']) }}"><a
+=======
+        <li class="{{ isActive(['dashboard.events','dashboard.tickets.links-and-resource']) }}"><a
+>>>>>>> 17d41a2c53ba57d09157b8e4203b1957c736f79e
+                    href="{!! route('dashboard.events') !!}">My Events</a></li>
+        <li class="{{ isActive('dashboard.products') }}"><a href="{!! route('dashboard.products') !!}">My Products</a>
+        </li>
+        {{-- <li class=""><a href="#">Courses</a> --}}
+        <li class="{{ isActive('dashboard.cpd') }}"><a href="{!! route('dashboard.cpd') !!}">My CPD</a>
+        {{--<li class=""><a href="#">My Products</a>--}}
+        <li class="{{ isActive('dashboard.invoices') }}"><a href="{!! route('dashboard.invoices') !!}">My Invoices</a>
+        <li class="{{ isActive('dashboard.edit', true) }}"><a href="{!! route('dashboard.edit') !!}">Edit Profile</a>
+        <li><a href="{{ '/auth/logout' }}">Log Out <i class="fa fa-sign-out"></i></a>
+        </li>
+    </ul>
+</div>

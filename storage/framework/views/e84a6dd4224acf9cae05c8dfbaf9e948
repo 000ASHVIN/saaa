@@ -1,0 +1,41 @@
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('name', 'Name'); ?>
+
+    <?php echo Form::input('text', 'name', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('is_active')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('is_active', 'Status'); ?>
+
+    <?php echo Form::select('is_active',
+    [
+        true => 'Active',
+        false => 'Not Active',
+    ],
+    null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('is_active')): ?> <p class="help-block"><?php echo e($errors->first('is_active')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('price')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('price', 'Price'); ?>
+
+    <?php echo Form::input('text', 'price', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('price')): ?> <p class="help-block"><?php echo e($errors->first('price')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('cpd_hours')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('cpd_hours', 'CPD Hours'); ?>
+
+    <?php echo Form::input('number', 'cpd_hours', null, ['class' => 'form-control']); ?>
+
+    <?php if($errors->has('cpd_hours')): ?> <p class="help-block"><?php echo e($errors->first('cpd_hours')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<?php echo Form::submit($submit, ['class' => 'btn btn-info']); ?>
+
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

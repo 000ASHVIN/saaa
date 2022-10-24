@@ -1,0 +1,217 @@
+<?php $__env->startSection('title', 'inv' . $invoice->reference); ?>
+<?php $__env->startSection('description', 'Payment Allocation'); ?>
+
+<?php $__env->startSection('css'); ?>
+<link href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css" rel="stylesheet" media="screen">
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="container-fluid container-fullw bg-white">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row margin-top-30">
+				<div class="col-lg-8 col-lg-offset-2 col-md-12">
+					<div class="panel">
+						<?php /* <div class="panel-heading">
+							<h5 class="panel-title">INV<?php echo e($invoice->reference); ?> Payment Allocation</h5>
+						</div> */ ?>
+						<div class="panel-body">
+							<fieldset>
+								<legend>
+									Invoice Items
+								</legend>
+								<table class="table margin-top-10 table-hover">
+									<thead>
+										<th>Line Item</th>
+										<th>Price</th>
+									</thead>
+									<tbody>
+										<?php foreach($invoice->fresh()->items as $item): ?>
+											<tr>
+												<td>
+													<?php echo e($item->name); ?> <br>
+													<small><?php echo e($item->description); ?>
+
+													<?php if($invoice->status == 'paid'): ?>
+													<span class="label label-success">Paid</span>
+													<?php else: ?>
+													<span class="label label-danger"><?php echo e(ucwords($invoice->status)); ?></span>
+													<?php endif; ?>
+													</small>
+												</td>
+												<td>
+													<?php echo e(money_format('%.2n', $item->price)); ?>
+
+												</td>
+											</tr>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
+							</fieldset>
+							<?php if(count($invoice->transactions)): ?>
+							<fieldset>
+								<legend>
+									Invoice Payment Allocations
+								</legend>
+								<table class="table margin-top-10 table-hover">
+									<thead>
+										<th>Tags</th>
+										<th>Method</th>
+										<th>Reference</th>
+										<th>Date</th>
+										<th>Price</th>
+										<th>Tools</th>
+									</thead>
+									<tbody>
+										<?php foreach($invoice->transactions->where('type', 'credit') as $payment): ?>
+											<tr>
+												<td>
+													<?php echo e($payment->tags); ?>
+
+												</td>
+												<td style="text-transform: uppercase">
+													<?php echo e($payment->method); ?>
+
+												</td>
+												<td>
+													<a href="#"
+														data-toggle="popover"
+													    data-placement="top"
+													  	data-title="Payment Notes"
+													  	data-content=
+													   "<?php echo e(($payment->notes) ?: 'None'); ?>"
+													  	data-trigger="hover"
+													  	data-original-title
+											  	>
+													#<?php echo e($payment->ref); ?>
+
+												</a>
+												</td>
+												<td>
+													<?php echo e($payment->date->format('d M Y')); ?>
+
+												</td>
+												<td>
+													<?php echo e($payment->amountAsCurrency()); ?>
+
+												</td>
+												<td>
+													<?php if (Auth::check() && Auth::user()->can('can-remove-payments-from-invoice')): ?>
+														<?php echo Form::open(['url' => '/admin/invoices/payments/'.$payment->id.'/delete']); ?>
+
+														<?php echo $__env->make('admin.confirm_delete.confirm_delete', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+														<a href="#" data-target="#confirm<?php echo $invoice->reference. '' .$payment->id; ?>" data-toggle="modal" class="btn btn-xs btn-warning">Remove</a>
+														<?php echo Form::close(); ?>
+
+
+														<?php /*<a href="/admin/invoices/payments/<?php echo e($payment->id); ?>/delete"*/ ?>
+														   <?php /*class="btn btn-xs btn-danger center delete-me"*/ ?>
+														   <?php /*data-toggle="tooltip"*/ ?>
+														   <?php /*data-original-title="Delete this payment"*/ ?>
+													   <?php /*>*/ ?>
+														<?php /*X*/ ?>
+													   <?php /*</a>*/ ?>
+													<?php endif; ?>
+
+												</td>
+											</tr>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
+							</fieldset>
+							<?php endif; ?>
+							<?php if($invoice->status != 'cancelled'): ?>
+							<form role="form" method="POST" action="/admin/invoices/allocate">
+								<fieldset>
+									<legend>
+										Payment Details - Total Due: <?php echo e(money_format('%.2n', $invoice->total - $invoice->transactions->where('type', 'credit')->sum('amount'))); ?>
+
+									</legend>
+									<input type="hidden" value="<?php echo e($invoice->id); ?>" name="invoice_id">
+									<?php echo csrf_field(); ?>
+
+									<div class="form-group">
+										<label for="date_of_payment">
+											Date Received <span class="symbol required"></span>
+										</label>
+										<input type="text" class="form-control" name="date_of_payment" id="date_of_payment" placeholder="Date payment received">
+									</div>
+									<div class="form-group">
+										<label for="amount">
+											Payment Amount <span class="symbol required"></span>
+										</label>
+										<input type="integer" class="form-control" name="amount" id="amount" value="<?php echo e($invoice->total - $invoice->transactions->where('type', 'credit')->sum('amount')); ?>" placeholder="Amount of payment received">
+									</div>
+									<div class="form-group">
+										<label for="description">
+											Payment Reference <span class="symbol required"></span>
+										</label>
+										<input type="text" class="form-control" name="description" id="description" placeholder="Payment Reference">
+									</div>
+									<div class="form-group">
+										<label for="method">
+											Payment Method <span class="symbol required"></span>
+										</label>
+										<select name="method" id="method" class="form-control">
+											<option value="">Please select...</option>
+											<option value="cash">Cash</option>
+											<option value="eft">EFT</option>
+											<option value="instant_eft">Instant EFT</option>
+											<option value="cc">Credit Card</option>
+											<option value="debit">Debit Order</option>
+											<option value="snap_scan">Snap Scan</option>
+											<option value="pebble">Payment Pebble</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="notes">
+											Notes
+										</label>
+										<textarea name="notes" id="notes" rows="5" class="form-control"></textarea>
+									</div>
+								</fieldset>
+								<div class="form-group center">
+									<button type="submit" class="btn btn-o btn-primary" onclick="spin(this)";>
+										Allocate Payment
+									</button>
+									<a href="/admin/members/<?php echo e($invoice->user->id); ?>" class="btn btn-wide  btn-o btn-danger">Cancel</a>
+								</div>
+							</form>
+							<?php else: ?>
+							<p>
+								<i>Invoice Cancelled, payment allocations not possible.</i>
+							</p>
+							<a href="/admin/members/<?php echo e($invoice->user->id); ?>" class="btn btn-wide  btn-o btn-danger">Cancel</a>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<script src="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="/assets/admin/assets/js/allocate.js"></script>
+<script>
+	jQuery(document).ready(function() {
+		Main.init();
+		Allocate.init();
+	});
+</script>
+<script>
+	$('.delete-me').on('click', function(){
+		$(this).closest('form').submit();
+	});
+
+    function spin(this1)
+    {
+      	this1.closest("form").submit();
+        this1.disabled=true;
+        this1.innerHTML=`<i class="fa fa-spinner fa-spin"></i> Working..`;
+    }
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

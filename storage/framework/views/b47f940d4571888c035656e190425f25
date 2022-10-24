@@ -1,0 +1,45 @@
+<div id="discount" class="tab-pane fade">
+    <?php if(count($course->promoCodes)): ?>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Limited Uses</th>
+                <th>Remaining Uses</th>
+                <th class="text-center">Update</th>
+                <th class="text-center">Remove</th>
+            </thead>
+            <tbody>
+            <?php foreach($course->promoCodes as $code): ?>
+                <tr>
+                    <td><?php echo e(ucfirst($code->title)); ?></td>
+                    <td><?php echo e(ucfirst($code->description)); ?></td>
+                    <td><?php echo e($code->code); ?></td>
+                    <td><?php echo e(ucfirst($code->discount_type)); ?></td>
+                    <td><?php echo e($code->discount_amount); ?></td>
+                    <td><?php echo e(($code->has_limited_uses ? "Yes" : "No")); ?></td>
+                    <td><?php echo e(($code->remaining_uses > 0 ?  $code->remaining_uses : "Unlimited")); ?></td>
+                    <td class="text-center"><a href="#" class="label label-info" data-toggle="modal" data-target="#<?php echo e($code->id); ?>_discount_create"><i class="fa fa-pencil"></i></a></td>
+                    <td class="text-center"><a data-confirm-content="Are you sure you want to delete the selected code" class="label label-info" href="<?php echo e(route('admin.course.discount.destroy', $code
+                    ->code)); ?>">X</a></td>
+                </tr>
+
+                <?php echo $__env->make('admin.courses.includes.discount.edit', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="alert alert-info">
+            <p>There is no discount codes for this course.</p>
+        </div>
+    <?php endif; ?>
+
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-info" data-toggle="modal" data-target="#discount_create">Create discount code</button>
+            <?php echo $__env->make('admin.courses.includes.discount.create', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </div>
+</div>

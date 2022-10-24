@@ -1,0 +1,20 @@
+<div id="<?php echo e($venue->id); ?>_update" class="modal fade modal-aside horizontal right" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Venue</h4>
+            </div>
+            <div class="modal-body">
+                <?php echo Form::model($venue, ['method' => 'post', 'route' => ['admin.event.venue.update', $event->slug, $venue->id]]); ?>
+
+                    <?php echo $__env->make('admin.event.includes.venues.form', ['submit' => 'Update Venue'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+
+    </div>
+</div>

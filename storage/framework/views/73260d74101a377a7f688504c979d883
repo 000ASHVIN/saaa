@@ -1,0 +1,82 @@
+<?php $__env->startSection('title', $member->first_name . ' ' . $member->last_name); ?>
+<?php $__env->startSection('description', 'User Profile'); ?>
+
+<?php $__env->startSection('css'); ?>
+    <link href="/assets/admin/vendor/bootstrap-fileinput/jasny-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="/assets/admin/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <style>
+        .daterangepicker{
+            z-index:99999!important;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <?php echo $__env->make('admin.members.includes.nav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <div class="col-md-9 col-sm-9 nopadding">
+                <a class="btn btn-default"  href="<?php echo e(route('member.addresses.create',['member'=>$member->id])); ?>">Create</a>
+                <?php if(count($member->addresses)): ?>
+                    <?php foreach($member->addresses->chunk(3) as $chunk): ?>
+                        <div class="row">
+                            <?php foreach($chunk as $address): ?>
+                                <div class="col-md-4">
+                                    <div class="panel panel-white">
+                                        <div class="panel-heading border-light">
+                                            <h2 class="panel-title">
+                                                <i class="fa fa-map-marker"></i> <?php echo e(ucwords($address->type)); ?> Address
+                                                <div class="pull-right">
+                                                    <?php if($address->primary): ?>
+                                                        <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Primary Address">
+                                                            <i class="fa fa-star"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </h2>
+
+                                        </div>
+                                        <div class="panel-body">
+                                <span class="block">
+                                    <?php echo e(ucwords($address->line_one)); ?> <br>
+                                    <?php echo e(ucwords($address->line_two)); ?> <br>
+                                    <?php echo e(ucwords($address->city)); ?> <br>
+                                    <?php echo e(ucwords($address->province)); ?> <br>
+                                    <?php echo e(ucwords($address->country)); ?> <br>
+                                    <?php echo e($address->area_code); ?>
+
+                                </span>
+                                <div >
+                                <a class="btn btn-default"  href="<?php echo e(route('member.addresses.edit',['member'=>$member->id,'id'=>$address->id])); ?>">Edit</a>
+                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-info margin-bottom-30">
+                                <strong>Member</strong> currently have no address listed.
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <?php /*<?php echo $__env->make('admin.members.includes.statement.confirm', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/admin/assets/js/index.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/assets/admin/assets/js/profile.js"></script>
+    <script src="/assets/admin/assets/js/bootstrap-confirm-delete.js"></script>
+    <?php echo $__env->make('admin.members.includes.spin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

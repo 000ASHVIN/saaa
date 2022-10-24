@@ -1,0 +1,45 @@
+<div id="links" class="tab-pane fade in">
+    <div class="row">
+        <div class="col-md-12">
+            <?php if(count($course->links)): ?>
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <th>Name</th>
+                    <th>Link</th>
+                    <th>Instructions</th>
+                    <th>Password</th>
+                    <th class="text-center">Update</th>
+                    </thead>
+                    <tbody>
+                    <?php foreach($course->links as $link): ?>
+                        <?php echo $__env->make('admin.courses.links.update', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <tr>
+                            <td><?php echo e($link->name); ?></td>
+                            <td>
+                                <div class="form-inline">
+                                    <input id="link<?php echo e($link->id); ?>" style="width: 60%;" class="form-control" value="<?php echo e($link->url); ?>">
+                                    <button class="btn btn-success" id="copy-button" data-clipboard-target="#link<?php echo e($link->id); ?>">Copy</button>
+                                    <a href="<?php echo e($link->url); ?>" target="_blank" class="btn btn-info">View</a>
+                                </div>
+                            </td>
+                            <td><?php echo e(($link->instructions ? : "No Instructions supplied")); ?></td>
+                            <td><?php echo e(($link->secret ? : "No Password")); ?></td>
+                            <td class="text-center"><a data-target="#link_<?php echo e($link->id); ?>_update" data-toggle="modal"><span class="label label-info"><i class="fa fa-pencil"></i></span></a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="alert alert-info">
+                    <p>There is no link's for this course.</p>
+                </div>
+            <?php endif; ?>
+
+                <hr>
+                <div class="form-group">
+                    <button class="btn btn-info" data-toggle="modal" data-target="#link_create">Create your link</button>
+                    <?php echo $__env->make('admin.courses.links.create', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+        </div>
+    </div>
+</div>

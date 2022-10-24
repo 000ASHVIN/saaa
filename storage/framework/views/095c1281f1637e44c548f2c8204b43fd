@@ -1,0 +1,39 @@
+<li class="timeline-item success">
+    <div class="margin-left-15">
+	<?php if($activity->productable): ?>	
+        <div class="text-muted text-small">
+            <?php echo e($activity->created_at->diffForHumans()); ?>
+
+        </div>
+        <p>
+            <?php
+            $model = explode("\\",$activity->model);
+			?>
+			<?php if($activity->productable && strpos(get_class($activity->productable),'Invoice') > 0): ?>
+			<?php 
+			$items = '';
+			if(($activity->productable) && $activity->productable->items){
+
+				$items = implode(",", $activity->productable->items->pluck('name')->toArray());
+			}
+			?>
+			<?php echo e($activity->user->first_name); ?> <?php echo e($activity->action); ?> <?php echo e(end($model)); ?> <?php echo e(($activity->productable)? ($activity->productable->items)? $items:"":""); ?>
+
+			<?php else: ?>	
+			<?php 
+				$name =($activity->productable)? ($activity->productable->name)?$activity->productable->name:"":"";
+				if($name == ''){
+				$name =($activity->productable)? ($activity->productable->title)?$activity->productable->title:"":"";
+				}
+				if($name == ''){
+					$name =($activity->productable)? ((in_array("App\Traits\SEOTrait",class_uses($activity->productable)))
+					&& @$activity->productable->getName())?@$activity->productable->getName():"":"";
+				}
+			?>				
+            <?php echo e($activity->user->first_name); ?> <?php echo e($activity->action); ?> <?php echo e(end($model)); ?> <?php echo e($name); ?>
+
+			<?php endif; ?>
+        </p>
+		<?php endif; ?>
+    </div>
+</li>

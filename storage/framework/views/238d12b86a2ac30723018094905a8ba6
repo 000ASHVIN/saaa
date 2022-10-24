@@ -1,0 +1,309 @@
+<?php $__env->startSection('meta_tags'); ?>
+    <title><?php echo e($event->checkMetaTitle()); ?></title> 
+    <meta name="description" content="<?php echo e($event->meta_description); ?>">
+  
+<?php $__env->stopSection(); ?>   
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('events.show', $event->name); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('title', $event->name); ?>
+<?php $__env->startSection('intro', str_limit($event->description, '80')); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section style="background-image: url('<?php echo $event->background_url; ?>')">
+        <div class="overlay dark-5"><!-- dark overlay [1 to 9 opacity] --></div>
+        <div class="container g-z-index-1 g-py-100 event-inner-banner" style="background-color: rgba(255, 255, 255, 0.8784313725490196)!important;">
+            <h2 class="g-font-weight-300 g-letter-spacing-1 g-mb-15 text-center"><?php echo e($event->name); ?></h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-2">
+                    <p style="font-size: 16px"><strong>Date: </strong> <?php echo e($event->start_date->toFormattedDateString()); ?> - <?php echo e($event->end_date->toFormattedDateString()); ?></p>
+                    <p style="font-size: 16px"><strong>CPD hours: </strong> <?php echo e($event->cpd_hours); ?>  Hours</p>
+                    <p style="font-size: 16px"><strong>Time: </strong> <?php echo e($event->start_time); ?> - <?php echo e($event->end_time); ?></p>
+                    <p style="font-size: 16px"><strong>Event Type: </strong> <?php echo e(ucwords($event->type)); ?></p>
+                </div>
+
+                <div class="hidden-lg hidden-md">
+                    <hr>
+                </div>
+
+                <div class="col-md-6">
+                    <?php if($event->presenters->count()): ?>
+                        <?php if(count($event->presenters) > 2): ?>
+                            <?php foreach($event->presenters as $presenter): ?>
+                                <h5>Presenter: <a href="<?php echo e(route('presenters.show', $presenter->id)); ?>" target="_blank"><?php echo e($presenter->name); ?></a> <small><?php echo e($presenter->title); ?></small></h5>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <?php foreach($event->presenters as $presenter): ?>
+                                <h5>Presenter: <a href="<?php echo e(route('presenters.show', $presenter->id)); ?>" target="_blank"><?php echo e($presenter->name); ?></a> <br> <small><?php echo e($presenter->title); ?></small></h5>
+                            <?php endforeach; ?>
+                            <p><?php echo strip_tags(str_limit($event->short_description, 400)); ?></p>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <h5>Presenter: TBA</h5>
+                        <p><?php echo strip_tags(str_limit($event->short_description, 400)); ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <hr>
+                <div class="col-md-12 text-center">
+                    <div class="form-group">
+                        <a class="btn btn-default" href="<?php echo e(route('events.index')); ?>">
+                            <i class="fa fa-arrow-left"></i> Browse More Events
+                        </a>
+
+
+                        <?php if($event->is_active && $event->minPrice() != null): ?>
+                            <?php if($event->is_redirect): ?>
+                                <a href="<?php echo e($event->redirect_url); ?>">
+                                    <button type="button" class="btn btn-primary">
+                                        <?php if($event->isPast()): ?>
+                                            <i class="fa fa-ticket"></i> Order the recording
+                                        <?php else: ?>
+                                            <i class="fa fa-ticket"></i> Book your tickets now
+                                        <?php endif; ?>
+                                    </button>
+                                </a>
+                            <?php else: ?>
+                                <a href="/events/<?php echo e($event->slug); ?>/register">
+                                    <button class="btn btn-primary">
+                                        <?php if($event->isPast()): ?>
+                                            <i class="fa fa-ticket"></i> Order the recording
+                                        <?php else: ?>
+                                            <?php if(auth()->guest()): ?>
+                                                <i class="fa fa-unlock"></i> Register
+                                            <?php else: ?>
+                                            <i class="fa fa-ticket"></i> Book your tickets now
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </button>
+                                </a>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <button class="btn btn-primary">
+                                <i class="fa fa-ticket"></i> Registration closed
+                            </button>
+                        <?php endif; ?>
+
+                        <?php if(auth()->guest()): ?>
+                            <a href="#" data-toggle="modal" data-target="#login" class="btn btn-default" style="text-transform: uppercase; font-size: 14px">
+                                <i class="fa fa-lock"></i> Login
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <?php echo $event->description; ?>
+
+
+                    <?php if($event->video_url): ?>
+                        <div class="heading-title heading-border" style="margin-bottom: 20px">
+                            <h4>Previous <span>Recording</span></h4>
+                            <p class="font-lato size-17"><?php echo e($event->video_title); ?></p>
+                        </div>
+
+                        <video width="100%" controls="" style="margin-bottom: 15px">
+                            <source src="<?php echo $event->video_url; ?>" type="video/mp4">
+                            <source src="<?php echo $event->video_url; ?>" type="video/ogg">
+                            Your browser does not support HTML5 video.
+                        </video>
+                    <?php endif; ?>
+
+                    <div class="hidden-lg hidden-md">
+                        <div style="height: 100px"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 ">
+                    <div class="custom-md-4 text-center" style="padding: 15px">
+                        <p class="font-lato size-17">Save this event to your <strong>Google</strong> or <strong>Outlook</strong> calendar.</p>
+                        <a target="_blank" href="<?php echo e($link->google()); ?>" class="social-icon social-icon-border social-gplus" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google Calendar">
+                            <i class="icon-gplus"></i>
+                            <i class="icon-gplus"></i>
+                        </a>
+
+                        <a target="_blank" href="<?php echo e($link->ics()); ?>" class="social-icon social-icon-border social-email3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Outlook Calendar">
+                            <i class="icon-email3"></i>
+                            <i class="icon-email3"></i>
+                        </a>
+                    </div>
+                    <div class="margin-bottom-20"></div>
+                    <div class="custom-md-4" style="padding: 15px">
+                        <?php if($event->is_active && $event->minPrice() != null): ?>
+                            <?php if($event->is_redirect): ?>
+                                <a href="<?php echo e($event->redirect_url); ?>">
+                                    <button type="button" class="btn btn-3d btn-xlg btn-primary btn-block">
+                                        <?php if($event->isPast()): ?>
+                                            <i class="fa fa-ticket"></i> Order the recording
+                                        <?php else: ?>
+                                            <i class="fa fa-ticket"></i> Book your tickets now
+                                        <?php endif; ?>
+                                    </button>
+                                </a>
+                            <?php else: ?>
+                                <a href="/events/<?php echo e($event->slug); ?>/register">
+                                    <button class="btn btn-3d btn-xlg btn-primary btn-block">
+                                        <?php if($event->isPast()): ?>
+                                            <i class="fa fa-ticket"></i> Order the recording
+                                        <?php else: ?>
+                                            <i class="fa fa-ticket"></i> Book your tickets now
+                                        <?php endif; ?>
+                                    </button>
+                                </a>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <button class="btn btn-3d btn-xlg btn-primary btn-block">
+                                <i class="fa fa-ticket"></i> Registration closed
+                            </button>
+                        <?php endif; ?>
+
+                        <hr>
+
+                        <div class="heading-title heading-border" style="margin-bottom: 20px">
+                            <h4 style="background-color: #f8f8f8;">Venues <span>& Dates</span></h4>
+                            <p class="font-lato size-17">The following venues and dates are available for this event.</p>
+                        </div>
+
+
+                        <?php foreach((count($event->scopeActiveVenues) > 1 ? $event->scopeActiveVenues->chunk(2) : $event->scopeActiveVenues->chunk(1)) as $chunk): ?>
+                             <div class="row">
+                                <?php foreach($chunk as $venue): ?>
+
+                                    <a href="<?php echo e(route('events.register', $event->slug)); ?>" class="venue-hover">
+                                        <div class="<?php echo e(count($event->venues) > 1 ? 'col-md-6' : 'col-md-12'); ?> ">
+                                            <div class="venue-holder">
+                                                <span><strong><?php echo ($venue->city ? : "Online Webinar"); ?></strong></span>
+                                                <?php if($venue->is_active): ?>
+                                                    <?php foreach($venue->dates->where('is_active',1) as $date): ?>
+                                                        <div class="date" style="border-top: 1px solid #e3e3e3;; padding-top: 10px; margin-top: 10px">
+                                                            <i class="fa fa-calendar"></i> <?php echo $date->date; ?>
+
+                                                        </div>
+                                                        <?php if($venue->start_time!= "" && $venue->end_time != ""): ?>
+                                                        <div class="date" style="border-top: 1px solid #e3e3e3;; padding-top: 10px; margin-top: 10px">
+                                                            <i class="et-alarmclock"></i> <?php echo date("H:i A",strtotime($venue->start_time)); ?> - <?php echo date("H:i A",strtotime($venue->end_time)); ?>
+
+                                                        </div>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+
+                                                <?php elseif($venue->max_attendees): ?>
+                                                    <div class="date" style="border-top: 1px solid #e3e3e3; padding-top: 10px; margin-top: 10px">
+                                                        <i class="fa fa-info"></i> SOLD OUT
+                                                    </div>
+                                                <?php else: ?>
+                                                    <?php if(count($venue->dates->where('is_active',1)) && \Carbon\Carbon::parse($venue->dates->where('is_active',1)->first()->date) <= \Carbon\Carbon::today()): ?>
+                                                        <div class="date" style="border-top: 1px solid #e3e3e3; padding-top: 10px; margin-top: 10px">
+                                                            Venue Closed
+                                                        </div>
+                                                    <?php elseif($venue->is_active == false): ?>
+                                                        <div class="date" style="border-top: 1px solid #e3e3e3; padding-top: 10px; margin-top: 10px">
+                                                            Venue Closed
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <div class="date" style="border-top: 1px solid #e3e3e3; padding-top: 10px; margin-top: 10px">
+                                                            Coming Soon
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="venue-selected"></div>
+                                        </div>
+                                    </a>
+
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <?php if(count($event->promoCodes) > 0): ?>
+                            <hr>
+                            <div class="heading-title heading-border" style="margin-bottom: 20px">
+                                <h4 style="background-color: #f8f8f8;">Discounts <span>available</span></h4>
+                                <p class="font-lato size-17">The following discounts are available for this event</p>
+                            </div>
+
+                            <?php foreach($event->promoCodes as $promoCode): ?>
+                                <div class="panel panel-body">
+                                    <strong><?php echo e($promoCode->title); ?></strong>: <?php echo e($promoCode->description); ?>
+
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="margin-bottom-20"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <section class="alternate">
+        <div class="container">
+            <div class="row">
+                <div class="heading-title heading-dotted text-center">
+                    <h3>I'm ready to join, <span>please contact me</span></h3>
+                </div>
+
+                <?php echo Form::open(['method' => 'post', 'route' => ['information.request', $event->slug]]); ?>
+
+                    <div class="col-md-6">
+                        <div class="form-group <?php if($errors->has('first_name')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('first_name', 'First Name'); ?>
+
+                            <?php echo Form::input('text', 'first_name', null, ['class' => 'form-control']); ?>
+
+                            <?php if($errors->has('first_name')): ?> <p class="help-block"><?php echo e($errors->first('first_name')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group <?php if($errors->has('last_name')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('last_name', 'Last Name'); ?>
+
+                            <?php echo Form::input('text', 'last_name', null, ['class' => 'form-control']); ?>
+
+                            <?php if($errors->has('last_name')): ?> <p class="help-block"><?php echo e($errors->first('last_name')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group <?php if($errors->has('email_address')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('email_address', 'Email Address'); ?>
+
+                            <?php echo Form::input('text', 'email_address', null, ['class' => 'form-control']); ?>
+
+                            <?php if($errors->has('email_address')): ?> <p class="help-block"><?php echo e($errors->first('email_address')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group <?php if($errors->has('cell')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('cell', 'Cellphone Number'); ?>
+
+                            <?php echo Form::input('text', 'cell', null, ['class' => 'form-control']); ?>
+
+                            <?php if($errors->has('cell')): ?> <p class="help-block"><?php echo e($errors->first('cell')); ?></p> <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-primary"><i class="fa fa-phone"></i> Request Call Back</button>
+                    </div>
+
+                <?php echo Form::close(); ?>
+
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

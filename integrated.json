@@ -1,0 +1,7 @@
+{
+    "baseUrl": "http://saaa.app",
+
+    "selenium": {
+        "browser": "phantomjs"
+    }
+}

@@ -1,0 +1,59 @@
+<section id="slider" class="hidden-sm hidden-xs">
+
+<?php /*<div class="flexslider" data-pauseOnHover="true">*/ ?>
+<?php /*<ul class="slides">*/ ?>
+<?php /*<li>*/ ?>
+<?php /*<a href="/cpd" target="_blank">*/ ?>
+<?php /*<img src="/assets/frontend/images/demo/content_slider/22-min.jpg" alt="Slide 2">*/ ?>
+<?php /*</a>*/ ?>
+<?php /*</li>*/ ?>
+<?php /*</ul>*/ ?>
+<?php /*</div>*/ ?>
+
+<?php /*<center style="background-image: url('https://imageshack.com/a/img923/8140/VeRFYZ.jpg')">*/ ?>
+<?php /*<div style="background-image: url('https://imageshack.com/a/img923/8140/VeRFYZ.jpg'); height: 400px; background-color: #000000; position:relative; top: 55px;">*/ ?>
+<?php /*<h4 style="color: red; line-height: 30px; font-size: 30px">BLACK FRIDAY..</h4>*/ ?>
+<?php /*<h5 style="color: #ffffff; line-height: 30px;">Find great deals and save up to 75%.</h5>*/ ?>
+<?php /*<div class="countdown bordered-squared theme-style" data-from="November 23, 2018 00:00:00"></div>*/ ?>
+<?php /*<a href="<?php echo e(route('bf')); ?>" style="background-color: red; border-color: red" class="btn btn-primary">Click here to view deals</a>*/ ?>
+<?php /*</div>*/ ?>
+<?php /*</center>*/ ?>
+
+<!--
+        data-controlNav="thumbnails" 	- thumbnails navigation
+        data-controlNav="true" 		- arrows navigation
+        data-controlNav="false"		- no navigation
+        data-arrowNav="false"		- no arrows navigation
+        data-slideshowSpeed="7000"	- slideshow speed
+        data-pauseOnHover="true"	- pause on mouse over
+    -->
+
+    <img src="/assets/frontend/images/demo/1200x800/intro.jpg" alt="Slide 2" style="width: 100%">
+    <?php /*<div class="text-center" style="position: absolute; bottom: 113px; width: 100%; background-color: #1731757a;">*/ ?>
+    <?php /*<br>*/ ?>
+    <?php /*<h2 style="text-transform: capitalize">Get the answers your clients need</h2>*/ ?>
+    <?php /*<h4>Technical support for you and your firm through CPD subscriptions including, <br> <strong>FAQs, expert opinions, acts online</strong></h4>*/ ?>
+    <?php /*<div class="row text-center">*/ ?>
+    <?php /*<a style="margin-top: 10px" href="#" class="btn btn-default">Sign Up Now </a>*/ ?>
+    <?php /*</div>*/ ?>
+    <?php /*<br>*/ ?>
+    <?php /*</div>*/ ?>
+
+</section>
+<div class="callout-dark heading-arrow-top">
+
+    <a href="/auth/register" class="btn btn-xlg btn-primary size-10 fullwidth nomargin bopadding noradius ">
+        <span class="font-lato size-30">
+            <span style="font-size: 20px">Resource Centre | Access to experts | Live & On Demand Webinars | Acts Online</span></span>
+    </a>
+</div>
+
+<?php echo $__env->make('pages.search.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+<div class="padding-10 alternate"></div>
+
+<div class="text-center alternate">
+    <a class="btn btn-primary btn-lg" href="/subscription_plans"><i class="fa fa-search"></i> View Options</a>
+</div>
+
+<div class="padding-10 alternate"></div>

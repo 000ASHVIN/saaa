@@ -1,0 +1,149 @@
+@extends('admin.layouts.master')
+
+@section('css')
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    </style>
+@endsection
+
+@section('title', 'CPD')
+@section('description', 'Assign')
+
+@section('content')
+    <br xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <assign-cpd :events="{{ $events->toJson() }}" inline-template>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="event">
+                                    <h3>Event</h3>
+
+                                    <select v-bind:disabled="fetchState == ajaxStates.busy"
+                                            v-on:change="changeEventSelection"
+                                            v-model="selectedEventId" name="event_id"
+                                            id="event_id" class="form-control">
+                                        <option value="0" disabled>Select an event</option>
+                                        <option v-for="event in events"
+                                                value="@{{ event.id }}">@{{ event.name }}</option>
+                                    </select>
+
+                                    <br><br>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6">
+                                <div class="venue" v-if="selectedEventId > 0">
+                                    <h3>Venue</h3>
+
+                                    <select v-bind:disabled="fetchState == ajaxStates.busy"
+                                            v-on:change="changeVenueSelection"
+                                            v-model="selectedVenueId" name="venue_id"
+                                            id="venue_id" class="form-control">
+                                        <option value="0" disabled>Select a venue</option>
+                                        <option v-for="venue in selectedEvent.venues"
+                                                value="@{{ venue.id }}">@{{ venue.name }}</option>
+                                    </select>
+
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="attendees"
+                                     v-if="(attendees.length > 0 || selectedAttendees.length > 0) && saveState != ajaxStates.busy">
+                                    <h3>Attendees: (@{{ attendees.length }})</h3>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title">
+                                                @include('admin.cpd.partials.attendees-header')
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            @include('admin.cpd.partials.attendees-list',['selected' => false])
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6">
+                                <div class="attendees"
+                                     v-if="(attendees.length > 0 || selectedAttendees.length > 0) && saveState != ajaxStates.busy">
+                                    <h3>Selected attendees: (@{{ selectedAttendees.length }})</h3>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title">
+                                                @include('admin.cpd.partials.selected-attendees-header')
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            @include('admin.cpd.partials.attendees-list',['selected' => true])
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="attendees" v-if="attendees.length == 0 && fetchState == ajaxStates.success">
+                                    <h3>Attendees</h3>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">
+                                                <input type="text" class="form-control" placeholder="Search">
+                                            </h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p>There are no attendees for the selected event and venue.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="attendees"
+                                     v-if="fetchState == ajaxStates.busy || saveState == ajaxStates.busy">
+                                    <p class="text-center">
+                                        <i class="fa fa-cog fa-spin fa-5x"></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </assign-cpd>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.1/lodash.min.js"></script>
+    <script src="/assets/admin/vendor/papa-parse/papaparse.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+@stop

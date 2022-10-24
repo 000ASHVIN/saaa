@@ -1,0 +1,23 @@
+<!
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>South African Accounting Academy</title>
+</head>
+<body>
+
+<p>Dear Admin</p>
+<p>Please Check follow details for new course enrollment</p>
+
+<p>User Details:</p>
+<p>
+    Full Name: <?php echo e($subscription->user->first_name); ?> <?php echo e($subscription->user->last_name); ?><br>
+    Email: <?php echo e($subscription->user->email); ?><br>
+    Course Name: <?php echo e($subscription->plan->name); ?><br>
+    Contact Number: <?php echo e($subscription->user->cell); ?>
+
+</p>
+<?php echo $__env->make('emails.includes.disclaimer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<?php $__env->startSection('content'); ?>
+
+<?php $__env->startSection('title'); ?>
+    <?php echo $profession->title; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <?php echo Breadcrumbs::render('profession', $profession->title); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style>
+        .curtian {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #173175;
+            opacity: 0.5;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+<?php 
+$staff = collect();
+$company = collect();
+if(auth()->check()){ 
+    if(auth()->user()->company_admin()){
+       $company[] =  auth()->user()->company;
+       $staff =  auth()->user()->company->staff;
+    }
+}
+
+?>
+
+    <section style="background-image: url('/assets/frontend/images/demo/wall2.jpg'); padding-bottom: 10px; padding-top: 30px">
+
+        <div class="container text-center">
+            <h4><span><?php echo e(ucwords($profession->title)); ?></span> <br> <span style="font-size: 14px">Technical Resource Centre & CPD Subscription</span></h4>
+            <hr>
+
+        </div>
+
+        <app-subscriptions-screen  :subscriptions="<?php echo e((auth()->user()?auth()->user()->subscription('cpd')->plan:auth()->user())); ?>" :staff="<?php echo e($staff); ?>" :companys="<?php echo e($company); ?>" :plans="<?php echo e($profession->plans); ?>" :profession="<?php echo e($profession); ?>"
+                                      :user="<?php echo e((auth()->user() ? auth()->user()->load('cards') : auth()->user())); ?>" 
+                                      :donations="<?php echo e(env('DONATIONS_AMOUNT')); ?>" :bank_codes="<?php echo e(json_encode(getBankBranches())); ?>" 
+                                      inline-template>
+            <?php if($profession->slug != 'practice-management'): ?>
+                <div id="app-register-screen" class="container app-screen">
+
+                    <?php /* Subscription Plan Selector */ ?>
+                    <div class="col-md-12" v-if="plans.length > 0 && plansAreLoaded && ! forms.subscription.plan">
+                        <?php echo $__env->make('subscriptions.partials.plans.selector', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+
+                    <?php /* Plan is Selected */ ?>
+                    <div class="col-md-8 col-md-offset-2" v-if="selectedPlan">
+
+                        <?php /* Selected Plan */ ?>
+                        <?php echo $__env->make('subscriptions.partials.plans.selected', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Donations */ ?>
+                        <?php echo $__env->make('includes.donation', ['vif' => "donations && selectedPlan && selectedPlanIsYearly", 'vmodel' => "forms.subscription.donations", 'vonchange' => 'getEftLink' ], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Plan features */ ?>
+                        <?php echo $__env->make('subscriptions.partials.plans.features', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Billing Options */ ?>
+                        <?php echo $__env->make('subscriptions.partials.billing_options', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Billing Options Details */ ?>
+                        <?php echo $__env->make('subscriptions.partials.billing_information', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Interested in PI */ ?>
+                        <?php echo $__env->make('subscriptions.partials.pi', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                        <?php /* Terms and Conditions and Complete Subscription Signup */ ?>
+                        <?php echo $__env->make('subscriptions.partials.terms', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+            </app-subscriptions-screen>
+        <?php else: ?>
+            <div class="text-center">
+                <a href="/auth/register" class="btn btn-primary">Sign Up Now</a>
+                <br>
+                <br>
+            </div>
+        <?php endif; ?>
+    </section>
+
+
+<?php if($profession->slug != 'practice-management'): ?>
+    <div class="callout-dark heading-arrow-bottom">
+        <a class="btn btn-primary size-10 fullwidth " style="background-color: #adb1b2; border-color: transparent;">
+            <span style="font-size: 20px">Subscription Plan and Resource Centre access</span>
+        </a>
+    </div>
+
+    <section style="padding-top: 30px; padding-bottom: 30px">
+        <div class="container">
+            <?php echo $profession->features; ?>
+
+        </div>
+    </section>
+
+    <section class="alternate" style="padding-top: 30px; padding-bottom: 30px">
+        <div class="container">
+            <div class="heading-title heading-dotted">
+                <h4><span>What is included in your subscription plan</span></h4>
+            </div>
+
+            <?php echo $profession->description; ?>
+
+        </div>
+    </section>
+
+    <?php if($profession->slug != 'monthly-legislation-update'): ?>
+        <section style="padding-top: 30px; padding-bottom: 30px">
+            <div class="container">
+                <div class="heading-title heading-dotted">
+                    <h4><span>Technical Resource Centre  </span></h4>
+                </div>
+
+                <?php echo $profession->resource_center; ?>
+
+            </div>
+        </section>
+    <?php endif; ?>
+    
+<?php else: ?>
+
+    <div class="callout-dark heading-arrow-bottom">
+        <a  class="btn btn-primary size-10 fullwidth " style="background-color: #adb1b2; border-color: transparent;">
+            <span style="font-size: 20px">Free CPD Subscription </span>
+        </a>
+    </div>
+
+    <section style="padding-top: 30px; padding-bottom: 30px">
+        <div class="container">
+            <?php echo $profession->features; ?>
+
+        </div>
+    </section>
+    
+    <div class="callout-dark heading-arrow-bottom">
+        <a  class="btn btn-primary size-10 fullwidth " style="background-color: #adb1b2; border-color: transparent;">
+            <span style="font-size: 20px">CPD Subscription content</span>
+        </a>
+    </div>
+
+    <section>
+        <div class="container">
+            <?php echo $profession->description; ?>
+
+        </div>
+    </section>
+<?php endif; ?>
+
+<section class="alternate">
+    <div class="container">
+        <div class="row">
+            <div class="heading-title heading-dotted" style="margin-bottom: 10px">
+                <h4><span>Upcoming Events</span></h4>
+            </div>
+            <?php /* <p>Get up to 50% discount on seminars and courses and these exclusive rewards as additional benefits for subscribing with us.</p> */ ?>
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?php if(count($events)): ?>
+                        <?php foreach($events as $event): ?>
+                            <?php echo $__env->make('events.includes.event_single_block', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        <?php endforeach; ?>
+                        <?php /* <?php echo $events->render(); ?> */ ?>
+                    <?php else: ?>
+                        <div class="event-container-box clearfix">
+                            <h4>No Events was found</h4>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="alternate">
+    <div class="container">
+        <div class="row">
+            <div class="heading-title heading-dotted" style="margin-bottom: 10px">
+                <h4><span>Additional benefits of subscribing</span></h4>
+            </div>
+            <p>Get up to 50% discount on seminars and courses and these exclusive rewards as additional benefits for subscribing with us.</p>
+            <br>
+            <br>
+
+            <?php if($profession->sponsors): ?>
+                <?php 
+                    $count = 1; 
+                ?>
+                <?php foreach($profession->sponsors as $sponsor): ?>
+                    <div class="row"  
+                        <?php if($count++ % 2 == 0): ?>
+                            style="background-color: #e3e3e357; padding-top: 15px; padding-bottom: 15px; margin-top: 15px; margin-bottom: 15px"   
+                        <?php endif; ?>
+                        >
+                        <div class="col-md-2">
+                            <img src="<?php echo e(asset('storage/'. $sponsor->logo)); ?>" width="100%" style="margin-bottom: 0px" class="thumbnail" alt="SAIBA">
+                        </div>
+                        <div class="col-md-10" style="text-align: left">
+                            <h4><?php echo e($sponsor->title); ?></h4>
+                            <p><small><?php echo e($sponsor->short_description); ?></small></p>
+                            <p><strong>Reward:</strong> Up to 15% discount. Find out more.</p>
+                            <a href="<?php echo e(route('rewards.show', $sponsor->slug)); ?>" class="btn btn-primary pull-right"><i class="fa fa-arrow-right"></i> Find out more</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

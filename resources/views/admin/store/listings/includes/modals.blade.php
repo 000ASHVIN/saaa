@@ -1,0 +1,1 @@
+<script id="add-discount" type="text/html">@include('admin.store.listings.includes.modals.add-discount',['listing' => $listing])</script>

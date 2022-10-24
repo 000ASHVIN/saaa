@@ -1,0 +1,69 @@
+<div class="search-form">
+    <?php echo Form::hidden('type', '', ['id'=>'webinars_on_demand']); ?>
+
+    <?php echo Form::hidden('browse', '', ['id'=>'browse_free_paid']); ?>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group <?php if($errors->has('title')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('title', 'Title'); ?>
+
+                    <?php echo Form::input('text', 'title', $request->title, ['class' => 'form-control event-title-filter','placeholder' => 'Webinar Name']); ?>
+
+                    <?php if($errors->has('title')): ?> <p class="help-block"><?php echo e($errors->first('title')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+            
+            <div class=" col-md-3 form-group <?php if($errors->has('webinar_complete')): ?> has-error <?php endif; ?>" id="webinar_complete">
+                <?php echo Form::label('webinar_complete', 'Completed CPD hours'); ?>
+
+                <?php echo Form::select('webinar_complete', ['N' => 'No', 'Y' => 'Yes'], $request->webinar_complete?$request->webinar_complete:'0', ['class' => 'form-control', 'placeholder' => 'All']); ?>
+
+                
+                <?php if($errors->has('webinar_complete')): ?> <p class="help-block"><?php echo e($errors->first('webinar_complete')); ?></p> <?php endif; ?>
+            </div>
+
+            <div class="col-md-3">
+            <div class="form-group <?php if($errors->has('category')): ?> has-error <?php endif; ?>">
+                <?php echo Form::label('category', 'Search by category'); ?>
+
+                <select name="category" id="category" class="form-control">
+                    <option value="null">Please Select..</option>
+                    <!-- <option value="null">All an “All”</option> -->
+                    <?php foreach($webinar_categories as $key=>$cat): ?>
+                        <option <?php echo e(isset($category)? ($category == $cat->id) ? 'selected' : "" : ""); ?> value="<?php echo e($cat->id); ?>" id="<?php echo e($cat->slug); ?>"><?php echo e($cat->title); ?></option>
+                    <?php endforeach; ?> 
+                </select>
+                <?php if($errors->has('category')): ?> <p class="help-block"><?php echo e($errors->first('category')); ?></p> <?php endif; ?>
+            </div>
+            </div>
+    
+            <div class="col-md-3">
+                <div class="form-group <?php if($errors->has('sub_category')): ?> has-error <?php endif; ?>" id="sub_cat">
+                    <?php echo Form::label('sub_category', 'Search by Sub category'); ?>
+
+                    <select name="sub_category" id="sub_category" class="form-control">
+                            <option value="">Select your sub category</option>
+                    </select>
+                    <?php if($errors->has('sub_category')): ?> <p class="help-block"><?php echo e($errors->first('sub_category')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+    
+            <div class=" col-md-4 form-group <?php if($errors->has('sub_sub_category')): ?> has-error <?php endif; ?>" id="sub_sub_cat" style="display: none;">
+                <?php echo Form::label('sub_sub_category', 'Search by Sub Sub category'); ?>
+
+                <select name="sub_sub_category" id="sub_sub_category" class="form-control">
+                        <option value="">Select Sub Sub category</option>
+                </select>
+                <?php if($errors->has('sub_sub_category')): ?> <p class="help-block"><?php echo e($errors->first('sub_sub_category')); ?></p> <?php endif; ?>
+            </div>
+    
+            <div class="col-md-3" style="margin-top: 25px">
+                <button class="btn btn-primary search-button btn-block" onclick="spin(this)"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    

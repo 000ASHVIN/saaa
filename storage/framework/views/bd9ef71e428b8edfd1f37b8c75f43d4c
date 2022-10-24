@@ -1,0 +1,164 @@
+<?php $__env->startSection('title', 'Payments'); ?>
+<?php $__env->startSection('description', 'View Payments that was allocated on each day'); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style>
+        .dataTables_filter{
+            float: right;
+        }
+
+        input.form-control.input-sm {
+            width: 500px;
+            margin-bottom: 10px;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <div class="col-md-5">
+                <?php echo $__env->make('admin.payments.includes.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            </div>
+
+            <div class="col-md-7" style="padding-top: 20px; background-color: rgba(227, 227, 227, 0.05); border: 1px dashed rgba(227, 227, 227, 0.47);">
+                <?php if($transactions): ?>
+                    <table class="table">
+                        <thead>
+                        <?php foreach($categories as $key => $value): ?>
+                            <th><?php echo e($key); ?></th>
+                        <?php endforeach; ?>
+                        <th>Credit Cards</th>
+                        <th>EFT</th>
+                        <th>Instant EFT</th>
+                        <th>Debit Order</th>
+                        <th>Cash</th>
+                        <th>Snap Scan</th>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">Date selected report: <?php echo e($from->toFormattedDateString()); ?> - <?php echo e($to->toFormattedDateString()); ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7"><a href="<?php echo e(route('admin.payments.export', [date_format($from, 'd F Y'), date_format($to, 'd F Y'), $type])); ?>" class="btn btn-xs btn-info">Export Data</a></td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr>
+                            <?php foreach($categories as $key => $value): ?>
+                                <td><?php echo e(count($value)); ?></td>
+                            <?php endforeach; ?>
+                            <td><?php echo e($transactions->where('method', 'cc')->count()); ?></td>
+                            <td><?php echo e($transactions->where('method', 'eft')->count()); ?></td>
+                            <td><?php echo e($transactions->where('method', 'instant_eft')->count()); ?></td>
+                            <td><?php echo e($transactions->where('method', 'debit')->count()); ?></td>
+                            <td><?php echo e($transactions->where('method', 'cash')->count()); ?></td>
+                            <td><?php echo e($transactions->where('method', 'snap_scan')->count()); ?></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php foreach($categories as $key => $value): ?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-transform: uppercase;">
+                            <?php echo e($key); ?>
+
+                            <div class="pull-right">Total = <?php echo e(money_format('%.2n', $value->sum('amount'))); ?></div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <table class="table table-striped table-bordered mytable" cellspacing="0" width="100%">
+                                    <thead>
+                                    <th>User</th>
+                                    <th>Payment Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment description</th>
+                                    <th>Invoice For</th>
+                                    <th class="text-center">Payment Method</th>
+                                    <th class="text-center">Invoice Number</th>
+                                    <th class="text-center">Invoice Balance</th>
+                                    <th>Status</th>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($value as $transaction): ?>
+                                    <?php if($transaction->invoice): ?>
+                                        <tr>
+                                            <td>
+                                                <a href="<?php echo e(($transaction->user) ? route('admin.members.show', $transaction->user->id) : "#"); ?>" target="_blank">
+                                                    <?php echo e(ucfirst(($transaction->user) ? $transaction->user->first_name : 'User')); ?>
+
+                                                    <?php echo e(ucfirst(($transaction->user) ? $transaction->user->last_name : 'Cancelled')); ?>
+
+                                                </a>
+                                            </td>
+                                            <td><?php echo e(date_format($transaction->date, 'Y/m/d')); ?></td>
+                                            <td><?php echo e(money_format('%.2n', $transaction->amount)); ?></td>
+                                            <td><?php echo e($transaction->description); ?></td>
+                                            <td>
+                                                <?php foreach($transaction->invoice->items as $item): ?>
+                                                    <?php echo e($item->name); ?> <br>
+                                                <?php endforeach; ?>
+                                            </td>
+                                            <td class="text-center"><?php echo e($transaction->method); ?></td>
+                                            <td class="text-center"><a href="<?php echo e(route('invoices.show',$transaction->invoice->id)); ?>" target="_blank"><?php echo e($transaction->ref); ?></a></td>
+                                            <td class="text-center">
+                                                R <?php echo e($transaction->invoice->transactions->where('type', 'debit')->sum('amount') - $transaction->invoice->transactions->where('type', 'credit')->sum('amount')); ?>
+
+                                            </td>
+                                            <td><?php echo e($transaction->invoice->status); ?></td>
+                                        </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script type="text/javascript" src="/assets/admin/vendor/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/assets/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+    <script>
+        $(function() {
+            $('.daterange').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+            });
+        });
+
+        $(document).ready(function() {
+          $('.mytable').DataTable( {
+                "paging":   false,
+                "ordering": true,
+                "info":     true,
+                "order": [[ 1, 'asc' ]]
+            } );
+        } );
+
+    </script>
+
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

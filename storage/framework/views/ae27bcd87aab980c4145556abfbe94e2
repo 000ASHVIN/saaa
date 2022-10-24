@@ -1,0 +1,25 @@
+<!
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Updated Billing Information</title>
+</head>
+<body>
+
+<p>Dear Accounts.</p>
+<p>Please note that the following user changed the payment method on their account</p>
+
+<p>User: <?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?></p>
+
+<p>
+    Previous Payment Method: <?php echo e(str_replace('_', ' ', $previous)); ?> <br>
+    New Payment Method: <?php echo e(str_replace('_', ' ', $user->payment_method)); ?>
+
+</p>
+<?php echo $__env->make('emails.includes.disclaimer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+</body>
+</html>

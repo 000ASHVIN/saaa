@@ -1,0 +1,45 @@
+<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('name', 'Name'); ?>
+
+    <?php echo Form::input('text', 'name', null, ['class' => 'form-control', 'placeholder' => 'Presentation']); ?>
+
+    <?php if($errors->has('name')): ?> <p class="help-block"><?php echo e($errors->first('name')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('url')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('url', 'Url'); ?>
+
+    <?php echo Form::input('text', 'url', null, ['class' => 'form-control', 'placeholder' => 'http://google.com']); ?>
+
+    <?php if($errors->has('url')): ?> <p class="help-block"><?php echo e($errors->first('url')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('instructions')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('instructions', 'Instructions'); ?>
+
+    <?php echo Form::textarea('instructions', null, ['class' => 'form-control', 'rows' => '3']); ?>
+
+    <?php if($errors->has('instructions')): ?> <p class="help-block"><?php echo e($errors->first('instructions')); ?></p> <?php endif; ?>
+</div>
+
+<div class="form-group <?php if($errors->has('secret')): ?> has-error <?php endif; ?>">
+    <?php echo Form::label('secret', 'Password'); ?>
+
+    <?php echo Form::input('text', 'secret', null, ['class' => 'form-control', 'placeholder' => 'As43F']); ?>
+
+    <?php if($errors->has('secret')): ?> <p class="help-block"><?php echo e($errors->first('secret')); ?></p> <?php endif; ?>
+</div>
+
+<hr>
+<div class="alert alert-info">
+    If you are uploading files, you do not need to complete the fields, this will be automatically completed once the upload has been completed.
+</div>
+
+<div class="form-group">
+    <label for="files[]">Upload Files</label>
+    <input type="file" name="files[]" class="form-control" multiple>
+</div>
+
+<hr>
+<button class="btn btn-info" onclick="spin(this)">Save</button>
+<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

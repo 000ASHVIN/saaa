@@ -1,0 +1,52 @@
+<?php $__env->startSection('title', 'Assessments'); ?>
+<?php $__env->startSection('description', 'All'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="<?php echo e(route('admin.assessments.create')); ?>" class="btn">Create a new assessment</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <?php if(count($assessments)): ?>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($assessments as $assessment): ?>
+                        <tr>
+                            <td><?php echo e($assessment->title); ?></td>
+                            <td><a class="btn btn-xs btn-info"
+                                   href="<?php echo e(route('admin.assessments.edit',$assessment->id)); ?>"><i
+                                            class="fa fa-pencil"></i></a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+                <hr>
+                <?php echo $assessments->render(); ?>
+
+            <?php else: ?>
+                <p>There are no assessments</p>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

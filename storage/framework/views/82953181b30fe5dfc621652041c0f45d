@@ -1,0 +1,172 @@
+<div class="col-lg-3 col-md-3 col-sm-4 hidden-print">
+    <div class="thumbnail profile-pic text-center hidden-sm hidden-xs" style="width: 100%;">
+        <div class="fileinput-new" style="height: 100%; width: 100%">
+            <img src="<?php echo e(asset($user->avatar)); ?>"
+                 alt="<?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?>"
+                 onError="this.onerror=null; this.src='http://imageshack.com/a/img923/8590/LXahIE.png'" class="sidebar-image-profile">
+
+                <?php if(count($user->hasCompany())): ?>
+                    <div class="ribbon">
+                        <div class="ribbon-inner">Practice</div>
+                    </div>
+                <?php endif; ?>
+
+        </div>
+        <div class="edit"><a style="vertical-align: middle; position: relative; top: 100px;" href="<?php echo e('/dashboard/edit/avatar'); ?>"><i class="fa fa-upload fa-lg fa-3x"></i></a></div>
+    </div>
+
+    <?php if($user->balanceInRands() > 0): ?>
+        <a href="<?php echo e(route('dashboard.invoices')); ?>">
+            <div class="alert alert-danger margin-bottom-20">
+                <strong style="font-weight: 600">Your Account Balance: </strong> R<?php echo e(number_format($user->balanceInRands(), 2)); ?>
+
+            </div>
+        </a>
+    <?php else: ?>
+        <a href="<?php echo e(route('dashboard.invoices')); ?>">
+            <div class="alert alert-success margin-bottom-20">
+                <strong style="font-weight: 600">Your Account Balance: </strong> R<?php echo e(number_format($user->balanceInRands(), 2)); ?>
+
+            </div>
+        </a>
+    <?php endif; ?>
+
+    <div class="border-box text-center" style="background-color: white">
+        <h2 class="size-18 margin-bottom-0"><?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?></h2>
+        <p>Member Since <i><?php echo e($user->created_at->diffForHumans()); ?></i></p>
+
+        <div class="label label-default planname" style="background-color: #c9c9c8">
+            <?php echo e(($user->subscribed('cpd')? $user->subscription('cpd')->plan->name : "No Membership")); ?>
+
+        </div>
+
+        <div class="margin-top-20"></div>
+
+        <?php if($user->overdueInvoices()->where('type', 'subscription')->count() > 0): ?>
+            <a href="<?php echo e(route('dashboard.invoices')); ?>" class="btn btn-danger btn-block"><i class="fa fa-close"></i> Account Suspended</a>
+        <?php else: ?>
+            <?php if(! $user->subscribed('cpd')): ?>
+                <hr>
+
+                <?php if(! $user->hasCompany()): ?>
+                    <a href="/subscription_plans" class="btn btn-success btn-block" style="background-color: #8cc03c!important; border-color: #8cc03c">Signup for Subscription</a>
+                <?php else: ?>
+                    <i class="fa fa-users"></i> Shared Subscription
+                    <hr>
+                    <div class="label label-default">
+                        <strong><?php echo e(ucfirst($user->hasCompany()->company->title)); ?></strong>
+                    </div>
+                <?php endif; ?>
+
+            <?php elseif($user->subscribed('cpd') && $user->subscription('cpd')->plan->name == 'Free Plan'): ?>
+                <a href="/subscription_plans" class="btn btn-success btn-block" style="background-color: #8cc03c!important; border-color: #8cc03c">Upgrade Subscription</a>
+            <?php endif; ?>
+            
+            <?php if($user->canSelfRenew()): ?>
+                <?php
+                    $user = auth()->user();
+                    $subscription = $user->subscription('cpd');
+                    $slug = $subscription->plan->slug;
+                    if($slug) {
+                        $popup_link = route('subscriptions.2019.one_day_only.package', [$slug]).'?renew=1';
+                    }
+                    else {
+                        $popup_link = route('profession.plans_and_pricing');
+                    }
+                ?>
+                <a href="<?php echo e($popup_link); ?>" class="btn btn-success btn-block" style="background-color: #8cc03c!important; border-color: #8cc03c; margin-top:10px;">Renew Subscription</a>
+            <?php endif; ?>
+
+        <?php endif; ?>
+        <div class="margin-top-20"></div>
+    </div>
+
+    <?php /*<?php if(count($user->hasCompany())): ?>*/ ?>
+        <?php /*<div class="margin-top-20"></div>*/ ?>
+        <?php /*<div class="border-box text-center" style="background-color: rgb(250, 250, 250)">*/ ?>
+            <?php /*<i class="fa fa-users"></i> Shared Subscription*/ ?>
+            <?php /*<hr>*/ ?>
+            <?php /*<strong><?php echo e(ucfirst($user->hasCompany()->company->title)); ?></strong>*/ ?>
+            <?php /*<hr>*/ ?>
+        <?php /*</div>*/ ?>
+    <?php /*<?php endif; ?>*/ ?>
+
+    <?php if(count($user->cycles)): ?>
+        <div class="margin-top-20"></div>
+        <div class="border-box text-center" style="background-color: rgb(250, 250, 250)">
+            <h4>My CPD Compliance</h4>
+            <?php foreach($user->cycles as $cycle): ?>
+                <small><strong><?php echo e(date_format($cycle->start_date, 'd F Y')); ?> - <?php echo e(date_format($cycle->end_date, 'd F Y')); ?></strong></small>
+                <hr>
+                <?php echo $__env->make('dashboard.includes.CpdCycle.cycle_progess', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php endforeach; ?>
+            <hr>
+        </div>
+    <?php endif; ?>
+
+    <div class="margin-top-20"></div>
+    <ul class="nav nav-tabs nav-stacked nav-alternate">
+        <li class="<?php echo e(isActive('dashboard.general')); ?>"><a href="<?php echo route('dashboard.general.index'); ?>"><i class="fa fa-angle-double-right"></i> My Dashboard</a></li>
+
+        <?php if($user->subscribed('cpd') && $user->subscription('cpd')->plan->is_practice): ?>
+        <li class="<?php echo e(isActive('dashboard.company*')); ?>"><a href="<?php echo route('dashboard.company.index'); ?>"><i class="fa fa-angle-double-right"></i> My Company</a></li>
+        <?php endif; ?>
+
+        <li class="<?php echo e(isActive(['dashboard.events','dashboard.tickets.links-and-resources'])); ?>"><a href="<?php echo route('dashboard.events'); ?>"><i class="fa fa-angle-double-right"></i> My Events</a></li>
+
+        <li class="<?php echo e(isActive('dashboard.webinars_on_demand', true)); ?>"><a href="<?php echo e(route('dashboard.webinars_on_demand.index')); ?>"><i class="fa fa-angle-double-right"></i> My Webinars on Demand</a></li>
+        <?php /*  <li class="<?php echo e(isActive('dashboard')); ?>"><a href="<?php echo route('dashboard'); ?>"><i class="fa fa-angle-double-right"></i> My Dashboard</a></li>  */ ?>
+        
+        
+        <li class="<?php echo e(isActive(['dashboard.courses'])); ?>"><a href="<?php echo route('dashboard.courses.index'); ?>"><i class="fa fa-angle-double-right"></i> My Courses</a></li>
+
+        <li class="<?php echo e(isActive('resource_centre.home', true)); ?>"><a href="<?php echo route('resource_centre.home'); ?>"><i class="fa fa-angle-double-right"></i> Resource Centre</a> </li>
+
+        <li class="<?php echo e(isActive('dashboard.cpd')); ?>"><a href="<?php echo route('dashboard.cpd'); ?>"><i class="fa fa-angle-double-right"></i> My CPD Logbook</a></li>        
+        <?php if($user->subscribed('cpd') && $user->subscription('cpd')->plan->price != '0'): ?>
+        
+        <?php endif; ?>
+
+
+        <li class="<?php echo e((isActive(['dashboard.billing.index','dashboard.wallet.index','dashboard.invoices','dashboard.invoices.overdue','dashboard.invoice_orders','dashboard.invoice_orders','dashboard.statement','dashboard.edit'])=='active')?'showbar':'hidebar'); ?>" style="background: #fbfbfb;">
+            <a class=" dropdown-btn"><i class="fa fa-angle-double-right"></i>  My Account
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <ul  class="nav nav-tabs nav-stacked nav-alternate" style="list-style-type:none;    margin-left: 34px !important;display:none">
+                <li class="<?php echo e(isActive(['dashboard.billing.index'])); ?>"><a href="<?php echo route('dashboard.billing.index'); ?>"><i class="fa fa-angle-double-right"></i> My Billing</a></li>
+                <li class="<?php echo e(isActive(['dashboard.wallet.index'])); ?>"><a href="<?php echo route('dashboard.wallet.index'); ?>"> <i class="fa fa-angle-double-right"></i> My U-Wallet</a></li>
+                <li class="<?php echo e(isActive(['dashboard.invoices','dashboard.invoices.overdue'])); ?>"><a href="<?php echo route('dashboard.invoices'); ?>"><i class="fa fa-angle-double-right"></i> My Invoices</a></li>
+                <li class="<?php echo e(isActive(['dashboard.invoice_orders','dashboard.invoice_orders'])); ?>"><a href="<?php echo route('dashboard.invoice_orders'); ?>"><i class="fa fa-angle-double-right"></i> My Orders</a></li>
+                <li class="<?php echo e(isActive('dashboard.statement')); ?>"><a href="<?php echo e(route('dashboard.statement')); ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
+                <li class="<?php echo e(isActive('dashboard.edit', true)); ?>"><a href="<?php echo route('dashboard.edit'); ?>"><i class="fa fa-angle-double-right"></i> Edit Profile</a></li>
+            </ul>
+        </li>
+        
+        <li class="<?php echo e(isActive(['dashboard.articles'])); ?>"><a href="<?php echo route('dashboard.articles'); ?>"><i class="fa fa-angle-double-right"></i> My Articles</a></li>
+        <li class="<?php echo e(isActive('dashboard.support_tickets', true)); ?>"><a href="<?php echo route('dashboard.support_tickets'); ?>"><i class="fa fa-angle-double-right"></i> Tickets</a></li>
+
+        <?php if($user->subscribed('cpd') && $user->subscription('cpd')->plan->price != '0'): ?>
+        <li class="<?php echo e(isActive('faq', true)); ?>"><a href="<?php echo route('faq'); ?>"><i class="fa fa-angle-double-right"></i> FAQ</a></li>
+        <?php endif; ?>
+       
+        <li class=""><a href="<?php echo e('/auth/logout'); ?>"><i class="fa fa-angle-double-right"></i> Log Out</a></li>
+       
+<?php /*  
+        <li class="<?php echo e(isActive(['dashboard.billing.index'])); ?>"><a href="<?php echo route('dashboard.billing.index'); ?>"><i class="fa fa-angle-double-right"></i> My Billing</a></li>
+        <li class="<?php echo e(isActive(['dashboard.wallet.index'])); ?>"><a href="<?php echo route('dashboard.wallet.index'); ?>"> <i class="fa fa-angle-double-right"></i> My U-Wallet</a></li>
+      
+        <li class="<?php echo e(isActive(['dashboard.articles'])); ?>"><a href="<?php echo route('dashboard.articles'); ?>"><i class="fa fa-angle-double-right"></i> My Articles</a></li>
+        <li class="<?php echo e(isActive('dashboard.products')); ?>"><a href="<?php echo route('dashboard.products'); ?>"><i class="fa fa-angle-double-right"></i> My Products</a></li>
+        <li class="<?php echo e(isActive('dashboard.cpd')); ?>"><a href="<?php echo route('dashboard.cpd'); ?>"><i class="fa fa-angle-double-right"></i> My CPD</a>
+        <li class="<?php echo e(isActive(['dashboard.invoices','dashboard.invoices.overdue'])); ?>"><a href="<?php echo route('dashboard.invoices'); ?>"><i class="fa fa-angle-double-right"></i> My Invoices</a>
+        <li class="<?php echo e(isActive(['dashboard.invoice_orders','dashboard.invoice_orders'])); ?>"><a href="<?php echo route('dashboard.invoice_orders'); ?>"><i class="fa fa-angle-double-right"></i> My Orders</a><li class="<?php echo e(isActive(['dashboard.rewards','dashboard.rewards'])); ?>"><a href="<?php echo route('dashboard.rewards'); ?>"><i class="fa fa-angle-double-right"></i> My Rewards</a>
+        <li class="<?php echo e(isActive('dashboard.statement')); ?>"><a href="<?php echo e(route('dashboard.statement')); ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
+        <li class="<?php echo e(isActive('dashboard.edit', true)); ?>"><a href="<?php echo route('dashboard.edit'); ?>"><i class="fa fa-angle-double-right"></i> Edit Profile</a>
+        <?php if($user->subscribed('cpd') && $user->subscription('cpd')->plan->price != '0'): ?>
+            <li class="<?php echo e(isActive('dashboard.support_tickets', true)); ?>"><a href="<?php echo route('dashboard.support_tickets'); ?>"><i class="fa fa-angle-double-right"></i> Tickets</a>
+            <li class="<?php echo e(isActive('resource_centre.home', true)); ?>"><a href="<?php echo route('resource_centre.home'); ?>"><i class="fa fa-angle-double-right"></i> Resource Centre</a>
+        <?php endif; ?>
+        <li class="<?php echo e(isActive('faq', true)); ?>"><a href="<?php echo route('faq'); ?>"><i class="fa fa-angle-double-right"></i> FAQ</a>
+        <li><a href="<?php echo e('/auth/logout'); ?>"><i class="fa fa-angle-double-right"></i> Log Out </a></li>  */ ?>
+    </ul>
+</div>

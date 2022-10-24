@@ -1,0 +1,64 @@
+<?php $__env->startSection('title', 'Credited Invoice'); ?>
+<?php $__env->startSection('description', 'All Invoices that has a credit balance'); ?>
+
+<?php $__env->startSection('content'); ?>
+
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="row">
+            <p><strong>Export Summary</strong></p>
+            <hr>
+            <p>This report will provide the following: </p>
+            <ul>
+                <li>All Invoices that has a credit balance from the selected date to to date</li>
+                <li>On submit this will provide extract with data.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid container-fullw padding-bottom-5"></div>
+
+    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+        <div class="row">
+            <?php echo Form::open(['method' => 'post', 'route' => 'admin.reports.payments.credited_invoices']); ?>
+
+            <div class="col-md-6">
+                <div class="form-group <?php if($errors->has('from')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('from', 'Select From Date'); ?>
+
+                    <?php echo Form::input('text', 'from', null, ['class' => 'form-control is-date']); ?>
+
+                    <?php if($errors->has('from')): ?> <p class="help-block"><?php echo e($errors->first('from')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group <?php if($errors->has('to')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('to', 'Select To Date'); ?>
+
+                    <?php echo Form::input('text', 'to', null, ['class' => 'form-control is-date']); ?>
+
+                    <?php if($errors->has('to')): ?> <p class="help-block"><?php echo e($errors->first('to')); ?></p> <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <?php echo Form::submit('Extract Report', ['class' => 'btn btn-success']); ?>
+
+            </div>
+
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+            $('.is-date').datepicker;
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

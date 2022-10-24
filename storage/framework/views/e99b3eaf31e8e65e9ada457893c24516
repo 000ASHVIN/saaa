@@ -1,0 +1,43 @@
+<div id="ptp_invoice_<?php echo e($invoice->id); ?>" class="modal fade text-left" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <?php echo Form::open(['method' => 'Post', 'route' => ['admin.member.ptp_invoice_arrangment', $invoice->id]]); ?>
+
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <p><strong>Please Note</strong> that once a date has been selected, the client will be notified via email with the date you have selected.
+                        A note will be automatically placed on the account with the selected promise to pay date.
+                    </p>
+                </div>
+
+               <div class="center">
+                   <?php if(strtotime($invoice->ptp_date) > 0): ?>
+                       <p><strong>PTP:</strong> <?php echo e($invoice->ptp_date); ?></p>
+                       <hr>
+                   <?php endif; ?>
+               </div>
+
+                <?php if(strtotime($invoice->ptp_date) < 0): ?>
+                    <div class="form-group <?php if($errors->has('date')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::input('text', 'date', null, ['class' => 'form-control datepicker', 'v-model' => 'date']); ?>
+
+                        <?php if($errors->has('date')): ?> <p class="help-block"><?php echo e($errors->first('date')); ?></p> <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <?php if(strtotime($invoice->ptp_date) > 0): ?>
+                        <button type="submit" onclick="send(this)" class="btn btn-warning">Remove PTP</button>
+                    <?php else: ?>
+                        <button type="submit" onclick="send(this)" class="btn btn-info">Confirm PTP</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+</div>

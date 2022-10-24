@@ -1,0 +1,102 @@
+<?php $__env->startSection('title', 'Membership Plan Features'); ?>
+<?php $__env->startSection('description', 'All Features Plans'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="navigation-tabs">
+                <li class="active"><a data-toggle="tab" href="#features">Features</a></li>
+                <li class=""><a data-toggle="tab" href="#practice_plan">Practice Plan</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="features" class="tab-pane fade in active">
+                    <div class="container-fluid container-fullw padding-bottom-10 bg-white">
+
+                        <?php echo Form::open(['method' => 'get', 'route' => 'admin.plans.features.index']); ?>
+
+                        <div class="form-group <?php if($errors->has('search')): ?> has-error <?php endif; ?>">
+                            <?php echo Form::label('search', 'Search Features'); ?>
+
+                            <?php echo Form::input('text', 'search', $feature_search, ['class' => 'form-control', 'placeholder' => 'Ethics Independence and NOCLAR']); ?>
+
+                            <?php if($errors->has('search')): ?> <p class="help-block"><?php echo e($errors->first('search')); ?></p> <?php endif; ?>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="spin(this)"><i class="fa fa-search"></i> Search</button>
+                        <?php echo Form::close(); ?>
+
+                        <hr>
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead>
+                                <th>Feature Title</th>
+                                <th colspan="3">Feature Description</th>
+                            </thead>
+                            <tbody>
+                                <?php if(count($features)): ?>
+                                    <?php foreach($features as $feature): ?>
+                                        <tr>
+                                            <td style="width: 40%"><?php echo e($feature->name); ?></td>
+                                            <td style="width: 50%"><?php echo e(($feature->description ? : "No Description")); ?></td>
+                                            <td style="width: 5%" class="text-center">
+                                                <a class="btn btn-info" href="<?php echo e(route('admin.plans.features.edit', $feature->slug)); ?>">
+                                                    <i class="ti-pencil"></i>
+                                                </a>
+                                            </td>
+                                            <td style="width: 5%" class="text-center">
+                                                <a class="btn btn-danger" href="<?php echo e(route('admin.plans.features.destroy', $feature->slug)); ?>">
+                                                    <i class="ti-close"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="3">No Features available</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                        <a href="<?php echo e(route('admin.plans.features.create')); ?>" class="btn btn-sm btn-primary">Add New</a>
+                        <div class="text-right">
+                            <div class=""><?php echo $features->render(); ?></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="practice_plan" class="tab-pane">
+                    <?php echo $__env->make('admin.plans.practice_plan.index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+            </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+
+        $(document).ready(function(){
+
+            $("#navigation-tabs > li > a").on("shown.bs.tab", function(e) {
+                var id = $(e.target).attr("href").substr(1);
+                if(window.history.pushState) {
+                    window.history.pushState(null, null, '#'+id);
+                }
+                else {
+                    window.location.hash = id;
+                }
+            });
+
+            if (window.location.hash) {
+                $("a[href='" + location.hash + "']").tab("show");
+            }
+
+        });
+
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,311 @@
+@extends('store')
+
+@section('title')
+    Product Title
+@stop
+
+@section('intro')
+@stop
+
+@section('breadcrumbs')
+    {!! Breadcrumbs::render('store.show',$listing->title) !!}
+@stop
+
+@section('content')
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-9 col-md-9 col-sm-9 col-lg-push-3 col-md-push-3 col-sm-push-3">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="thumbnail relative margin-bottom-3">
+                                <figure data-mode="mouseover" style="position: relative; overflow: hidden;">
+                                    <img class="img-responsive"
+                                         src="/assets/frontend/images/shop/products/default.png"
+                                         alt="shop first image"/>
+                                        <span class="image-title-shop">
+                                            <p>{{ $listing->title }}</p>
+                                        </span>
+                                </figure>
+                            </div>
+                        </div>
+
+                        <div id="product-listing-selection" class="col-lg-12 col-sm-12">
+
+                            <app-store-listing-product-selection :listing="{{ $listing }}" :discounts="{{ $discounts }}"
+                                                                 :cart="{{ $cartItems }}"
+                                                                 inline-template>
+                                <h4>@{{ listing.title }}
+                                    <small v-if="listing.discount > 0">[-<span v-if="listing.discount_type == 'amount'">R</span>@{{ listing.discount }}
+                                        <span v-if="listing.discount_type == 'percentage'">%</span>]
+                                    </small>
+                                </h4>
+                                <hr>
+                                <form id="add-to-cart-form" role="form" class="clearfix form-horizontal nomargin" method="POST"
+                                      action="{{ route('store.add-to-cart',$listing->id) }}">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>
+                                                <select v-model="selectedProductListing" class="form-control"
+                                                        name="product_listing_selected_option">
+                                                    <option v-if="listing.product_listings.length > 1" value="0"
+                                                            disabled="disabled" selected="selected">Select a product
+                                                    </option>
+                                                    <option v-bind:selected="listing.product_listings.length == 1"
+                                                            v-for="productListing in listing.product_listings"
+                                                            v-bind:value="productListing">
+                                                        @{{ productListing.optionTitle }}
+                                                    </option>
+                                                    <option v-if="listing.product_listings.length > 1 && discountsDetails['AppStoreDiscountsAllListingProductsDiscount']"
+                                                            value="all">All products - @{{ totals.price | currency 'R' }} @{{ discountsDetails["AppStoreDiscountsAllListingProductsDiscount"].label }}</option>
+                                                </select>
+                                            </label>
+                                            <input type="hidden" name="product_listing_id"
+                                                   value="@{{ selectedProductListing.id }}">
+                                        </div>
+                                    </div>
+                                    @if(count($cartItems) > 0)
+                                        <p v-if="selectedProductListing == 0">
+                                            Select a product to see more information or checkout to complete your order.
+                                        </p>
+                                    @else
+                                        <p v-if="selectedProductListing == 0">
+                                            Select a product to see more information.
+                                        </p>
+                                    @endif
+                                </form>
+                                <div>
+                                    <div v-if="selectedProductListing == 'all'">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="border-right">
+                                                    <div class="col-md-6 bg-light">
+                                                        <h4> @{{ totals.cpd_hours }} Hour(s) CPD </h4>
+                                                    </div>
+                                                    <div class="col-md-6 bg-light">
+                                                       <h4>Price  @{{ totals.discounted_price | currency 'R '}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12">
+                                                <h5 style="margin-bottom: 0;">
+                                                    The following @{{ listing.product_listings.length }} products will
+                                                    be added to your cart:
+                                                        <span v-for="productListing in listing.product_listings">
+                                                            <strong>@{{ productListing.detailedTitle }}</strong><span
+                                                                    v-if="$index < listing.product_listings.length - 1">, </span><span
+                                                                    v-else>.</span>
+                                                        </span>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-12"
+                                                 v-for="tag in totals.tags">
+                                                <div class="col-md-9">
+                                                    <p>
+                                                        <i class="@{{ tag.icon_classes }}"></i>
+                                                        <span class="center">
+                                                            <strong>@{{ tag.title }}</strong> <span>&ndash;</span> @{{ tag.description }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="selectedProductListing != 0 && selectedProductListing != 'all'">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="border-right">
+                                                    <div class="col-md-6 bg-light">
+                                                        <h4> @{{ selectedProductListing.product.cpd_hours }} Hour(s) CPD </h4>
+                                                    </div>
+                                                    <div class="col-md-6 bg-light">
+                                                        <h4>Price   @{{ selectedProductListing.discountedPrice | currency 'R' }}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-12"
+                                                 v-for="tag in selectedProductListing.product.tags">
+                                                <div class="col-md-12">
+                                                       <p>
+                                                           <i class="@{{ tag.icon_classes }}"></i>
+                                                            <span class="center"><strong>@{{ tag.title }}</strong> <span>&ndash;</span> @{{ tag.description }}</span>
+                                                       </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" v-if="selectedProductListing.product.is_physical">
+                                                <div class="col-md-12">
+                                                    <p>
+                                                        <i class="fa fa-truck"></i>
+                                                        <strong>Couriered</strong> <span>&ndash;</span>
+                                                        This is a physical product that will be couriered to you. An
+                                                        additional R150.00 courier fee will be added.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row" style="margin-bottom: 5px;">
+                                    @if(count($cartItems) > 0)
+<<<<<<< HEAD
+                                        <div class="col-sm-4 col-sm-offset-2 text-right"
+                                             v-if="selectedProductListing != 0">
+                                            <button v-on:click="submitForm()" class="btn btn-primary product-add-cart noradius">ADD TO CART
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-6 text-right">
+                                            <a href="{{ route('store.checkout') }}"
+                                               class="btn btn-default noradius">CHECKOUT ({{ $totalCartQty }} items
+                                                in cart)</a>
+=======
+                                        <div class="col-sm-12 text-right">
+                                            <a href="{{ route('store.checkout') }}" class="btn btn-default noradius pull-right no-margin-top">CHECKOUT ({{ count($cartItems) }} itemsin cart)</a>
+                                            <div style="float: right;" v-if="selectedProductListing != 0">
+                                                <button v-on:click="submitForm()" class="btn btn-primary product-add-cart noradius">ADD TO CART</button>
+                                            </div>
+>>>>>>> 66c75c7d0750b8fb4661b8c3d2351ce04020ab45
+                                        </div>
+                                    @else
+                                        <div class="col-sm-6 col-sm-offset-6 text-right"
+                                             v-if="selectedProductListing != 0">
+                                            <button v-on:click="submitForm()" class="btn btn-primary product-add-cart noradius">ADD TO CART
+                                            </button>
+                                        </div>
+                                    @endif
+                                </div>
+
+                            </app-store-listing-product-selection>
+                        </div>
+                    </div>
+
+                    <ul id="myTab" class="nav nav-tabs nav-top-border margin-top-20" role="tablist">
+                        <li role="presentation" class="active"><a href="#description" role="tab" data-toggle="tab">Description</a></li>
+                        <li role="presentation"><a href="#reviews" role="tab" data-toggle="tab">Presenters</a></li>
+                        <li role="presentation"><a href="#cpd" role="tab" data-toggle="tab">CPD</a></li>
+                    </ul>
+
+                    <div class="tab-content padding-top-20">
+                        <div role="tabpanel" class="tab-pane fade in active" id="description">
+                            <div class="heading-title heading-dotted" style="margin-bottom: 10px; margin-top: 20px"><h4>
+                                    Overview:</h4>
+                            </div>
+                            <p>
+                                Accountants and Accounting officers are required to issue statutory reports on the
+                                financial statements of a range of entities. The Consumer Protection Act and the new
+                                Companies Act 2008 have changed the way they should perform their work. This seminar
+                                will explain the new changes and the working papers required to comply with the new
+                                statutory requirements.
+                            </p>
+
+                            <div class="heading-title heading-dotted" style="margin-bottom: 10px; margin-top: 20px">
+                                <h4>COURSE CONTENT:</h4>
+                            </div>
+
+                            <p>The course will include:</p>
+                            <ul>
+                                <li>The difference between audit, review, accounting officer, and compiler reports</li>
+                                <li>Consumer Protection Act and Companies Act affect</li>
+                                <li>Accepting the appointment to perform accountant and accounting officer work</li>
+                                <li>Complying with the IFAC quality control</li>
+                                <li>Engagement letters</li>
+                                <li>Planning the engagement</li>
+                                <li>Documentation of work performed</li>
+                                <li>Inquiry and analytical procedures Different types of accountant and accounting
+                                    officer reports
+                                </li>
+                                <li>Recent case law</li>
+                            </ul>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="reviews">
+                            <div class="heading-title heading-dotted" style="margin-bottom: 10px; margin-top: 20px">
+                                <h4>PRESENTER/S:</h4>
+                            </div>
+                            <p>
+                                <b>Nicolaas van Wyk</b> is the former Technical and Standards Executive of the South
+                                African
+                                Institute of Professional Accountants (SAIPA) and currently the technical support
+                                executive for ACCA South Africa. In addition to his current ACCA position, he also
+                                fulfil the position of Chief Director at the Centre for Independent Review
+                                www.sacir.org.
+                            </p>
+
+                            <p>
+                                Nicolaas has extensive experience in accountancy and he specialises in the
+                                interpretation and application of tax and commercial law. He obtained his B Comm in 1994
+                                and his B Comm Honours in 1995 from University of Pretoria. In 2007 he completed his MBA
+                                through the Gordon Institute of Business Science at the University of Pretoria. During
+                                his position at SAIPA, Nicolaas drafted numerous submissions and papers on the financial
+                                reporting requirements in the Close Corporations and Companies Act and also presented a
+                                number of seminars on these topics. During the initial stages of the the Companies Act
+                                reform Nicolaas acted as the Co-ordinator for the DTI Working Group on Company
+                                Formation.
+                            </p>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="cpd">
+                            <div class="heading-title heading-dotted" style="margin-bottom: 10px; margin-top: 20px">
+                                <h4>CPD</h4>
+                            </div>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam architecto
+                                autem commodi dignissimos dolores enim ipsam iure molestiae non odio officiis
+                                praesentium quidem repellat, sit, vel veritatis voluptate voluptatum.
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="margin-top-20 margin-bottom-80"/>
+                    <div class="col-md-12">
+                        <h2 class="owl-featured"><strong>Related</strong> products:</h2>
+
+                        <div class="owl-carousel featured nomargin owl-padding-10"
+                             data-plugin-options='{"singleItem": false, "items": "4", "stopOnHover":false, "autoPlay":4500, "autoHeight": false, "navigation": true, "pagination": false}'>
+
+                            @for($i=1; $i<10; $i++)
+                                <div class="shop-item no-margin">
+                                    <div class="thumbnail">
+                                        <a class="shop-item-image" href="{{ route('store.show',1) }}">
+                                            <img class="img-responsive"
+                                                 src="/assets/frontend/images/shop/products/background.png"
+                                                 alt="shop first image"/>
+                                            <span class="image-title-footer">
+                                                <p>Accounting Officer and Compilation Engagements</p>
+                                            </span>
+                                        </a>
+
+                                        <div class="shop-item-info">
+                                            <span class="label label-success">Course Notes</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @include('store.includes.sidebar')
+                </div>
+            </div>
+        </div>
+    </section>
+
+@stop
+@section('scripts')
+@endsection

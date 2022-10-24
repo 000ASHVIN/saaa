@@ -1,0 +1,63 @@
+<?php $__env->startSection('title', 'Event Notifications'); ?>
+<?php $__env->startSection('description', 'Event Notifications'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="<?php echo e(route('admin.event.notifications.create')); ?>" class="pull-right btn btn-primary"><i class="fa fa-pencil"></i> Create New</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Event</th>
+                            <th>Schedule Date</th>
+                            <th>Status</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <?php if(count($notifications)): ?>
+                                <?php foreach($notifications as $notification): ?>
+                                    <tr>
+                                        <td><?php echo e($notification->event->name); ?></td>
+                                        <td><?php echo e($notification->schedule_date); ?></td>
+                                        <td><?php echo e($notification->status_text); ?></td>
+                                        <td>
+                                            <?php echo Form::open(['method' => 'DELETE', 'route' => ['admin.event.notifications.destroy', $notification->id]]); ?>
+
+                                                <button class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+                                            <?php echo Form::close(); ?>
+
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                    <tr>
+                                        <td colspan="5">
+                                            No notifications scheduled.
+                                        </td>
+                                    </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <?php echo $notifications->render(); ?>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

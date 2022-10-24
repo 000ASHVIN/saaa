@@ -1,0 +1,13 @@
+<?php if(Session::has('sweet_alert.alert')): ?>
+    <script>
+        $(window).load(function () {
+            setTimeout(function () {
+                var alert = <?php echo Session::get('sweet_alert.alert'); ?>;
+                <?php if(!Session::has('sweet_alert.html')): ?>
+                    alert['html'] = alert['text'];
+                <?php endif; ?>
+                swal(alert);
+            }, 500);
+        });
+    </script>
+<?php endif; ?>

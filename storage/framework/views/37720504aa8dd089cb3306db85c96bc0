@@ -1,0 +1,91 @@
+<?php $__env->startSection('title', 'Wallet Transactions'); ?>
+<?php $__env->startSection('description', 'All Wallet Transactions'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <?php echo Form::open(); ?>
+
+               <div class="form-inline center">
+                   <h4>Export Wallet Transactions</h4>
+                   <hr>
+                   <input type="text" name="from" class="form-control is-date"> -
+                   <input type="text" name="to" class="form-control is-date"> -
+                   <select name="type" class="form-control">
+                       <option value="">Please Select..</option>
+                       <option value="debit">Debits</option>
+                       <option value="credit">Credits</option>
+                   </select> -
+
+                   <select name="category" class="form-control">
+                       <option value="">Please Select..</option>
+                       <option value="store">Online Store</option>
+                       <option value="event">Events</option>
+                       <option value="payment">Payments</option>
+                       <option value="subscription">Subscriptions</option>
+                   </select>
+                   <span id="exportDiv">
+                       <button id="submitButton" type="submit" class="btn btn-o btn-primary" onclick="spin(this)">Export Transactions</button>
+                   </span>
+               </div>
+            <?php echo Form::close(); ?>
+
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <th>Full Name</th>
+                    <th>Date</th>
+                    <th>Reference</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Method</th>
+                    <th>Amount</th>
+                </thead>
+                <tbody>
+                    <?php if(count($transactions)): ?>
+                        <?php foreach($transactions as $transaction): ?>
+                            <tr>
+                                <td style="text-transform: capitalize;"><?php echo e($transaction->wallet->user->full_name()); ?></td>
+                                <td><?php echo e(date_format($transaction->created_at, 'd F Y')); ?></td>
+                                <td><?php echo e($transaction->invoice_reference); ?></td>
+                                <td style="text-transform: capitalize;"><?php echo e($transaction->type); ?></td>
+                                <td style="text-transform: capitalize;"><?php echo e($transaction->category); ?></td>
+                                <td style="text-transform: capitalize;"><?php echo e($transaction->method); ?></td>
+                                <td>R<?php echo e(number_format($transaction->amount, 2)); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="7">No Transactions available</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+            <?php echo $transactions->render(); ?>
+
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <script src="/js/app.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            Main.init();
+        });
+
+        function spin(this1)
+        {
+            this1.closest("form").submit();
+            this1.disabled=true;
+            this1.innerHTML=`<i class="fa fa-spinner fa-spin"></i> Working..`;
+            $('#exportDiv').load(document.URL +  ' #submitButton');
+        }
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

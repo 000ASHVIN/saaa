@@ -1,0 +1,114 @@
+<?php $__env->startSection('title'); ?>
+    Account Overview
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumbs'); ?>
+    <ol class="breadcrumb" style="padding: 0px">
+        <li class="active">
+            <ol class="breadcrumb" style="padding: 0px">
+                <li class="active">
+                    <ol class="breadcrumb">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li class="active">General</li>
+                    </ol>
+                </li>
+            </ol>
+        </li>
+    </ol>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('styles'); ?>
+    <style type="text/css">
+        .bootstrap-dialog-message form, .bootstrap-dialog-message .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section>
+        <div class="container">
+            <?php echo $__env->make('dashboard.includes.sidebar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+            <div class="col-lg-9 col-md-9 col-sm-8">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="heading-title heading-dotted text-center">
+                            <h4>CPD <span>Hours</span></h4>
+                        </div>
+                        <div class="border-box">
+                            <h4 style="text-align: center; font-weight: normal;">Continuing Professional
+                                Development</h4>
+                            <hr>
+                            <p style="text-align: center"><i class="fa fa-clock-o"></i> <?php echo e($user->cpds->sum('hours')); ?>
+
+                                Hours Total</p>
+                            <hr>
+
+                            <p style="text-align: center">
+                                <a class="btn btn-primary" href="#" data-target="#ajax" data-toggle="modal">Allocate
+                                    CPD</a>
+                                <a href="<?php echo e(route('dashboard.cpd')); ?>" class="btn btn-default">Manage CPD</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <?php echo $__env->make('dashboard.includes.cpd', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo $__env->make('dashboard.includes.invoices', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="heading-title heading-dotted text-center">
+                            <h4>My <span>Events</span></h4>
+                        </div>
+
+                        <?php echo $__env->make('dashboard.includes.tickets',['tickets' => $tickets, 'user' => $user], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+    <?php if($promptForContactDetails): ?>
+        <script id="contact-details-modal" type="text/html">
+            <?php echo $__env->make('dashboard.includes.contact-details-modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="/assets/frontend/js/bootstrap-dialog.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var modalMessageContent = $('#contact-details-modal').html();
+                var dialog = new BootstrapDialog({
+                    size: BootstrapDialog.SIZE_SMALL,
+                    message: modalMessageContent,
+                    closable: false,
+                    closeByBackdrop: false,
+                    closeByKeyboard: false
+                });
+                dialog.realize();
+                dialog.getModalHeader().hide();
+                dialog.getModalFooter().hide();
+                dialog.open();
+            });
+        </script>
+    <?php endif; ?>
+    <script>
+        $(document).ready(function () {
+            $('#cpd_date').datepicker();
+
+            $(window).load(function () {
+                $('#renew_subscription_modal').modal('show');
+            });
+        });
+    </script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
